@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+<br>
+
+<div class="container" style="max-width: 800px">
+    <div class="py-1 text-center border-3">
+        <h1 class="font-monospace-bold" th:text="#{title.board}">게시판 홈</h1>
+    </div>
+    <!-- 내가 쓴 글 / 글쓰기 버튼 -->
+    <div class="py-1 row">
+        <div class="col text-start">
+            <form action="findPosts.html" th:object="${member}" method="post">
+                <input type="text" id="name" class="form-control-sm" style="width: 120px"
+                       th:field="*{loginId}"
+                       th:errorclass="field-error"
+                       placeholder="작성자 입력">
+                <button class="btn-sm btn-secondary py-1" type="submit"
+                        th:text="#{button.findPosts}">검색</button>
+
+            </form>
+
+        </div>
+        <div class="col text-end">
+            <button class="btn btn-primary py-2 "
+                    onclick="location.href='writeForm.html'"
+                    th:onclick="|location.href='@{/board/writeForm}'|"
+                    th:text="#{button.writing}"
+                    type="button">글쓰기</button>
+        </div>
+    </div>
+    <hr class="my-2">
+
+    <!-- 게시글 목록 table -->
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th style="width: 50px; text-align: center" th:text="#{label.board.id}">번호</th>
+                <th style="width: 400px; text-align: center" th:text="#{label.board.title}">제목</th>
+                <th style="width: 150px; text-align: center" th:text="#{label.board.writer}">작성자</th>
+                <th style="width: 100px; text-align: center" th:text="#{label.board.date}">등록일</th>
+                <th style="width: 100px; text-align: center" th:text="#{label.board.views}">조회수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post : ${posts}">
+                <td style="width: 50px; text-align: center" th:text="${post.id}">1234</td>
+                <td style="width: 400px; text-align: center"><a href="post.html" th:href="@{|/board/post/${post.id}|}" th:text="${post.text}">title-example</a></td>
+                <td style="width: 150px; text-align: center" th:text="${post.writerId}">hsryuuu</td>
+                <td style="width: 100px; text-align: center" th:text="${post.date}">04-11</td>
+                <td style="width: 100px; text-align: center" th:text="${post.views}">23</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div><!-- /container -->
+
+</body>
+</html>
