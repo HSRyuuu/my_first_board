@@ -1,9 +1,12 @@
 package hello.board.domain.post;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.*;
 
+@Repository
 public class MemoryPostRepository implements PostRepository{
-    private static Map<Long,Post> store = new HashMap<>();
+    private static final Map<Long,Post> store = new HashMap<>();
     private static long sequence = 0L; //키값을 생성해줌
     @Override
     public Post save(Post post) {

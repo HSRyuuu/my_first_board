@@ -4,6 +4,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,22 +28,56 @@ class MemoryPostRepositoryTest {
     }
 
     @Test
-    void findById() {
-    }
-
-    @Test
     void findByWriterId() {
+        //given
+        Post post1 = new Post("writer1", "title1", "content1");
+        Post post2 = new Post("writer1", "title2", "content2");
+        Post post3 = new Post("writer2", "title2", "content3");
+
+        //when
+        Post savedPost1 = postRepository.save(post1);
+        Post savedPost2 = postRepository.save(post2);
+        Post savedPost3 = postRepository.save(post3);
+        //then
+        List<Post> foundList = postRepository.findByWriterId("writer1");
+        assertThat(foundList).containsExactly(post1,post2);
+
     }
 
     @Test
     void findByTitle() {
+        //given
+        Post post1 = new Post("writer1", "title1", "content1");
+        Post post2 = new Post("writer2", "title2", "content2");
+        Post post3 = new Post("writer3", "hello", "content2");
+
+        //when
+        Post savedPost1 = postRepository.save(post1);
+        Post savedPost2 = postRepository.save(post2);
+        Post savedPost3 = postRepository.save(post3);
+
+        //then
+        List<Post> foundList = postRepository.findByTitle("tle");
+        assertThat(foundList.size()).isEqualTo(2);
+        assertThat(foundList).containsExactly(post1,post2);
     }
 
     @Test
     void findAll() {
+        //given
+        Post post1 = new Post("writer1", "title1", "content1");
+        Post post2 = new Post("writer2", "title2", "content2");
+        Post post3 = new Post("writer3", "hello", "content2");
+
+        //when
+        Post savedPost1 = postRepository.save(post1);
+        Post savedPost2 = postRepository.save(post2);
+        Post savedPost3 = postRepository.save(post3);
+
+        //then
+        List<Post> foundList = postRepository.findAll();
+        assertThat(foundList.size()).isEqualTo(3);
+        assertThat(foundList).containsExactly(post1,post2,post3);
     }
 
-    @Test
-    void clearStore() {
-    }
 }

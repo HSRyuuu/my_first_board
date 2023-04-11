@@ -19,5 +19,6 @@ public class Post {
         this.title = title;
         this.content = content;
         this.date = String.valueOf(LocalDate.now());
+        this.views = 0L;
     }
 }
