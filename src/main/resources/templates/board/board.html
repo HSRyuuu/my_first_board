@@ -37,7 +37,7 @@
         <div class="col text-end">
             <button class="btn btn-primary py-2 "
                     onclick="location.href='writeForm.html'"
-                    th:onclick="|location.href='@{/board/writeForm}'|"
+                    th:onclick="|location.href='@{/board/write-form}'|"
                     th:text="#{button.writing}"
                     type="button">글쓰기</button>
         </div>
@@ -59,7 +59,13 @@
             <tbody>
             <tr th:each="post : ${posts}">
                 <td style="width: 100px; text-align: center" th:text="${post.id}">1234</td>
-                <td style="width: 500px; text-align: center"><a href="post.html" th:href="@{/board/{postId}(postId=${post.id})}" th:text="${post.title}">title-example</a></td>
+                <td style="width: 500px; text-align: center">
+                    <a th:href="@{/board/{postId}(postId=${post.id})}">
+                        <th:block th:text="${#strings.length(post.title) &gt; 20 ? #strings.substring(post.title, 0, 20) + '...' : post.title}">
+                            title-example
+                        </th:block>
+                    </a>
+                </td>
                 <td style="width: 150px; text-align: center" th:text="${post.writerId}">hsryuuu</td>
                 <td style="width: 150px; text-align: center" th:text="${post.date}">04-11</td>
                 <td style="width: 100px; text-align: center" th:text="${post.views}">23</td>
@@ -67,7 +73,7 @@
             </tbody>
         </table>
     </div>
-
+    <hr class="my-5">
 </div><!-- /container -->
 
 </body>

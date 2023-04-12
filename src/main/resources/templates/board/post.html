@@ -9,7 +9,7 @@
 <body>
 <br>
 
-<div class="container" style="max-width: 600px">
+<div class="container" style="max-width: 800px">
     <!-- 제목 -->
     <div class="py-1 text-center border-3">
         <h3 class="font-monospace-bold" th:text="#{title.board.post}">게시글 상세</h3>
@@ -43,7 +43,7 @@
                     <div class="card-body">
                         <h3 class="card-title" th:text="${post.title}">작성글 제목</h3>
                         <hr class="my-2">
-                        <p class="card-text" th:text="${post.content}">작성글 내용이 이곳에 표시됩니다.</p>
+                        <p class="card-text" th:utext="${post.content}">작성글 내용이 이곳에 표시됩니다.</p>
                     </div>
                 </div>
             </div>

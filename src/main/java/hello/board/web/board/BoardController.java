@@ -4,7 +4,9 @@ import hello.board.domain.member.Member;
 import hello.board.domain.member.MemberRepository;
 import hello.board.domain.post.Post;
 import hello.board.domain.post.PostRepository;
-import lombok.Getter;
+import hello.board.web.form.FindByWriterIdForm;
+import hello.board.web.form.WritingForm;
+import hello.board.web.format.HtmlFormatter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -32,14 +34,13 @@ public class BoardController {
         model.addAttribute("form",new FindByWriterIdForm());
         return "board/board";
     }
-    @PostMapping()
+    @PostMapping
     public String findByWriterId(@Validated @ModelAttribute("form") FindByWriterIdForm form,
                                  BindingResult bindingResult,
                                  RedirectAttributes redirectAttributes,
                                  Model model){
 
         Optional<Member> member = memberRepository.findByLoginId(form.getWriterId());
-
         //빈칸일때는 다시 메인화면으로
         if(bindingResult.hasErrors()){
             log.info("error={}",bindingResult);
@@ -60,9 +61,12 @@ public class BoardController {
 
         return "redirect:/board/find/{writerId}";
     }
+
     @GetMapping("/{postId}")
     public String post(@PathVariable long postId, Model model){
         Post post = postRepository.findById(postId);
+        Long view = post.getViews();
+        post.setViews(++view);
         model.addAttribute("post", post);
         return "board/post";
     }
@@ -76,6 +80,28 @@ public class BoardController {
         model.addAttribute("posts", posts);
         model.addAttribute("post1",posts.get(0));
         return "board/findPosts";
+    }
+
+    @GetMapping("/write-form")
+    public String writeForm(Model model){
+        model.addAttribute("form", new WritingForm());
+        return "board/writeForm";
+    }
+    @PostMapping("/write-form")
+    public String addWriting(@Validated @ModelAttribute("form")WritingForm form, BindingResult bindingResult,Model model){
+
+        // 검증에 실패하면 다시 입력 폼으로
+        if (bindingResult.hasErrors()) {
+            return "board/writeForm";
+        }
+        HtmlFormatter htmlFormatter = new HtmlFormatter();
+        String formattedContent = htmlFormatter.getFormattedContent(form.getContent());
+
+        //TODO 작성자를 세션에서 꺼내와서 등록
+        Post post = new Post("test",form.getTitle(),formattedContent);
+        postRepository.save(post);
+
+        return "redirect:/board";
     }
 
 

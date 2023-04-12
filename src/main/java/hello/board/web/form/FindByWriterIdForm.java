@@ -1,9 +1,8 @@
-package hello.board.web.board;
+package hello.board.web.form;
 
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 
 @Data
 public class FindByWriterIdForm {

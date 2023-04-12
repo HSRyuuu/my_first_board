@@ -1,5 +1,4 @@
 package hello.board.domain.member;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
