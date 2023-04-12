@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+<br>
+
+<div class="container" style="max-width: 1000px">
+    <div class="py-1 text-center border-3">
+        <h2 class="font-monospace-bold" th:text="#{label.find.writerId}">검색 결과</h2>
+    </div>
+    <!-- 목록으로 -->
+    <div class="py-1 row">
+        <div class="col text-start">
+            <h5 th:text="|[ ${post1.getWriterId()} ]님 #{title.board.find}|">검색 결과</h5>
+        </div>
+        <div class="col text-end">
+            <button class="btn btn-primary py-2 "
+                    onclick="location.href='board.html'"
+                    th:onclick="|location.href='@{/board}'|"
+                    th:text="#{page.board}"
+                    type="button">목록으로</button>
+        </div>
+    </div>
+    <hr class="my-2">
+
+    <!-- 게시글 목록 table -->
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th style="width: 100px; text-align: center" th:text="#{label.board.id}">번호</th>
+                <th style="width: 500px; text-align: center" th:text="#{label.board.title}">제목</th>
+                <th style="width: 150px; text-align: center" th:text="#{label.board.writer}">작성자</th>
+                <th style="width: 150px; text-align: center" th:text="#{label.board.date}">등록일</th>
+                <th style="width: 100px; text-align: center" th:text="#{label.board.views}">조회수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post : ${posts}">
+                <td style="width: 100px; text-align: center" th:text="${post.id}">1234</td>
+                <td style="width: 500px; text-align: center"><a href="post.html" th:href="@{/board/{postId}(postId=${post.id})}" th:text="${post.title}">title-example</a></td>
+                <td style="width: 150px; text-align: center" th:text="${post.writerId}">hsryuuu</td>
+                <td style="width: 150px; text-align: center" th:text="${post.date}">04-11</td>
+                <td style="width: 100px; text-align: center" th:text="${post.views}">23</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div><!-- /container -->
+
+</body>
+</html>

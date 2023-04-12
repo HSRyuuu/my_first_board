@@ -4,26 +4,35 @@
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
           href="../css/bootstrap.min.css" rel="stylesheet">
-
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
 </head>
 <body>
 <br>
 
 <div class="container" style="max-width: 1000px">
     <div class="py-1 text-center border-3">
-        <h1 class="font-monospace-bold" th:text="#{title.board}">게시판 홈</h1>
+        <h1 class="font-monospace-bold" th:text="#{title.board.main}">게시판 Main</h1>
     </div>
     <!-- 내가 쓴 글 / 글쓰기 버튼 -->
     <div class="py-1 row">
         <div class="col text-start">
-            <form action="findPosts.html"  method="post">
-                <input type="text" id="name" class="form-control-sm" style="width: 120px"
+            <form action="findPosts.html" th:action th:object="${form}" method="post">
+
+                <input type="text" th:field="*{writerId}"
+                       class="form-control-sm" style="width: 150px"
                        placeholder="작성자 입력">
                 <button class="btn-sm btn-secondary py-1" type="submit"
                         th:text="#{button.findPosts}">검색</button>
-
+                <span th:if="${#fields.hasGlobalErrors()}">
+                    <span class="field-error" th:each="err : ${#fields.globalErrors()}"
+                          th:text="${err}">글로벌 오류 메시지</span>
+                </span>
             </form>
-
         </div>
         <div class="col text-end">
             <button class="btn btn-primary py-2 "
@@ -50,7 +59,7 @@
             <tbody>
             <tr th:each="post : ${posts}">
                 <td style="width: 100px; text-align: center" th:text="${post.id}">1234</td>
-                <td style="width: 500px; text-align: center"><a href="post.html"  th:text="${post.title}">title-example</a></td>
+                <td style="width: 500px; text-align: center"><a href="post.html" th:href="@{/board/{postId}(postId=${post.id})}" th:text="${post.title}">title-example</a></td>
                 <td style="width: 150px; text-align: center" th:text="${post.writerId}">hsryuuu</td>
                 <td style="width: 150px; text-align: center" th:text="${post.date}">04-11</td>
                 <td style="width: 100px; text-align: center" th:text="${post.views}">23</td>
