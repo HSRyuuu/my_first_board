@@ -7,6 +7,7 @@ import hello.board.domain.post.PostRepository;
 import hello.board.web.form.FindByWriterIdForm;
 import hello.board.web.form.WritingForm;
 import hello.board.web.format.HtmlFormatter;
+import hello.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -88,7 +89,8 @@ public class BoardController {
         return "board/writeForm";
     }
     @PostMapping("/write-form")
-    public String addWriting(@Validated @ModelAttribute("form")WritingForm form, BindingResult bindingResult,Model model){
+    public String addWriting(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+                             @Validated @ModelAttribute("form")WritingForm form, BindingResult bindingResult){
 
         // 검증에 실패하면 다시 입력 폼으로
         if (bindingResult.hasErrors()) {
@@ -98,7 +100,8 @@ public class BoardController {
         String formattedContent = htmlFormatter.getFormattedContent(form.getContent());
 
         //TODO 작성자를 세션에서 꺼내와서 등록
-        Post post = new Post("test",form.getTitle(),formattedContent);
+
+        Post post = new Post(loginMember.getLoginId(), form.getTitle(),formattedContent);
         postRepository.save(post);
 
         return "redirect:/board";
