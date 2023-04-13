@@ -1,4 +1,4 @@
-package hello.board.web;
+package hello.board;
 
 import hello.board.domain.member.Member;
 import hello.board.domain.member.MemberRepository;

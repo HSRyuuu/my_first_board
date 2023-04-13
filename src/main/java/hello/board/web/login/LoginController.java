@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,7 +21,6 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequiredArgsConstructor
 public class LoginController {
-    private final MemberRepository memberRepository;
     private final LoginService loginService;
 
     @GetMapping("/login")
@@ -30,6 +30,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public String login(@Validated @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult,
+                        @RequestParam(defaultValue = "/")String redirectURL,
                         HttpServletRequest request){
 
         if(bindingResult.hasErrors()){
@@ -47,7 +48,8 @@ public class LoginController {
         //세션이 있으면 있는 세션 반환, 없으면 신규세션 생성
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
-        return "redirect:/";
+        //redirectURL에 값이 들어있으면 해당 URL로 redirect 한다.
+        return "redirect:"+redirectURL;
     }
 
     @PostMapping("/logout")

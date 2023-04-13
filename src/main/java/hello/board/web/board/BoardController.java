@@ -4,8 +4,6 @@ import hello.board.domain.member.Member;
 import hello.board.domain.member.MemberRepository;
 import hello.board.domain.post.Post;
 import hello.board.domain.post.PostRepository;
-import hello.board.web.form.FindByWriterIdForm;
-import hello.board.web.form.WritingForm;
 import hello.board.web.format.HtmlFormatter;
 import hello.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
@@ -99,8 +97,7 @@ public class BoardController {
         HtmlFormatter htmlFormatter = new HtmlFormatter();
         String formattedContent = htmlFormatter.getFormattedContent(form.getContent());
 
-        //TODO 작성자를 세션에서 꺼내와서 등록
-
+        //작성자를 세션에서 꺼내와서 등록
         Post post = new Post(loginMember.getLoginId(), form.getTitle(),formattedContent);
         postRepository.save(post);
 

@@ -2,7 +2,6 @@ package hello.board.web.member;
 
 import hello.board.domain.member.Member;
 import hello.board.domain.member.MemberRepository;
-import hello.board.web.form.AddMemberForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
