@@ -2,11 +2,12 @@ package hello.board.web.login;
 
 import hello.board.domain.login.LoginService;
 import hello.board.domain.member.Member;
-import hello.board.domain.member.MemberRepository;
+import hello.board.web.board.FindByWriterIdForm;
 import hello.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,12 @@ public class LoginController {
     private final LoginService loginService;
 
     @GetMapping("/login")
-    public String loginForm(@ModelAttribute("loginForm")LoginForm form){
+    public String loginForm(@ModelAttribute("loginForm")LoginForm form,
+                            @RequestParam(required = false)boolean msg,
+                            Model model){
+        if(msg){
+            model.addAttribute("msg",true);
+        }
         return "login/loginForm";
     }
 
@@ -40,6 +46,7 @@ public class LoginController {
         Member loginMember = loginService.login(form.getLoginId(),form.getPassword());
         //null 반환시 없는 id입니다 오류 반환
         if(loginMember == null){
+            log.info("loginMember={}",loginMember);
             bindingResult.reject("loginFail");
             return "login/loginForm";
         }
@@ -49,7 +56,11 @@ public class LoginController {
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
         //redirectURL에 값이 들어있으면 해당 URL로 redirect 한다.
-        return "redirect:"+redirectURL;
+        if (redirectURL != null) {
+            return "redirect:"+redirectURL;
+        }
+
+        return "redirect:/board";
     }
 
     @PostMapping("/logout")
@@ -59,7 +70,7 @@ public class LoginController {
         if(session != null){
             session.invalidate();
         }
-        return "redirect:/";
+        return "redirect:/board";
     }
 
 }

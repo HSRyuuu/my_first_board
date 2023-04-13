@@ -27,15 +27,24 @@ public class BoardController {
     private final PostRepository postRepository;
 
     @GetMapping
-    public String boardHome(Model model){
+    public String boardHome(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+                            Model model){
+
+        boolean show = true;
+        if(loginMember == null){
+            show = false;
+        }else {
+            model.addAttribute("member", loginMember);
+        }
         List<Post> posts = postRepository.findAll();
+        model.addAttribute("show",show);
         model.addAttribute("posts",posts);
         model.addAttribute("form",new FindByWriterIdForm());
         return "board/board";
     }
     @PostMapping
-    public String findByWriterId(@Validated @ModelAttribute("form") FindByWriterIdForm form,
-                                 BindingResult bindingResult,
+    public String findByWriterId(@Validated @ModelAttribute("form") FindByWriterIdForm form, BindingResult bindingResult,
+                                 @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                                  RedirectAttributes redirectAttributes,
                                  Model model){
 
@@ -44,12 +53,20 @@ public class BoardController {
         if(bindingResult.hasErrors()){
             log.info("error={}",bindingResult);
             model.addAttribute("posts",postRepository.findAll());
-            return "board/board";
+            return "redirect:/board";
         }else if(member.isEmpty()){ //Id로 찾은 결과가 없을 때
             log.info("검색결과없음");
-            bindingResult.reject("notFoundByWriterId","검색 결과 없음");
-            model.addAttribute("posts",postRepository.findAll());
-            return "board/board";
+            if(loginMember == null){
+                bindingResult.reject("notFoundByWriterId");
+                model.addAttribute("posts",postRepository.findAll());
+                return "board/board";
+            }else{
+                bindingResult.reject("notFoundByWriterId");
+                model.addAttribute("posts",postRepository.findAll());
+                model.addAttribute("show",true);
+                model.addAttribute("member",loginMember);
+                return "board/board";
+            }
         }
 
         List<Post> listByWriterId = postRepository.findByWriterId(form.getWriterId());
@@ -103,9 +120,5 @@ public class BoardController {
 
         return "redirect:/board";
     }
-
-
-
-
 
 }

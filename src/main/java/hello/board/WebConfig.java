@@ -3,6 +3,7 @@ package hello.board;
 import hello.board.web.interceptor.LogInterceptor;
 import hello.board.web.interceptor.LoginCheckInterceptor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -18,6 +19,6 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginCheckInterceptor())
                 .order(2)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/","/member/add","/login","/logout","/css/**","/*.ico","/error");
+                .excludePathPatterns("/","/member/add","/board","/login","/logout","/css/**","/*.ico","/error");
     }
 }

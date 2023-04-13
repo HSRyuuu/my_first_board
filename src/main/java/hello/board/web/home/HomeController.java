@@ -22,6 +22,6 @@ public class HomeController {
             return "home";
         }
         model.addAttribute("member", loginMember);
-        return "loginHome";
+        return "redirect:/board";
     }
 }

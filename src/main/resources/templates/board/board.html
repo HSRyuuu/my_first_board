@@ -18,7 +18,37 @@
     <div class="py-1 text-center border-3">
         <h1 class="font-monospace-bold" th:text="#{title.board.main}">게시판 Main</h1>
     </div>
-    <!-- 내가 쓴 글 / 글쓰기 버튼 -->
+
+    <!-- 로그인, 회원 정보 관련  -->
+    <div class="py-1 row">
+        <div th:if="${show}" class="text-end">
+             <a href="/board"
+                     th:href="@{/board/find/{writerId}(writerId=${member.loginId})}"
+                     th:text="${member.loginId}">memberId</a>
+            <span>님 반갑습니다.</span>
+            <form  class="d-inline-block" th:action="@{/logout}" method="post" >
+                <button class="w-100 btn btn-secondary btn-sm " type="submit">
+                    로그아웃
+                </button>
+            </form>
+
+        </div>
+        <div th:unless="${show}" class="text-end">
+            <button class="btn-sm btn-outline-primary btn-lg d-inline-block"
+                    onclick="location.href='addMemberForm.html'"
+                    th:onclick="|location.href='@{/member/add}'|" type="button">
+                회원가입
+            </button>
+            <button class="btn-sm btn-primary btn-lg d-inline-block"
+                    onclick="location.href='loginForm.html'"
+                    th:onclick="|location.href='@{/login}'|" type="button">
+                로그인
+            </button>
+        </div>
+    </div>
+
+    <hr class="my-2">
+    <!-- 내가 쓴 글 -->
     <div class="py-1 row">
         <div class="col text-start">
             <form action="findPosts.html" th:action th:object="${form}" method="post">
@@ -29,20 +59,21 @@
                 <button class="btn-sm btn-secondary py-1" type="submit"
                         th:text="#{button.findPosts}">검색</button>
                 <span th:if="${#fields.hasGlobalErrors()}">
-                    <span class="field-error" th:each="err : ${#fields.globalErrors()}"
-                          th:text="${err}">글로벌 오류 메시지</span>
+                    <span class="field-error" th:text="#{notFoundByWriterId}">글로벌 오류 메시지</span>
                 </span>
             </form>
-        </div>
+        </div><!-- / 내가 쓴 글 -->
+
+        <!--글쓰기 버튼 -->
         <div class="col text-end">
-            <button class="btn btn-primary py-2 "
+            <button class="btn-sm btn-primary py-1 "
                     onclick="location.href='writeForm.html'"
                     th:onclick="|location.href='@{/board/write-form}'|"
                     th:text="#{button.writing}"
                     type="button">글쓰기</button>
         </div>
     </div>
-    <hr class="my-2">
+    <hr class="my-3">
 
     <!-- 게시글 목록 table -->
     <div>

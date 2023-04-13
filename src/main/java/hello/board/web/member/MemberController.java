@@ -30,7 +30,7 @@ public class MemberController {
         Member member = new Member(form.getLoginId(),form.getPassword());
         member.setName(form.getName());
         memberRepository.save(member);
-        return "redirect:/";
+        return "redirect:/login";
     }
 
 
