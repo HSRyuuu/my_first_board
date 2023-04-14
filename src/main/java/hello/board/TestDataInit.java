@@ -40,6 +40,7 @@ public class TestDataInit {
             postRepository.save(new Post(writerId, title, content));
         }
         Member member = new Member("test","test!");
+        member.setName("tester-Kim");
         memberRepository.save(member);
         for(int i=0;i<10;i++){
             String loginId = "writer"+Integer.toString(i);

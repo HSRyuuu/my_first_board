@@ -33,6 +33,14 @@ public class MemoryMemberRepository implements MemberRepository{
     }
 
     @Override
+    public void updateMember(Long id,Member updateParam) {
+        Member member = findByLoginId(updateParam.getLoginId()).get();
+        member.setPassword(updateParam.getPassword());
+        member.setName(updateParam.getName());
+    }
+
+
+    @Override
     public void clearStore() {
         store.clear();
     }

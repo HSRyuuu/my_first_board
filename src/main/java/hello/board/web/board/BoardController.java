@@ -79,7 +79,7 @@ public class BoardController {
     }
 
     @GetMapping("/{postId}")
-    public String post(@PathVariable long postId, Model model){
+    public String showPost(@PathVariable long postId, Model model){
         Post post = postRepository.findById(postId);
         Long view = post.getViews();
         post.setViews(++view);
@@ -88,7 +88,7 @@ public class BoardController {
     }
 
     @GetMapping("/find/{writerId}")
-    public String post(@PathVariable String writerId, Model model){
+    public String findPost(@PathVariable String writerId, Model model){
         List<Post> posts = postRepository.findByWriterId(writerId);
         if(posts.isEmpty()){
             return "redirect:/board";
@@ -111,6 +111,7 @@ public class BoardController {
         if (bindingResult.hasErrors()) {
             return "board/writeForm";
         }
+        //글을 html에서 줄바꿈이 적용되도록 변경
         HtmlFormatter htmlFormatter = new HtmlFormatter();
         String formattedContent = htmlFormatter.getFormattedContent(form.getContent());
 

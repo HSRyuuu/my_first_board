@@ -21,9 +21,10 @@
 
     <!-- 로그인, 회원 정보 관련  -->
     <div class="py-1 row">
+        <!-- 로그인 시  -->
         <div th:if="${show}" class="text-end">
              <a href="/board"
-                     th:href="@{/board/find/{writerId}(writerId=${member.loginId})}"
+                     th:href="@{/member/info}"
                      th:text="${member.loginId}">memberId</a>
             <span>님 반갑습니다.</span>
             <form  class="d-inline-block" th:action="@{/logout}" method="post" >
@@ -33,6 +34,7 @@
             </form>
 
         </div>
+        <!-- 로그아웃 상태  -->
         <div th:unless="${show}" class="text-end">
             <button class="btn-sm btn-outline-primary btn-lg d-inline-block"
                     onclick="location.href='addMemberForm.html'"
@@ -62,8 +64,7 @@
                     <span class="field-error" th:text="#{notFoundByWriterId}">글로벌 오류 메시지</span>
                 </span>
             </form>
-        </div><!-- / 내가 쓴 글 -->
-
+        </div>
         <!--글쓰기 버튼 -->
         <div class="col text-end">
             <button class="btn-sm btn-primary py-1 "

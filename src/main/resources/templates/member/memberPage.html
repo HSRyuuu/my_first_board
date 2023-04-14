@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="max-width: 600px">
+    <br>
+    <div class="py-1 text-center">
+        <h2>회원 정보</h2>
+    </div>
+
+    <div class="row">
+        <div class="col text-center">
+            <h5 class="d-inline-block" th:text="|${member.name} 님 환영합니다! |">환영합니다!&nbsp;</h5>
+        </div>
+        <div class="col text-end">
+
+            <form  class="d-inline-block " th:action="@{/logout}" method="post" >
+                <button class="w-100 btn btn-outline-danger btn-sm " type="submit">
+                    로그아웃
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <hr class="my-3">
+
+    <div class="col text-center">
+        <button class="btn btn-secondary py-2 "
+                onclick="location.href='editForm.html'"
+                th:onclick="|location.href='@{/member/info/{loginId}(loginId=${member.loginId})}'|"
+                th:text="#{button.member.info}"
+                type="button">개인정보</button>
+
+        <button class="btn btn-primary py-2 "
+                onclick="location.href='findPosts.html'"
+                th:onclick="|location.href='@{/board/find/{loginId}(loginId=${member.loginId})}'|"
+                th:text="#{button.member.writing}"
+                type="button">내가 쓴 글</button>
+
+        <button class="btn btn-primary py-2 "
+                onclick="location.href='writeForm.html'"
+                th:onclick="|location.href='@{/board/write-form}'|"
+                th:text="#{button.writing}"
+                type="button">글쓰기</button>
+
+        <button class="btn btn-primary py-2 "
+                onclick="location.href='board.html'"
+                th:onclick="|location.href='@{/board}'|"
+                th:text="#{page.board}"
+                type="button">목록으로</button>
+    </div>
+
+</div>
+</body>
+</html>
