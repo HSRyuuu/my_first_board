@@ -89,7 +89,7 @@ public class MemberController {
         Member member = new Member(form.getLoginId(),form.getPassword());
         member.setName(form.getName());
         memberRepository.updateMember(loginMember.getId(),member);
-        log.info("updateMember={},{}",loginMember.getLoginId(),loginMember.getName());
+        redirectAttributes.addAttribute("status",true);
         return "redirect:/member/info/{loginId}";
     }
 }

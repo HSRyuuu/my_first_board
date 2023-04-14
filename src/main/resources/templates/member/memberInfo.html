@@ -17,7 +17,7 @@
         <h1 class="font-monospace-bold" th:text="#{title.member.info}">회원 정보</h1>
     </div>
     <!-- 추가 -->
-    <h4 class="text-primary" th:if="${param.status}" th:text="#{text.saveComplete}">저장 완료</h4>
+    <h5 class="text-primary text-start" th:if="${param.status}" th:text="#{text.editComplete}">수정 완료</h5>
 
     <div>
         <label for="loginId" th:text="#{label.member.loginId}">아이디</label>
