@@ -47,6 +47,13 @@ public class MemoryPostRepository implements PostRepository{
         return new ArrayList<>(store.values());
     }
 
+    @Override
+    public void updatePost(Long id, Post updateParam) {
+        Post post = findById(id);
+        post.setTitle(updateParam.getTitle());
+        post.setContent(updateParam.getContent());
+    }
+
     /**
      * 테스트용
      */

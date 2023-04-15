@@ -43,7 +43,7 @@
             <tbody>
             <tr th:each="post : ${posts}">
                 <td style="width: 100px; text-align: center" th:text="${post.id}">1234</td>
-                <td style="width: 500px; text-align: center"><a href="post.html" th:href="@{/board/{postId}(postId=${post.id})}" th:text="${post.title}">title-example</a></td>
+                <td style="width: 500px; text-align: center"><a href="../post/post.html" th:href="@{/board/post/{postId}(postId=${post.id})}" th:text="${post.title}">title-example</a></td>
                 <td style="width: 150px; text-align: center" th:text="${post.writerId}">hsryuuu</td>
                 <td style="width: 150px; text-align: center" th:text="${post.date}">04-11</td>
                 <td style="width: 100px; text-align: center" th:text="${post.views}">23</td>

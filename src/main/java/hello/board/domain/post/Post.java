@@ -14,6 +14,10 @@ public class Post {
     private String date; //생성 날짜
     private Long views; // 조회수
 
+    public Post(String title,String content){
+        this.title = title;
+        this.content = content;
+    }
     public Post(String writerId, String title, String content) {
         this.writerId = writerId;
         this.title = title;

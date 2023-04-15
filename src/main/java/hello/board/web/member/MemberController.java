@@ -37,7 +37,7 @@ public class MemberController {
     }
 
     @GetMapping("/info")
-    public String memberPage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+    public String memberInfo(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                              Model model){
 
         if(loginMember == null){
@@ -49,7 +49,7 @@ public class MemberController {
         return "member/memberPage";
     }
     @GetMapping("/info/{loginId}")
-    public String memberInfo(@PathVariable String loginId,
+    public String memberPersonalInfo(@PathVariable String loginId,
                              @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                              Model model){
         if(loginMember == null){
@@ -63,7 +63,7 @@ public class MemberController {
     }
 
     @GetMapping("/info/{loginId}/edit")
-    public String editForm(@PathVariable String loginId,
+    public String memberEditForm(@PathVariable String loginId,
                            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                            Model model){
         if(loginMember == null){

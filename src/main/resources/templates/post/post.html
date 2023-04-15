@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+<br>
+
+<div class="container" style="max-width: 800px">
+    <!-- 제목 -->
+    <div class="py-1 text-center border-3">
+        <h3 class="font-monospace-bold" th:text="#{title.board.post}">게시글 상세</h3>
+    </div>
+
+    <!-- 목록으로 -->
+    <div class="col text-end">
+        <button th:if="${access}"
+                class="btn btn-primary py-2 "
+                onclick="location.href='board.html'"
+                th:onclick="|location.href='@{/board/post/{postId}/edit(postId=${post.id})}'|"
+                th:text="#{button.post.update}"
+                type="button">수정</button>
+        <button th:if="${access}"
+                class="btn btn-primary py-2 "
+                onclick="location.href='board.html'"
+                th:onclick="|location.href='@{/board/post/{postId}/delete(postId=${post.id})}'|"
+                th:text="#{button.delete}"
+                type="button">삭제</button>
+        <button class="btn btn-primary py-2 "
+                onclick="location.href='board.html'"
+                th:onclick="|location.href='@{/board}'|"
+                th:text="#{page.board}"
+                type="button">목록으로</button>
+    </div>
+
+    <hr class="my-2">
+    <!-- 게시글 정보 한줄 -->
+    <div>
+        <span th:text="#{label.board.id}+' : '+${post.id}">번호 : postId</span>&nbsp;
+        <span th:text="' | '+#{label.board.writer}+' : '+${post.writerId}"> | 작성자 : writerId</span>&nbsp;
+        <span th:text="' | '+#{label.board.date}+' : '+${post.date}"> | 등록일 : 2023-04-11</span>&nbsp;
+        <span th:text="' | '+#{label.board.views}+' : '+${post.views}"> | 조회수 : 0</span>
+    </div>
+
+    <hr class="my-2">
+
+    <!-- 글 내용 -->
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title" th:text="${post.title}">작성글 제목</h3>
+                        <hr class="my-2">
+                        <p class="card-text" th:utext="${post.content}">작성글 내용이 이곳에 표시됩니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div><!-- /container -->
+
+</body>
+</html>

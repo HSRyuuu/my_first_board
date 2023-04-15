@@ -68,25 +68,10 @@ public class BoardController {
                 return "board/board";
             }
         }
-
-        List<Post> listByWriterId = postRepository.findByWriterId(form.getWriterId());
-
         //성공 로직
-        model.addAttribute("posts",listByWriterId);
         redirectAttributes.addAttribute("writerId",form.getWriterId());
-
         return "redirect:/board/find/{writerId}";
     }
-
-    @GetMapping("/{postId}")
-    public String showPost(@PathVariable long postId, Model model){
-        Post post = postRepository.findById(postId);
-        Long view = post.getViews();
-        post.setViews(++view);
-        model.addAttribute("post", post);
-        return "board/post";
-    }
-
     @GetMapping("/find/{writerId}")
     public String findPost(@PathVariable String writerId, Model model){
         List<Post> posts = postRepository.findByWriterId(writerId);
@@ -101,7 +86,7 @@ public class BoardController {
     @GetMapping("/write-form")
     public String writeForm(Model model){
         model.addAttribute("form", new WritingForm());
-        return "board/writeForm";
+        return "post/writeForm";
     }
     @PostMapping("/write-form")
     public String addWriting(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
@@ -109,14 +94,11 @@ public class BoardController {
 
         // 검증에 실패하면 다시 입력 폼으로
         if (bindingResult.hasErrors()) {
-            return "board/writeForm";
+            return "post/writeForm";
         }
-        //글을 html에서 줄바꿈이 적용되도록 변경
-        HtmlFormatter htmlFormatter = new HtmlFormatter();
-        String formattedContent = htmlFormatter.getFormattedContent(form.getContent());
 
         //작성자를 세션에서 꺼내와서 등록
-        Post post = new Post(loginMember.getLoginId(), form.getTitle(),formattedContent);
+        Post post = new Post(loginMember.getLoginId(), form.getTitle(),form.getContent());
         postRepository.save(post);
 
         return "redirect:/board";

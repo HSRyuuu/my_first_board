@@ -23,9 +23,9 @@
     <div class="py-1 row">
         <!-- 로그인 시  -->
         <div th:if="${show}" class="text-end">
-             <a href="/board"
-                     th:href="@{/member/info}"
-                     th:text="${member.loginId}">memberId</a>
+            <a href="/board"
+               th:href="@{/member/info}"
+               th:text="${member.loginId}">memberId</a>
             <span>님 반갑습니다.</span>
             <form  class="d-inline-block" th:action="@{/logout}" method="post" >
                 <button class="w-100 btn btn-secondary btn-sm " type="submit">
@@ -92,7 +92,7 @@
             <tr th:each="post : ${posts}">
                 <td style="width: 100px; text-align: center" th:text="${post.id}">1234</td>
                 <td style="width: 500px; text-align: center">
-                    <a th:href="@{/board/{postId}(postId=${post.id})}">
+                    <a th:href="@{/board/post/{postId}(postId=${post.id})}">
                         <th:block th:text="${#strings.length(post.title) &gt; 20 ? #strings.substring(post.title, 0, 20) + '...' : post.title}">
                             title-example
                         </th:block>

@@ -15,15 +15,6 @@
         <h3 class="font-monospace-bold" th:text="#{title.board.post}">게시글 상세</h3>
     </div>
 
-    <!-- 목록으로 -->
-    <div class="col text-end">
-        <button class="btn btn-primary py-2 "
-                onclick="location.href='board.html'"
-                th:onclick="|location.href='@{/board}'|"
-                th:text="#{page.board}"
-                type="button">목록으로</button>
-    </div>
-
     <hr class="my-2">
     <!-- 게시글 정보 한줄 -->
     <div>
@@ -36,19 +27,30 @@
     <hr class="my-2">
 
     <!-- 글 내용 -->
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title" th:text="${post.title}">작성글 제목</h3>
-                        <hr class="my-2">
-                        <p class="card-text" th:utext="${post.content}">작성글 내용이 이곳에 표시됩니다.</p>
-                    </div>
-                </div>
-            </div>
+    <form action="../board/board.html" th:action th:object="${form}" method="post">
+        <!-- 제목, 내용 -->
+        <div class="form-group">
+            <label for="title" th:text="#{label.board.title}">제목</label>
+            <input type="text" class="form-control" id="title" th:field="*{title}">
         </div>
-    </div>
+
+        <div class="form-group">
+            <label for="content" th:text="#{label.board.content}">내용</label>
+            <textarea class="form-control" id="content" rows="10" th:field="*{content}"></textarea>
+        </div>
+        <!-- /제목, 내용 -->
+
+        <div class="border-top border-1 my-2"></div>
+
+        <!-- 작성, 취소 버튼 -->
+        <button type="submit" class="btn btn-primary">작성</button>
+        <button type="button" class="btn btn-secondary"
+                onclick="location.href='board.html'"
+                th:onclick="|location.href='@{/board/post/{postId}(postId=${post.id})}'|"
+                th:text="#{button.cancel}"
+        >취소</button>
+
+    </form>
 
 
 </div><!-- /container -->
