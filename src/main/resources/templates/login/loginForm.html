@@ -17,8 +17,8 @@
 <body>
 <div class="container">
     <div class="py-5 text-center">
-        <h2>로그인</h2>
-        <div th:if="${msg}" th:text="#{accessFail}"></div>
+        <h2 th:text="#{text.login}">로그인</h2>
+        <div th:if="${loginMsg}" th:text="#{accessFail}"></div>
     </div>
 
     <form th:action th:object="${loginForm}" method="post">
@@ -26,13 +26,13 @@
             <p class="field-error" th:text="#{loginFail}">전체 오류 메시지</p>
         </div>
         <div>
-            <label for="loginId">로그인 ID</label>
+            <label for="loginId" th:text="#{label.member.loginId}">로그인 ID</label>
             <input type="text" id="loginId" th:field="*{loginId}" class="form-control"
                    th:errorclass="field-error">
             <div class="field-error" th:errors="*{loginId}" />
         </div>
         <div>
-            <label for="password">비밀번호</label>
+            <label for="password" th:text="#{label.member.password}">비밀번호</label>
             <input type="password" id="password" th:field="*{password}"
                    class="form-control"
                    th:errorclass="field-error">
@@ -41,13 +41,14 @@
         <hr class="my-4">
         <div class="row">
             <div class="col">
-                <button class="w-100 btn btn-primary btn-lg" type="submit">
+                <button class="w-100 btn btn-primary btn-lg" type="submit" th:text="#{text.login}">
                     로그인</button>
             </div>
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
                         onclick="location.href='board.html'"
                         th:onclick="|location.href='@{/board}'|"
+                        th:text="#{button.cancel}"
                         type="button">취소</button>
             </div>
         </div>

@@ -26,7 +26,7 @@ class MemoryMemberRepositoryTest {
         //when
         Member savedMember = memberRepository.save(member);
         //then
-        Member findMember = memberRepository.findById(savedMember.getMemberId());
+        Member findMember = memberRepository.findById(savedMember.getId());
         assertThat(savedMember).isEqualTo(findMember);
 
     }

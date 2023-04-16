@@ -15,17 +15,17 @@
 <div class="container" style="max-width: 600px">
     <br>
     <div class="py-1 text-center">
-        <h2>회원 정보</h2>
+        <h2 th:text="#{title.member.info}">회원 정보</h2>
     </div>
 
     <div class="row">
         <div class="col text-center">
-            <h5 class="d-inline-block" th:text="|${member.name} 님 환영합니다! |">환영합니다!&nbsp;</h5>
+            <h5 class="d-inline-block" th:text="|${member.name} #{text.hello} |">환영합니다!&nbsp;</h5>
         </div>
         <div class="col text-end">
 
             <form  class="d-inline-block " th:action="@{/logout}" method="post" >
-                <button class="w-100 btn btn-outline-danger btn-sm " type="submit">
+                <button class="w-100 btn btn-outline-danger btn-sm " type="submit" th:text="#{text.logout}">
                     로그아웃
                 </button>
             </form>

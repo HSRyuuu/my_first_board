@@ -14,28 +14,28 @@
 <body>
 <div class="container" style="max-width: 600px">
     <div class="py-5 text-center">
-        <h2>회원 가입</h2>
+        <h2 th:text="#{text.addMember}">회원 가입</h2>
     </div>
-    <h4 class="mb-3">회원 정보 입력</h4>
+    <h4 class="mb-3" th:text="#{text.enterMemberInfo}">회원 정보 입력</h4>
     <form action="" th:action th:object="${form}" method="post">
         <div th:if="${#fields.hasGlobalErrors()}">
             <p class="field-error" th:text="#{duplicateLoginId}">중복 id</p>
         </div>
         <div>
-            <label for="loginId">로그인 ID</label>
+            <label for="loginId" th:text="#{label.member.loginId}">로그인 ID</label>
             <input type="text" id="loginId" th:field="*{loginId}" class="form-control"
                    th:errorclass="field-error">
             <div class="field-error" th:errors="*{loginId}" />
         </div>
         <div>
-            <label for="password">비밀번호</label>
+            <label for="password" th:text="#{label.member.password}">비밀번호</label>
             <input type="password" id="password" th:field="*{password}"
                    class="form-control"
                    th:errorclass="field-error">
             <div class="field-error" th:errors="*{password}" />
         </div>
         <div>
-            <label for="name">이름</label>
+            <label for="name" th:text="#{label.member.name}">이름</label>
             <input type="text" id="name" th:field="*{name}" class="form-control"
                    th:errorclass="field-error">
             <div class="field-error" th:errors="*{name}" />
@@ -43,12 +43,13 @@
         <hr class="my-4">
         <div class="row">
             <div class="col">
-                <button class="w-100 btn btn-primary btn-lg" type="submit">회원 가입</button>
+                <button class="w-100 btn btn-primary btn-lg" type="submit" th:text="#{text.addMember}">회원 가입</button>
             </div>
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
                         onclick="location.href='items.html'"
                         th:onclick="|location.href='@{/board}'|"
+                        th:text="#{button.cancel}"
                         type="button">취소</button>
             </div>
         </div>

@@ -35,6 +35,7 @@
             <span class="field-error" th:errors="*{title}">제목 입력 오류</span>
             <input type="text" class="form-control" id="title" th:field="*{title}"
                    th:errorclass="field-error"
+                   th:placeholder="#{text.enter.title}"
                    placeholder="제목을 입력하세요">
         </div>
 
@@ -44,6 +45,7 @@
 
             <textarea class="form-control" id="content" rows="10" th:field="*{content}"
                       th:errorclass="field-error"
+                      th:placeholder="#{text.enter.contents}"
                       placeholder="내용을 입력하세요"></textarea>
         </div>
         <!-- /제목, 내용 -->
@@ -51,7 +53,7 @@
         <div class="border-top border-1 my-2"></div>
 
         <!-- 작성, 취소 버튼 -->
-        <button type="submit" class="btn btn-primary">작성</button>
+        <button type="submit" class="btn btn-primary" th:text="#{button.submit}">작성</button>
         <button type="button" class="btn btn-secondary"
                 onclick="location.href='board.html'"
                 th:onclick="|location.href='@{/board}'|"

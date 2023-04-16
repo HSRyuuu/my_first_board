@@ -7,7 +7,8 @@ public class HtmlFormatter {
      * String에 포함된 "\n" 을 "<br>"로 변경한다.
      */
     public String getHtmlContent(String content) {
-        return content.replaceAll("\n", "<br>");
+        String htmlContent = content.replaceAll("\n", "<br>");
+        return htmlContent;
     }
 
     /**
@@ -15,6 +16,7 @@ public class HtmlFormatter {
      * Html format에 포함된 "<br>"을 "\n"로 변경한다.
      */
     public String getStringContent(String content) {
-        return content.replaceAll("<br>", "\n");
+        String stringContent = content.replaceAll("<br>", "\n");
+        return stringContent;
     }
 }

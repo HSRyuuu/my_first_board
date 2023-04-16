@@ -13,6 +13,7 @@ public interface PostRepository {
     List<Post> findAll(); //모든 글 list를 return
     void updatePost(Long id, Post updateParam);//멤버 수정
 
+    void deletePost(Long id);
     void clearStore(); // 테스트용
 
 }

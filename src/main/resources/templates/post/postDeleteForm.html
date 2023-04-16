@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .field-error{
+            border-color: red;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<br>
+
+<div class="container" style="max-width: 600px">
+    <div class="py-1 text-center border-3">
+        <h2 class="font-monospace-bold" th:text="#{title.post.delete}">게시글 삭제</h2>
+    </div>
+
+    <hr class="my-1">
+
+    <div>
+        <span th:text="#{label.board.id}+' : '+${post.id}">번호 : postId</span>&nbsp;
+        <span th:text="' | '+#{label.board.writer}+' : '+${post.writerId}"> | 작성자 : writerId</span>&nbsp;
+        <span th:text="' | '+#{label.board.date}+' : '+${post.date}"> | 등록일 : 2023-04-11</span>&nbsp;
+        <span th:text="' | '+#{label.board.views}+' : '+${post.views}"> | 조회수 : 0</span>
+    </div>
+
+    <hr class="my-1">
+    <br>
+    <form action="board.html" th:action th:object="${member}" method="post">
+
+        <label for="password" class="my-2" >
+            <b th:text="#{text.post.delete}">글을 삭제하려면 비밀번호를 입력해주세요.</b>
+        </label>
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="field-error" th:text="#{wrongPassword}">비밀번호가 맞지 않습니다.</p>
+        </div>
+        <div class="field-error" th:errors="*{password}" />
+        <input type="text" id="password" th:field="*{password}"
+               class="form-control"
+               th:errorclass="field-error";
+               th:placeholder="#{text.enter.password}"
+               placeholder="비밀번호 입력" >
+
+        <button type="submit" class="btn my-2 btn-danger">삭제</button>
+        <button type="button" class="btn my-2 btn-secondary"
+                onclick="location.href='board.html'"
+                th:onclick="|location.href='@{/board/post/{postId}(postId=${post.id})}'|"
+                th:text="#{button.cancel}"
+        >취소</button>
+    </form>
+
+
+
+</div><!-- /container -->
+</body>
+</html>

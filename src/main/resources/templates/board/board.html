@@ -26,9 +26,9 @@
             <a href="/board"
                th:href="@{/member/info}"
                th:text="${member.loginId}">memberId</a>
-            <span>님 반갑습니다.</span>
+            <span th:text="#{text.hello}">님 반갑습니다.</span>
             <form  class="d-inline-block" th:action="@{/logout}" method="post" >
-                <button class="w-100 btn btn-secondary btn-sm " type="submit">
+                <button class="w-100 btn btn-secondary btn-sm " th:text="#{text.logout}" type="submit">
                     로그아웃
                 </button>
             </form>
@@ -38,12 +38,16 @@
         <div th:unless="${show}" class="text-end">
             <button class="btn-sm btn-outline-primary btn-lg d-inline-block"
                     onclick="location.href='addMemberForm.html'"
-                    th:onclick="|location.href='@{/member/add}'|" type="button">
+                    th:onclick="|location.href='@{/member/add}'|"
+                    th:text="#{text.addMember}"
+                    type="button">
                 회원가입
             </button>
             <button class="btn-sm btn-primary btn-lg d-inline-block"
                     onclick="location.href='loginForm.html'"
-                    th:onclick="|location.href='@{/login}'|" type="button">
+                    th:onclick="|location.href='@{/login}'|"
+                    th:text="#{text.login}"
+                    type="button">
                 로그인
             </button>
         </div>
@@ -57,6 +61,7 @@
 
                 <input type="text" th:field="*{writerId}"
                        class="form-control-sm" style="width: 150px"
+                       th:placeholder="#{label.enter.writerId}"
                        placeholder="작성자 입력">
                 <button class="btn-sm btn-secondary py-1" type="submit"
                         th:text="#{button.findPosts}">검색</button>

@@ -8,13 +8,14 @@
 <body>
 <div class="container text-center" style="max-width: 400px">
     <br>
-    <h2>게시판 Home</h2>
+    <h2 th:text="#{title.board.home}">게시판 Home</h2>
     <div>(Java, Spring, Thymeleaf)</div>
     <hr class="my-4">
     <div class="row">
         <div class="col">
             <button class="btn btn-outline-primary btn-lg float-md-none" type="button"
-                    th:onclick="|location.href='@{/board}'|">
+                    th:onclick="|location.href='@{/board}'|"
+                    th:text="#{button.main}">
                 게시판 Main으로 이동
             </button>
         </div>

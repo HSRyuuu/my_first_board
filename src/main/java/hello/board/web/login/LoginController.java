@@ -29,7 +29,7 @@ public class LoginController {
                             @RequestParam(required = false)boolean msg,
                             Model model){
         if(msg){
-            model.addAttribute("msg",true);
+            model.addAttribute("loginMsg",true);
         }
         return "login/loginForm";
     }

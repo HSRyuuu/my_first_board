@@ -54,6 +54,11 @@ public class MemoryPostRepository implements PostRepository{
         post.setContent(updateParam.getContent());
     }
 
+    @Override
+    public void deletePost(Long id) {
+        store.remove(id);
+    }
+
     /**
      * 테스트용
      */

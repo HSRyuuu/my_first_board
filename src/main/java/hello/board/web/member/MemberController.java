@@ -90,7 +90,7 @@ public class MemberController {
             return "member/editForm";
         }
         if(loginMember == null){
-            model.addAttribute("msg",true);
+            model.addAttribute("loginMsg",true);
             return "login/loginForm";
         }
         Member member = new Member(form.getLoginId(),form.getPassword());
