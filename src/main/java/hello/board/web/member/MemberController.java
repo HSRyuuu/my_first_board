@@ -30,6 +30,13 @@ public class MemberController {
         if(bindingResult.hasErrors()){
             return "member/addMemberForm";
         }
+        //loginId 중복 체크
+        Optional<Member> duplicate = memberRepository.findByLoginId(form.getLoginId());
+        if(duplicate.isPresent()){
+            bindingResult.reject("duplicateLoginId","이미 있는 아이디 입니다.");
+            return "member/addMemberForm";
+        }
+
         Member member = new Member(form.getLoginId(),form.getPassword());
         member.setName(form.getName());
         memberRepository.save(member);

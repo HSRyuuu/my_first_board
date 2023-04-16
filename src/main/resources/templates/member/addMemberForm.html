@@ -18,6 +18,9 @@
     </div>
     <h4 class="mb-3">회원 정보 입력</h4>
     <form action="" th:action th:object="${form}" method="post">
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="field-error" th:text="#{duplicateLoginId}">중복 id</p>
+        </div>
         <div>
             <label for="loginId">로그인 ID</label>
             <input type="text" id="loginId" th:field="*{loginId}" class="form-control"
