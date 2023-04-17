@@ -4,7 +4,6 @@ import hello.board.domain.member.Member;
 import hello.board.domain.member.MemberRepository;
 import hello.board.domain.post.Post;
 import hello.board.domain.post.PostRepository;
-import hello.board.web.format.HtmlFormatter;
 import hello.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,31 +38,30 @@ public class BoardController {
         }
         List<Post> posts = postRepository.findAll();
         model.addAttribute("show",show);
-        model.addAttribute("posts",posts);
-        model.addAttribute("form",new FindByWriterIdForm());
+        model.addAttribute("form",new SearchForm());
+
         return "board/board";
     }
+    //TODO 종류에따라 다른 list 전달
     @PostMapping
-    public String findByWriterId(@Validated @ModelAttribute("form") FindByWriterIdForm form, BindingResult bindingResult,
-                                 @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
-                                 RedirectAttributes redirectAttributes,
-                                 Model model){
-
-        Optional<Member> member = memberRepository.findByLoginId(form.getWriterId());
+    public String searchResult(@Validated @ModelAttribute("form") SearchForm form, BindingResult bindingResult,
+                               @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+                               RedirectAttributes redirectAttributes,
+                               Model model){
         //빈칸일때는 다시 메인화면으로
         if(bindingResult.hasErrors()){
             log.info("error={}",bindingResult);
-            model.addAttribute("posts",postRepository.findAll());
             return "redirect:/board";
-        }else if(member.isEmpty()){ //Id로 찾은 결과가 없을 때
+        }
+        Optional<Member> member = memberRepository.findByLoginId(form.getWriterId());
+
+        if(member.isEmpty()){ //Id로 찾은 결과가 없을 때
             log.info("검색결과없음");
             if(loginMember == null){
                 bindingResult.reject("notFoundByWriterId");
-                model.addAttribute("posts",postRepository.findAll());
                 return "board/board";
             }else{
                 bindingResult.reject("notFoundByWriterId");
-                model.addAttribute("posts",postRepository.findAll());
                 model.addAttribute("show",true);
                 model.addAttribute("member",loginMember);
                 return "board/board";
@@ -72,16 +71,18 @@ public class BoardController {
         redirectAttributes.addAttribute("writerId",form.getWriterId());
         return "redirect:/board/find/{writerId}";
     }
+    //TODO 입력받은 값에 따라 경로 PathVariable 바꿔보기
     @GetMapping("/find/{writerId}")
-    public String findPost(@PathVariable String writerId, Model model){
-        List<Post> posts = postRepository.findByWriterId(writerId);
-        if(posts.isEmpty()){
+    public String findByWriterId(@PathVariable String writerId, Model model){
+        List<Post> findPosts = postRepository.findByWriterId(writerId);
+        if(findPosts.isEmpty()){
             return "redirect:/board";
         }
-        model.addAttribute("posts", posts);
-        model.addAttribute("post1",posts.get(0));
+        model.addAttribute("findPosts",findPosts);
+        model.addAttribute("post1",findPosts.get(0));
         return "board/findPosts";
     }
+    
 
     @GetMapping("/write-form")
     public String writeForm(Model model){
@@ -104,4 +105,17 @@ public class BoardController {
         return "redirect:/board";
     }
 
+    @ModelAttribute("searchCodes")
+    public List<PostSearchCode> getSearchList(){
+        List<PostSearchCode> searchCodes = new ArrayList<>();
+        searchCodes.add(new PostSearchCode("findByTitle", "제목"));
+        searchCodes.add(new PostSearchCode("findByContent", "내용"));
+        searchCodes.add(new PostSearchCode("findByWriterId", "작성자"));
+        return searchCodes;
+    }
+
+    @ModelAttribute("posts")
+    public List<Post> posts(){
+        return postRepository.findAll();
+    }
 }

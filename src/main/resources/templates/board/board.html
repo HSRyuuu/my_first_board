@@ -58,6 +58,10 @@
     <div class="py-1 row">
         <div class="col text-start">
             <form action="findPosts.html" th:action th:object="${form}" method="post">
+                <select  th:field="*{searchCode}">
+                    <option th:each="searchCode : ${searchCodes}" th:value="${searchCode.code}"
+                            th:text="${searchCode.displayName}">Option</option>
+                </select>
 
                 <input type="text" th:field="*{writerId}"
                        class="form-control-sm" style="width: 150px"

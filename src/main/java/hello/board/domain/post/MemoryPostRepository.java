@@ -42,6 +42,18 @@ public class MemoryPostRepository implements PostRepository{
             }
             return findByTitleList;
         }
+
+    @Override
+    public List<Post> findByContents(String content) {
+        List<Post> findByContentsList = new ArrayList<>();
+        for (Post post : findByContentsList) {
+            if(post.getContent().contains(content)){
+                findByContentsList.add(post);
+            }
+        }
+        return findByContentsList;
+    }
+
     @Override
     public List<Post> findAll() {
         return new ArrayList<>(store.values());

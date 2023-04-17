@@ -2,7 +2,6 @@ package hello.board.web.login;
 
 import hello.board.domain.login.LoginService;
 import hello.board.domain.member.Member;
-import hello.board.web.board.FindByWriterIdForm;
 import hello.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
