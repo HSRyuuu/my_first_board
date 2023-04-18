@@ -1,4 +1,4 @@
-# 게시판 만들기
+# 게시판
 
 ### 사용 기술
 Java 11, SpringBoot 2.7.10, Thymeleaf
