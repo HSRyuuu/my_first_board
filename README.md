@@ -3,6 +3,7 @@
 ### 사용 기술
 Java 11, SpringBoot 2.7.10, Thymeleaf
 
+
 >#### Todo
 >- DB 적용
 >- JPA 적용
@@ -38,6 +39,10 @@ Spring Bean Validation
 
 ### Front View
 Thymeleaf, Html, bootstrap
+
+### Test 
+JUnit5
+- Member, MemberRepository, Post, PostRepository 동작 테스트  
 
 >TODO
 >- 댓글, 대댓글
