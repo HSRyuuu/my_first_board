@@ -3,11 +3,13 @@
 ### 사용 기술
 Java 11, SpringBoot 2.7.10, Thymeleaf
 
-Todo
-- DB 적용
-- JPA 적용
----
-## 주요 기능
+>#### Todo
+>- DB 적용
+>- JPA 적용
+<br>
+
+# 주요 기능
+
 ### 회원 관리(Member)
 회원가입 / 로그인 / 필터(Spring Interceptor)
 - 회원 CRUD 구현 (회원가입, 회원정보 열람, 수정, 삭제)
@@ -23,11 +25,7 @@ Todo
 - 세션을 통해 로그인 사용자 확인 후 본인의 글일때만 수정, 삭제 가능
 - 조회수 기능 ( 본인이 본인 글 열람시 조회수 증가x)
 
->TODO
->- 댓글, 대댓글
->- 카테고리, 해시태그
->- 조회수정렬, 최신 순 정렬
->- 페이징 
+
 
 ### 검증(Validation)
 Spring Bean Validation
@@ -41,4 +39,8 @@ Spring Bean Validation
 ### Front View
 Thymeleaf, Html, bootstrap
 
-
+>TODO
+>- 댓글, 대댓글
+>- 카테고리, 해시태그
+>- 조회수정렬, 최신 순 정렬
+>- 페이징 
