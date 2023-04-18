@@ -62,9 +62,6 @@ public class PostController {
 
     }
 
-    /**
-     * TODO 삭제기능 만들기
-     */
     @GetMapping("/{postId}/delete")
     public String deleteForm(@PathVariable long postId, Model model){
         Post post = postRepository.findById(postId);

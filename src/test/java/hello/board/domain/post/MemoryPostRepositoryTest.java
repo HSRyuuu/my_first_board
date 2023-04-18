@@ -2,6 +2,7 @@ package hello.board.domain.post;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryPostRepositoryTest {
     PostRepository postRepository = new MemoryPostRepository();
+
     @AfterEach
     void afterEach(){
         postRepository.clearStore();
@@ -60,6 +62,39 @@ class MemoryPostRepositoryTest {
         List<Post> foundList = postRepository.findByTitle("tle");
         assertThat(foundList.size()).isEqualTo(2);
         assertThat(foundList).containsExactly(post1,post2);
+    }
+
+    @Test
+    void findByContent(){
+        //given
+        Post post1 = new Post("writer1", "title1", "content1");
+        Post post2 = new Post("writer2", "title2", "content2");
+        Post post3 = new Post("writer3", "hello", "content2");
+
+        //when
+        Post savedPost1 = postRepository.save(post1);
+        Post savedPost2 = postRepository.save(post2);
+        Post savedPost3 = postRepository.save(post3);
+
+        //then
+        List<Post> foundList = postRepository.findByContents("content");
+        System.out.println(foundList.size());
+    }
+
+    @Test
+    void printTest(){
+
+        Post post1 = new Post("writer1", "title1", "content1");
+        Post post2 = new Post("writer2", "title2", "content2");
+        Post post3 = new Post("writer3", "hello", "content2");
+        Post savedPost1 = postRepository.save(post1);
+        Post savedPost2 = postRepository.save(post2);
+        Post savedPost3 = postRepository.save(post3);
+
+        System.out.println(savedPost1.getContent());
+        if(savedPost1.getContent().contains("asdf")){
+            System.out.println("true");
+        }else System.out.println("false");
     }
 
     @Test

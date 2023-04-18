@@ -26,6 +26,11 @@ public class BoardController {
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
 
+    /**
+     * 게시판 메인화면 GET
+     * show = true : 로그인시 - model에  loginMember를 담아서 넘긴다. - 멤버정보 메뉴, 로그아웃버튼 출력
+     * show = false : 로그인 x 시 - 로그인 버튼 출력
+     */
     @GetMapping
     public String boardHome(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                             Model model){
@@ -36,7 +41,6 @@ public class BoardController {
         }else {
             model.addAttribute("member", loginMember);
         }
-        List<Post> posts = postRepository.findAll();
         model.addAttribute("show",show);
         model.addAttribute("form",new SearchForm());
 
@@ -48,47 +52,57 @@ public class BoardController {
                                @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                                RedirectAttributes redirectAttributes,
                                Model model){
+        log.info("searchCode={}",form.getSearchCode());
         //빈칸일때는 다시 메인화면으로
         if(bindingResult.hasErrors()){
             log.info("error={}",bindingResult);
             return "redirect:/board";
         }
-        Optional<Member> member = memberRepository.findByLoginId(form.getWriterId());
-
-        if(member.isEmpty()){ //Id로 찾은 결과가 없을 때
-            log.info("검색결과없음");
+        //검색 로직
+        String searchWord = form.getSearchWord();
+        String searchCode = form.getSearchCode();
+        List<Post> searchList = getSearchList(searchWord, searchCode);
+        log.info("searchListSize={}",searchList.size());
+        if(searchList.size()==0){
+            log.info("{} : 검색결과없음",searchCode);
+            bindingResult.reject("notFoundResult");
             if(loginMember == null){
-                bindingResult.reject("notFoundByWriterId");
                 return "board/board";
             }else{
-                bindingResult.reject("notFoundByWriterId");
                 model.addAttribute("show",true);
                 model.addAttribute("member",loginMember);
                 return "board/board";
             }
         }
+
         //성공 로직
-        redirectAttributes.addAttribute("writerId",form.getWriterId());
-        return "redirect:/board/find/{writerId}";
+        redirectAttributes.addAttribute("searchCode",form.getSearchCode());
+        redirectAttributes.addAttribute("searchWord",form.getSearchWord());
+        return "redirect:/board/{searchCode}/{searchWord}";
     }
-    //TODO 입력받은 값에 따라 경로 PathVariable 바꿔보기
-    @GetMapping("/find/{writerId}")
-    public String findByWriterId(@PathVariable String writerId, Model model){
-        List<Post> findPosts = postRepository.findByWriterId(writerId);
-        if(findPosts.isEmpty()){
-            return "redirect:/board";
-        }
-        model.addAttribute("findPosts",findPosts);
-        model.addAttribute("post1",findPosts.get(0));
+
+    @GetMapping("/{searchCode}/{searchWord}")
+    public String searchResult(@PathVariable String searchCode, @PathVariable String searchWord, Model model){
+        List<Post> searchList = getSearchList(searchWord,searchCode);
+
+        model.addAttribute("findPosts",searchList);
+        model.addAttribute("searchWord",searchWord);
         return "board/findPosts";
     }
-    
 
+
+    /**
+     * 글쓰기 폼 GET
+     */
     @GetMapping("/write-form")
     public String writeForm(Model model){
         model.addAttribute("form", new WritingForm());
         return "post/writeForm";
     }
+
+    /**
+     * 세션에 존재하는 loginMember를 작성자로 등록
+     */
     @PostMapping("/write-form")
     public String addWriting(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                              @Validated @ModelAttribute("form")WritingForm form, BindingResult bindingResult){
@@ -105,12 +119,31 @@ public class BoardController {
         return "redirect:/board";
     }
 
+    public List<Post> getSearchList(String searchWord, String searchCode){
+        List<Post> searchList;
+        switch(searchCode){
+            case "find-by-title" : {
+                searchList = postRepository.findByTitle(searchWord);
+            }break;
+            case "find-by-content" :{
+                searchList = postRepository.findByContents(searchWord);
+            }break;
+            case "find-by-writerId" :{
+                searchList = postRepository.findByWriterId(searchWord);
+            }break;
+            default: searchList = new ArrayList<>();
+        }
+        return searchList;
+
+    }
+
+
     @ModelAttribute("searchCodes")
-    public List<PostSearchCode> getSearchList(){
+    public List<PostSearchCode> searchCodes(){
         List<PostSearchCode> searchCodes = new ArrayList<>();
-        searchCodes.add(new PostSearchCode("findByTitle", "제목"));
-        searchCodes.add(new PostSearchCode("findByContent", "내용"));
-        searchCodes.add(new PostSearchCode("findByWriterId", "작성자"));
+        searchCodes.add(new PostSearchCode("find-by-title", "제목"));
+        searchCodes.add(new PostSearchCode("find-by-content", "내용"));
+        searchCodes.add(new PostSearchCode("find-by-writerId", "작성자"));
         return searchCodes;
     }
 

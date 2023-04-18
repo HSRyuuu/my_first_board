@@ -54,7 +54,8 @@
     </div>
 
     <hr class="my-2">
-    <!-- 내가 쓴 글 -->
+
+    <!-- 검색 -->
     <div class="py-1 row">
         <div class="col text-start">
             <form action="findPosts.html" th:action th:object="${form}" method="post">
@@ -63,17 +64,18 @@
                             th:text="${searchCode.displayName}">Option</option>
                 </select>
 
-                <input type="text" th:field="*{writerId}"
+                <input type="text" th:field="*{searchWord}"
                        class="form-control-sm" style="width: 150px"
-                       th:placeholder="#{label.enter.writerId}"
+                       th:placeholder="#{label.enter.searchWord}"
                        placeholder="작성자 입력">
                 <button class="btn-sm btn-secondary py-1" type="submit"
                         th:text="#{button.findPosts}">검색</button>
                 <span th:if="${#fields.hasGlobalErrors()}">
-                    <span class="field-error" th:text="#{notFoundByWriterId}">글로벌 오류 메시지</span>
+                    <span class="field-error" th:text="#{notFoundResult}">글로벌 오류 메시지</span>
                 </span>
             </form>
         </div>
+
         <!--글쓰기 버튼 -->
         <div class="col text-end">
             <button class="btn-sm btn-primary py-1 "

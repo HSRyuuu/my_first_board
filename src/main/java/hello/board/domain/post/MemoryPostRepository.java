@@ -36,7 +36,7 @@ public class MemoryPostRepository implements PostRepository{
     public List<Post> findByTitle(String title) {
             List<Post> findByTitleList = new ArrayList<>();
             for (Post post : findAll()) {
-                if(post.getTitle().contains(title)){
+                if(post.getTitle().toLowerCase().contains(title.toLowerCase())){
                     findByTitleList.add(post);
                 }
             }
@@ -46,7 +46,7 @@ public class MemoryPostRepository implements PostRepository{
     @Override
     public List<Post> findByContents(String content) {
         List<Post> findByContentsList = new ArrayList<>();
-        for (Post post : findByContentsList) {
+        for (Post post : findAll()) {
             if(post.getContent().contains(content)){
                 findByContentsList.add(post);
             }

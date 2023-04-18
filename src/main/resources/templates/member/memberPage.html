@@ -43,7 +43,7 @@
 
         <button class="btn btn-primary py-2 "
                 onclick="location.href='findPosts.html'"
-                th:onclick="|location.href='@{/board/find/{loginId}(loginId=${member.loginId})}'|"
+                th:onclick="|location.href='@{/board/find-by-writerId/{loginId}(loginId=${member.loginId})}'|"
                 th:text="#{button.member.writing}"
                 type="button">내가 쓴 글</button>
 
