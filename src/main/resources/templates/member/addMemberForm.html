@@ -12,18 +12,7 @@
     </style>
 </head>
 <body>
-<div class="container" style="max-width: 700px">
-    <br>
-    <div class="row">
-        <div class="text-start">
-            <button class="btn btn-rounded btn-outline-secondary py-1 "
-                    onclick="location.href='board.html'"
-                    th:onclick="|location.href='@{/board}'|"
-                    th:text="#{page.board}"
-                    type="button">HOME</button>
-        </div>
-    </div>
-</div>
+<br>
 <div class="container" style="max-width: 600px">
     <div class="text-center">
         <h2 th:text="#{text.addMember}">회원 가입</h2>
