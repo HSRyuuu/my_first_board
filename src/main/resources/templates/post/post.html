@@ -7,12 +7,24 @@
 
 </head>
 <body>
-<br>
+
+<div class="container" style="max-width: 800px">
+    <br>
+    <div class="row">
+        <div class="text-start">
+            <button class="btn btn-rounded btn-outline-secondary py-1 "
+                    onclick="location.href='board.html'"
+                    th:onclick="|location.href='@{/board}'|"
+                    th:text="#{page.board}"
+                    type="button">HOME</button>
+        </div>
+    </div>
+</div>
 
 <div class="container" style="max-width: 800px">
     <!-- 제목 -->
     <div class="py-1 text-center border-3">
-        <h3 class="font-monospace-bold" th:text="#{title.board.post}">게시글 상세</h3>
+        <h2 th:text="#{title.board.post}">게시글 상세</h2>
     </div>
 
     <!-- 목록으로 -->
@@ -24,16 +36,11 @@
                 th:text="#{button.post.update}"
                 type="button">수정</button>
         <button th:if="${access}"
-                class="btn btn-primary py-2 "
+                class="btn btn-outline-danger py-2 "
                 onclick="location.href='board.html'"
                 th:onclick="|location.href='@{/board/post/{postId}/delete(postId=${post.id})}'|"
                 th:text="#{button.delete}"
                 type="button">삭제</button>
-        <button class="btn btn-primary py-2 "
-                onclick="location.href='board.html'"
-                th:onclick="|location.href='@{/board}'|"
-                th:text="#{page.board}"
-                type="button">목록으로</button>
     </div>
 
     <hr class="my-2">

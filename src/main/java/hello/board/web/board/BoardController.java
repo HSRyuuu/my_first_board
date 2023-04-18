@@ -14,9 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -105,7 +103,8 @@ public class BoardController {
      */
     @PostMapping("/write-form")
     public String addWriting(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
-                             @Validated @ModelAttribute("form")WritingForm form, BindingResult bindingResult){
+                             @Validated @ModelAttribute("form")WritingForm form, BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes){
 
         // 검증에 실패하면 다시 입력 폼으로
         if (bindingResult.hasErrors()) {
@@ -114,9 +113,10 @@ public class BoardController {
 
         //작성자를 세션에서 꺼내와서 등록
         Post post = new Post(loginMember.getLoginId(), form.getTitle(),form.getContent());
-        postRepository.save(post);
+        Post savedPost = postRepository.save(post);
 
-        return "redirect:/board";
+        redirectAttributes.addAttribute("postId",savedPost.getId());
+        return "redirect:/board/post/{postId}";
     }
 
     public List<Post> getSearchList(String searchWord, String searchCode){
@@ -128,7 +128,7 @@ public class BoardController {
             case "find-by-content" :{
                 searchList = postRepository.findByContents(searchWord);
             }break;
-            case "find-by-writerId" :{
+            case "find-by-writer-id" :{
                 searchList = postRepository.findByWriterId(searchWord);
             }break;
             default: searchList = new ArrayList<>();
@@ -143,12 +143,19 @@ public class BoardController {
         List<PostSearchCode> searchCodes = new ArrayList<>();
         searchCodes.add(new PostSearchCode("find-by-title", "제목"));
         searchCodes.add(new PostSearchCode("find-by-content", "내용"));
-        searchCodes.add(new PostSearchCode("find-by-writerId", "작성자"));
+        searchCodes.add(new PostSearchCode("find-by-writer-id", "작성자"));
         return searchCodes;
     }
 
     @ModelAttribute("posts")
     public List<Post> posts(){
-        return postRepository.findAll();
+        List<Post> list = postRepository.findAll();
+        Collections.sort(list, new Comparator<Post>() {
+            @Override
+            public int compare(Post o1, Post o2) {
+                return (int)(o2.getId()-o1.getId());
+            }
+        });
+        return list;
     }
 }

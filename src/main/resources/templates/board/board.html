@@ -23,12 +23,19 @@
     <div class="py-1 row">
         <!-- 로그인 시  -->
         <div th:if="${show}" class="text-end">
-            <a href="/board"
+            <a style="color:blue; font-weight:bold;"
                th:href="@{/member/info}"
-               th:text="${member.loginId}">memberId</a>
+               th:text="${member.loginId}">(회원아이디)</a>
             <span th:text="#{text.hello}">님 반갑습니다.</span>
-            <form  class="d-inline-block" th:action="@{/logout}" method="post" >
-                <button class="w-100 btn btn-secondary btn-sm " th:text="#{text.logout}" type="submit">
+            <button class="btn btn-sm btn-secondary "
+                    onclick="location.href='board.html'"
+                    th:onclick="|location.href='@{/member/info}'|"
+                    th:text="#{button.member.info}"
+                    type="button">회원정보</button>
+
+            <form class="d-inline-block" th:action="@{/logout}" method="post"
+                  onsubmit="return confirm('로그아웃 하시겠습니까?');">
+                <button class="w-100 btn btn-outline-danger btn-sm" th:text="#{text.logout}" type="submit">
                     로그아웃
                 </button>
             </form>
@@ -68,7 +75,7 @@
                        class="form-control-sm" style="width: 150px"
                        th:placeholder="#{label.enter.searchWord}"
                        placeholder="작성자 입력">
-                <button class="btn-sm btn-secondary py-1" type="submit"
+                <button class="btn-sm btn-primary py-1" type="submit"
                         th:text="#{button.findPosts}">검색</button>
                 <span th:if="${#fields.hasGlobalErrors()}">
                     <span class="field-error" th:text="#{notFoundResult}">글로벌 오류 메시지</span>

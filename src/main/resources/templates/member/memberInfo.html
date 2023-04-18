@@ -11,8 +11,19 @@
     </style>
 </head>
 <body>
-<br>
-<div class="container">
+<div class="container" style="max-width: 700px">
+    <br>
+    <div class="row">
+        <div class="text-start">
+            <button class="btn btn-rounded btn-outline-secondary py-1 "
+                    onclick="location.href='board.html'"
+                    th:onclick="|location.href='@{/board}'|"
+                    th:text="#{page.board}"
+                    type="button">HOME</button>
+        </div>
+    </div>
+</div>
+<div class="container" style="max-width: 600px">
     <div class="py-3 text-center">
         <h1 class="font-monospace-bold" th:text="#{title.member.info}">회원 정보</h1>
     </div>

@@ -7,7 +7,18 @@
 
 </head>
 <body>
-<br>
+<div class="container" style="max-width: 800px">
+    <br>
+    <div class="row">
+        <div class="text-start">
+            <button class="btn btn-rounded btn-outline-secondary py-1 "
+                    onclick="location.href='board.html'"
+                    th:onclick="|location.href='@{/board}'|"
+                    th:text="#{page.board}"
+                    type="button">HOME</button>
+        </div>
+    </div>
+</div>
 
 <div class="container" style="max-width: 800px">
     <!-- 제목 -->

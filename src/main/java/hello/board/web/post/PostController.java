@@ -33,9 +33,12 @@ public class PostController {
                 model.addAttribute("access",true);
             }
         }
-        //조회수 로직
-        Long view = post.getViews();
-        post.setViews(++view);
+        //조회수 로직 ( 본인이 본인글을 볼때는 조회수 증가 x )
+        if(!loginMember.getLoginId().equals(post.getWriterId())){
+            Long view = post.getViews();
+            post.setViews(++view);
+        }
+
         post.setContent(htmlFormatter.getHtmlContent(post.getContent()));
         model.addAttribute("post", post);
         return "post/post";

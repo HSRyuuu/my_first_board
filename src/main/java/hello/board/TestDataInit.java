@@ -45,7 +45,9 @@ public class TestDataInit {
         for(int i=0;i<10;i++){
             String loginId = "writer"+Integer.toString(i);
             String password = "writer"+Integer.toString(i)+"!";
-            memberRepository.save(new Member(loginId,password));
+            Member newMember = new Member(loginId,password);
+            newMember.setName("writerName"+Integer.toString(i));
+            memberRepository.save(newMember);
         }
     }
 }
