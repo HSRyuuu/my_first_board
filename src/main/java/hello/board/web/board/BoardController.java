@@ -46,7 +46,7 @@ public class BoardController {
 
         return "board/board";
     }
-    @PostMapping
+    @PostMapping()
     public String searchResult(@Validated @ModelAttribute("form") SearchForm form, BindingResult bindingResult,
                                @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                                RedirectAttributes redirectAttributes,
@@ -81,12 +81,63 @@ public class BoardController {
     }
 
     @GetMapping("/{searchCode}/{searchWord}")
-    public String searchResult(@PathVariable String searchCode, @PathVariable String searchWord, Model model){
+    public String searchResult(@PathVariable String searchCode, @PathVariable String searchWord,
+                               @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,Model model){
         List<Post> searchList = getSearchList(searchWord,searchCode);
 
+        boolean show = true;
+        if(loginMember == null){
+            show = false;
+        }else {
+            model.addAttribute("member", loginMember);
+        }
+        model.addAttribute("show",show);
+        model.addAttribute("form",new SearchForm());
         model.addAttribute("findPosts",searchList);
-        model.addAttribute("searchWord",searchWord);
         return "board/findPosts";
+    }
+
+    /**
+     * @param lastSearchCode : 경로에 포함된 searchCode
+     * @param lastSearchWord : 경로에 포함된 searchWord
+     * @param form : 해당 페이지에서 입력받은 form ( searchCode, searchWord 포함 )
+     */
+    @PostMapping("/{searchCode}/{searchWord}")
+    public String searchResultFromFindList(@PathVariable("searchCode") String lastSearchCode, @PathVariable("searchWord") String lastSearchWord,
+                                           @Validated @ModelAttribute("form") SearchForm form, BindingResult bindingResult,
+                                           @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+                                           RedirectAttributes redirectAttributes,
+                                           Model model){
+
+        //빈칸일때는 다시 메인화면으로
+        if(bindingResult.hasErrors()){
+            log.info("error={}",bindingResult);
+            return "redirect:/board";
+        }
+        //검색 값 받아서 해당 값에대한 글 리스트 생성
+        String searchWord = form.getSearchWord();
+        String searchCode = form.getSearchCode();
+        List<Post> searchList = getSearchList(searchWord, searchCode);
+
+        //리스트가 비어있을 때
+        if(searchList.size()==0){
+            log.info("{} : 검색결과없음",searchCode);
+            bindingResult.reject("notFoundResult");
+            if(loginMember == null){
+                model.addAttribute("findPosts",getSearchList(lastSearchWord,lastSearchCode));
+                return "board/findPosts";
+            }else{
+                model.addAttribute("show",true);
+                model.addAttribute("member",loginMember);
+                model.addAttribute("findPosts",getSearchList(lastSearchWord,lastSearchCode));
+                return "board/findPosts";
+            }
+        }
+
+        //성공 로직
+        redirectAttributes.addAttribute("searchCode",form.getSearchCode());
+        redirectAttributes.addAttribute("searchWord",form.getSearchWord());
+        return "redirect:/board/{searchCode}/{searchWord}";
     }
 
 

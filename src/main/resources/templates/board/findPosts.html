@@ -4,25 +4,98 @@
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
           href="../css/bootstrap.min.css" rel="stylesheet">
-
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
 </head>
 <body>
-<div class="container-fluid py-3" style="background-color: #ccffcc ">
+<div class="container-fluid py-4" style="background-color: #ccffcc ">
     <a href="board.html"  th:href="@{/board}" style="text-decoration: none">
         <h1 style="color: black" >&#x1F3E0; Board Service</h1>
     </a>
 </div>
 <br>
+
 <div class="container" style="max-width: 1000px">
-    <div class="py-1 text-center border-3">
-        <h2 class="font-monospace-bold" th:text="#{title.find.posts}">게시글 검색</h2>
-    </div>
+
+
+    <!-- 로그인, 회원 정보 관련  -->
     <div class="py-1 row">
-        <div class="col text-start">
-            <h5 th:text="|[ ${searchWord} ] #{label.board.find}|">검색 결과</h5>
+        <!-- 로그인 시  -->
+        <div th:if="${show}" class="text-end">
+            <a style="color:blue; font-weight:bold;"
+               th:href="@{/member/info}"
+               th:text="${member.loginId}">(회원아이디)</a>
+            <span th:text="#{text.hello}">님 반갑습니다.</span>
+            <button class="btn btn-sm btn-secondary "
+                    onclick="location.href='board.html'"
+                    th:onclick="|location.href='@{/member/info}'|"
+                    th:text="#{button.member.info}"
+                    type="button">회원정보</button>
+
+            <form class="d-inline-block" th:action="@{/logout}" method="post"
+                  onsubmit="return confirm('로그아웃 하시겠습니까?');">
+                <button class="w-100 btn btn-outline-danger btn-sm" th:text="#{text.logout}" type="submit">
+                    로그아웃
+                </button>
+            </form>
+
+        </div>
+        <!-- 로그아웃 상태  -->
+        <div th:unless="${show}" class="text-end">
+            <button class="btn-sm btn-outline-primary btn-lg d-inline-block"
+                    onclick="location.href='addMemberForm.html'"
+                    th:onclick="|location.href='@{/member/add}'|"
+                    th:text="#{text.addMember}"
+                    type="button">
+                회원가입
+            </button>
+            <button class="btn-sm btn-primary btn-lg d-inline-block"
+                    onclick="location.href='loginForm.html'"
+                    th:onclick="|location.href='@{/login}'|"
+                    th:text="#{text.login}"
+                    type="button">
+                로그인
+            </button>
         </div>
     </div>
+
     <hr class="my-2">
+
+    <!-- 검색 -->
+    <div class="py-1 row">
+        <div class="col text-start">
+            <form action="findPosts.html" th:action th:object="${form}" method="post">
+                <select  th:field="*{searchCode}">
+                    <option th:each="searchCode : ${searchCodes}" th:value="${searchCode.code}"
+                            th:text="${searchCode.displayName}">Option</option>
+                </select>
+
+                <input type="text" th:field="*{searchWord}"
+                       class="form-control-sm" style="width: 150px"
+                       th:placeholder="#{label.enter.searchWord}"
+                       placeholder="작성자 입력">
+                <button class="btn-sm btn-primary py-1" type="submit"
+                        th:text="#{button.findPosts}">검색</button>
+                <span th:if="${#fields.hasGlobalErrors()}">
+                    <span class="field-error" th:text="#{notFoundResult}">글로벌 오류 메시지</span>
+                </span>
+            </form>
+        </div>
+
+        <!--글쓰기 버튼 -->
+        <div class="col text-end">
+            <button class="btn-sm btn-primary py-1 "
+                    onclick="location.href='writeForm.html'"
+                    th:onclick="|location.href='@{/board/write-form}'|"
+                    th:text="#{button.writing}"
+                    type="button">글쓰기</button>
+        </div>
+    </div>
+    <hr class="my-3">
 
     <!-- 게시글 목록 table -->
     <div>
@@ -37,17 +110,23 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each=" findPost : ${findPosts}">
-                <td style="width: 100px; text-align: center" th:text="${findPost.id}">1234</td>
-                <td style="width: 500px; text-align: center"><a href="../post/post.html" th:href="@{/board/post/{findPostId}(findPostId=${findPost.id})}" th:text="${findPost.title}">title-example</a></td>
-                <td style="width: 150px; text-align: center" th:text="${findPost.writerId}">hsryuuu</td>
-                <td style="width: 150px; text-align: center" th:text="${findPost.date}">04-11</td>
-                <td style="width: 100px; text-align: center" th:text="${findPost.views}">23</td>
+            <tr th:each="post : ${findPosts}">
+                <td style="width: 100px; text-align: center" th:text="${post.id}">1234</td>
+                <td style="width: 500px; text-align: center">
+                    <a th:href="@{/board/post/{postId}(postId=${post.id})}">
+                        <th:block th:text="${#strings.length(post.title) &gt; 20 ? #strings.substring(post.title, 0, 20) + '...' : post.title}">
+                            title-example
+                        </th:block>
+                    </a>
+                </td>
+                <td style="width: 150px; text-align: center" th:text="${post.writerId}">hsryuuu</td>
+                <td style="width: 150px; text-align: center" th:text="${post.date}">04-11</td>
+                <td style="width: 100px; text-align: center" th:text="${post.views}">23</td>
             </tr>
             </tbody>
         </table>
     </div>
-
+    <hr class="my-5">
 </div><!-- /container -->
 
 </body>
