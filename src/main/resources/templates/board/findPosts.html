@@ -33,8 +33,8 @@
             <button class="btn btn-sm btn-secondary "
                     onclick="location.href='board.html'"
                     th:onclick="|location.href='@{/member/info}'|"
-                    th:text="#{button.member.info}"
-                    type="button">회원정보</button>
+                    th:text="#{button.member.profile}"
+                    type="button">회원 프로필</button>
 
             <form class="d-inline-block" th:action="@{/logout}" method="post"
                   onsubmit="return confirm('로그아웃 하시겠습니까?');">
@@ -126,7 +126,7 @@
             </tbody>
         </table>
     </div>
-    <hr class="my-5">
+
 </div><!-- /container -->
 
 </body>

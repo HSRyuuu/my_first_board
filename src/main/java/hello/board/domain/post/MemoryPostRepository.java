@@ -10,6 +10,7 @@ import java.util.*;
 public class MemoryPostRepository implements PostRepository{
     private static final Map<Long,Post> store = new HashMap<>();
     private static long sequence = 0L; //키값을 생성해줌
+
     @Override
     public Post save(Post post) {
         post.setDate(LocalDate.now());
@@ -50,7 +51,7 @@ public class MemoryPostRepository implements PostRepository{
     public List<Post> findByContents(String content) {
         List<Post> findByContentsList = new ArrayList<>();
         for (Post post : findAll()) {
-            if(post.getContent().contains(content)){
+            if(post.getContent().toLowerCase().contains(content.toLowerCase())){
                 findByContentsList.add(post);
             }
         }
@@ -58,20 +59,48 @@ public class MemoryPostRepository implements PostRepository{
     }
 
     @Override
+    public List<Post> findByTitleAndContent(String word) {
+        List<Post> findByTitleAndContentList = new ArrayList<>();
+        word = word.toLowerCase();
+        for(Post post : findAll()){
+            if(post.getTitle().toLowerCase().contains(word) || post.getContent().toLowerCase().contains(word)){
+                findByTitleAndContentList.add(post);
+            }
+        }
+        return findByTitleAndContentList;
+    }
+
+    @Override
     public List<Post> findAll() {
-        return new ArrayList<>(store.values());
+        return sort(new ArrayList<>(store.values()));
     }
 
     @Override
     public void updatePost(Long id, Post updateParam) {
-        Post post = findById(id);
+        Post post = store.get(id);
         post.setTitle(updateParam.getTitle());
         post.setContent(updateParam.getContent());
     }
 
     @Override
+    public void addView(Post post) {
+        post.setViews(post.getViews()+1);
+
+    }
+
+    @Override
     public void deletePost(Long id) {
         store.remove(id);
+    }
+
+    static List<Post> sort(List<Post> list){
+        Collections.sort(list, new Comparator<Post>() {
+            @Override
+            public int compare(Post o1, Post o2) {
+                return (int)(o2.getId()-o1.getId());
+            }
+        });
+        return list;
     }
 
     /**

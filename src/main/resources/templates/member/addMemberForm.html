@@ -12,6 +12,11 @@
     </style>
 </head>
 <body>
+<div class="container-fluid py-4" style="background-color: #ccffcc ">
+    <a href="board.html"  th:href="@{/board}" style="text-decoration: none">
+        <h1 style="color: black" >&#x1F3E0; Board Service</h1>
+    </a>
+</div>
 <br>
 <div class="container" style="max-width: 600px">
     <div class="text-center">
@@ -19,7 +24,7 @@
     </div>
 
     <h4 class="mb-3" th:text="#{text.enterMemberInfo}">회원 정보 입력</h4>
-    <form action="" th:action th:object="${form}" method="post">
+    <form  th:action th:object="${form}" method="post">
         <div th:if="${#fields.hasGlobalErrors()}">
             <p class="field-error" th:text="#{duplicateLoginId}">중복 id</p>
         </div>

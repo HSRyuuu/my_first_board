@@ -32,8 +32,8 @@
             <button class="btn btn-sm btn-secondary "
                     onclick="location.href='board.html'"
                     th:onclick="|location.href='@{/member/info}'|"
-                    th:text="#{button.member.info}"
-                    type="button">회원정보</button>
+                    th:text="#{button.member.profile}"
+                    type="button">회원 프로필</button>
 
             <form class="d-inline-block" th:action="@{/logout}" method="post"
                   onsubmit="return confirm('로그아웃 하시겠습니까?');">
@@ -41,8 +41,8 @@
                     로그아웃
                 </button>
             </form>
+        </div><!-- /로그인, 회원 정보 관련  -->
 
-        </div>
         <!-- 로그아웃 상태  -->
         <div th:unless="${show}" class="text-end">
             <button class="btn-sm btn-outline-primary btn-lg d-inline-block"
@@ -60,9 +60,9 @@
                 로그인
             </button>
         </div>
-    </div>
+    </div><!-- /로그아웃 상태  -->
 
-    <hr class="my-2">
+    <hr class="my-1">
 
     <!-- 검색 -->
     <div class="py-1 row">
@@ -77,7 +77,7 @@
                        class="form-control-sm" style="width: 150px"
                        th:placeholder="#{label.enter.searchWord}"
                        placeholder="작성자 입력">
-                <button class="btn-sm btn-primary py-1" type="submit"
+                <button class="btn-sm btn-primary" type="submit"
                         th:text="#{button.findPosts}">검색</button>
                 <span th:if="${#fields.hasGlobalErrors()}">
                     <span class="field-error" th:text="#{notFoundResult}">글로벌 오류 메시지</span>
@@ -94,7 +94,7 @@
                     type="button">글쓰기</button>
         </div>
     </div>
-    <hr class="my-3">
+    <hr class="my-1">
 
     <!-- 게시글 목록 table -->
     <div>
@@ -125,7 +125,7 @@
             </tbody>
         </table>
     </div>
-    <hr class="my-5">
+
 </div><!-- /container -->
 
 </body>

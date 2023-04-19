@@ -7,19 +7,12 @@
 
 </head>
 <body>
-<div class="container" style="max-width: 800px">
-    <br>
-    <div class="row">
-        <div class="text-start">
-            <button class="btn btn-rounded btn-outline-secondary py-1 "
-                    onclick="location.href='board.html'"
-                    th:onclick="|location.href='@{/board}'|"
-                    th:text="#{page.board}"
-                    type="button">HOME</button>
-        </div>
-    </div>
+<div class="container-fluid py-4" style="background-color: #ccffcc ">
+    <a href="board.html"  th:href="@{/board}" style="text-decoration: none">
+        <h1 style="color: black" >&#x1F3E0; Board Service</h1>
+    </a>
 </div>
-
+<br>
 <div class="container" style="max-width: 800px">
     <!-- 제목 -->
     <div class="py-1 text-center border-3">

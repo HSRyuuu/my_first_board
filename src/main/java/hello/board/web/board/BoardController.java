@@ -183,6 +183,9 @@ public class BoardController {
             case "find-by-writer-id" :{
                 searchList = postRepository.findByWriterId(searchWord);
             }break;
+            case "find-by" :{
+                searchList = postRepository.findByTitleAndContent(searchWord);
+            }break;
             default: searchList = new ArrayList<>();
         }
         return searchList;
@@ -196,18 +199,13 @@ public class BoardController {
         searchCodes.add(new PostSearchCode("find-by-title", "제목"));
         searchCodes.add(new PostSearchCode("find-by-content", "내용"));
         searchCodes.add(new PostSearchCode("find-by-writer-id", "작성자"));
+        searchCodes.add(new PostSearchCode("find-by","제목+내용"));
         return searchCodes;
     }
 
     @ModelAttribute("posts")
     public List<Post> posts(){
         List<Post> list = postRepository.findAll();
-        Collections.sort(list, new Comparator<Post>() {
-            @Override
-            public int compare(Post o1, Post o2) {
-                return (int)(o2.getId()-o1.getId());
-            }
-        });
         return list;
     }
 }

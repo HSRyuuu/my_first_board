@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid py-4" style="background-color: #ccffcc ">
+    <a href="board.html"  th:href="@{/board}" style="text-decoration: none">
+        <h1 style="color: black" >&#x1F3E0; Board Service</h1>
+    </a>
+</div>
+<br>
+<div class="container" style="max-width: 600px">
+    <div class="text-center">
+        <h3 th:text="|${name} #{text.welcome}|">xxx님 회원 가입을 환영합니다!</h3>
+    </div>
+
+    <hr class="my-4">
+
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary"
+                        onclick="location.href='board.html'"
+                        th:onclick="|location.href='@{/board}'|"
+                        th:text="#{page.board}"
+                        type="button">HOME</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-primary"
+                        onclick="location.href='loginForm.html'"
+                        th:onclick="|location.href='@{/login}'|"
+                        th:text="#{text.login}"
+                        type="button">
+                    로그인
+                </button>
+            </div>
+        </div>
+
+</div> <!-- /container -->
+</body>
+</html>

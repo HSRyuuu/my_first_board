@@ -12,6 +12,11 @@
     </style>
 </head>
 <body>
+<div class="container-fluid py-4" style="background-color: #ccffcc ">
+    <a href="board.html"  th:href="@{/board}" style="text-decoration: none">
+        <h1 style="color: black" >&#x1F3E0; Board Service</h1>
+    </a>
+</div>
 <br>
 
 <div class="container" style="max-width: 600px">
@@ -19,7 +24,7 @@
         <h2 class="font-monospace-bold" th:text="#{title.post.delete}">게시글 삭제</h2>
     </div>
 
-    <div class="container-fluid rounded-3 py-2" style="background-color: #ccffcc">
+    <div class="container-fluid rounded-3 py-2" style="background-color: lightcyan">
         <span th:text="#{label.board.id}+' : '+${post.id}">번호 : postId</span>&nbsp;
         <span th:text="' | '+#{label.board.writer}+' : '+${post.writerId}"> | 작성자 : writerId</span>&nbsp;
         <span th:text="' | '+#{label.board.date}+' : '+${post.date}"> | 등록일 : 2023-04-11</span>&nbsp;

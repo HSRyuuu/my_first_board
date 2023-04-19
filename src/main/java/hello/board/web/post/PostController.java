@@ -34,8 +34,7 @@ public class PostController {
         }
         //조회수 로직 ( 본인이 본인글을 볼때는 조회수 증가 x )
         if(!loginMember.getLoginId().equals(post.getWriterId())){
-            Long view = post.getViews();
-            post.setViews(++view);
+            postRepository.addView(post);
         }
 
         post.setContent(htmlFormatter.getHtmlContent(post.getContent()));

@@ -28,7 +28,8 @@ public class MemberController {
         return "member/addMemberForm";
     }
     @PostMapping("/add")
-    public String addMember(@Validated @ModelAttribute("form")AddMemberForm form, BindingResult bindingResult){
+    public String addMember(@Validated @ModelAttribute("form")AddMemberForm form, BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes){
         if(bindingResult.hasErrors()){
             return "member/addMemberForm";
         }
@@ -42,7 +43,15 @@ public class MemberController {
         Member member = new Member(form.getLoginId(),form.getPassword());
         member.setName(form.getName());
         memberRepository.save(member);
-        return "redirect:/login";
+
+        redirectAttributes.addAttribute("name",member.getName());
+        return "redirect:/member/add/welcome";
+    }
+    @GetMapping("/add/welcome")
+    public String addComplete(@RequestParam("name")String name,
+                              Model model){
+        model.addAttribute("name",name);
+        return "member/addWelcome";
     }
 
     @GetMapping("/info")
