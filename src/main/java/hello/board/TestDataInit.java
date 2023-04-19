@@ -37,7 +37,9 @@ public class TestDataInit {
             String writerId = "writer"+Integer.toString(i);
             String title = "test-title"+Integer.toString(i);
             String content = "content"+Integer.toString(i)+testContent;
-            postRepository.save(new Post(writerId, title, content));
+            Post newPost = new Post(writerId, title, content);
+            newPost.setViews((long)(Math.random()*100));
+            postRepository.save(newPost);
         }
         Member member = new Member("test","test!");
         member.setName("tester-Kim");

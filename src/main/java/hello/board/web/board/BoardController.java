@@ -4,6 +4,8 @@ import hello.board.domain.member.Member;
 import hello.board.domain.member.MemberRepository;
 import hello.board.domain.post.Post;
 import hello.board.domain.post.PostRepository;
+import hello.board.web.board.form.SearchForm;
+import hello.board.web.board.form.WritingForm;
 import hello.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +46,6 @@ public class BoardController {
 
         return "board/board";
     }
-    //TODO 종류에따라 다른 list 전달
     @PostMapping
     public String searchResult(@Validated @ModelAttribute("form") SearchForm form, BindingResult bindingResult,
                                @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,

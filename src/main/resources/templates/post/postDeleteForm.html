@@ -12,34 +12,20 @@
     </style>
 </head>
 <body>
-<div class="container" style="max-width: 700px">
-    <br>
-    <div class="row">
-        <div class="text-start">
-            <button class="btn btn-rounded btn-outline-secondary py-1 "
-                    onclick="location.href='board.html'"
-                    th:onclick="|location.href='@{/board}'|"
-                    th:text="#{page.board}"
-                    type="button">HOME</button>
-        </div>
-    </div>
-</div>
+<br>
 
 <div class="container" style="max-width: 600px">
     <div class="py-1 text-center border-3">
         <h2 class="font-monospace-bold" th:text="#{title.post.delete}">게시글 삭제</h2>
     </div>
 
-    <hr class="my-1">
-
-    <div>
+    <div class="container-fluid rounded-3 py-2" style="background-color: #ccffcc">
         <span th:text="#{label.board.id}+' : '+${post.id}">번호 : postId</span>&nbsp;
         <span th:text="' | '+#{label.board.writer}+' : '+${post.writerId}"> | 작성자 : writerId</span>&nbsp;
         <span th:text="' | '+#{label.board.date}+' : '+${post.date}"> | 등록일 : 2023-04-11</span>&nbsp;
         <span th:text="' | '+#{label.board.views}+' : '+${post.views}"> | 조회수 : 0</span>
     </div>
 
-    <hr class="my-1">
     <br>
     <form action="board.html" th:action th:object="${member}" method="post">
 
@@ -56,12 +42,22 @@
                th:placeholder="#{text.enter.password}"
                placeholder="비밀번호 입력" >
 
-        <button type="submit" class="btn my-2 btn-danger">삭제</button>
-        <button type="button" class="btn my-2 btn-secondary"
-                onclick="location.href='board.html'"
-                th:onclick="|location.href='@{/board/post/{postId}(postId=${post.id})}'|"
-                th:text="#{button.cancel}"
-        >취소</button>
+
+
+        <div class="row py-1">
+            <div class="col">
+                <button type="submit" class="w-100 btn my-2 btn-outline-danger">삭제</button>
+
+            </div>
+            <div class="col">
+                <button type="button" class="w-100 btn my-2 btn-secondary"
+                        onclick="location.href='board.html'"
+                        th:onclick="|location.href='@{/board/post/{postId}(postId=${post.id})}'|"
+                        th:text="#{button.cancel}"
+                >취소</button>
+            </div>
+        </div>
+
     </form>
 
 

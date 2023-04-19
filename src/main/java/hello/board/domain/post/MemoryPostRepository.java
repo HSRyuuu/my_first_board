@@ -2,6 +2,8 @@ package hello.board.domain.post;
 
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -10,6 +12,7 @@ public class MemoryPostRepository implements PostRepository{
     private static long sequence = 0L; //키값을 생성해줌
     @Override
     public Post save(Post post) {
+        post.setDate(LocalDate.now());
         post.setId(++sequence);
         store.put(post.getId(),post);
         return post;

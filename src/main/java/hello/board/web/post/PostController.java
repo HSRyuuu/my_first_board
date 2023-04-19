@@ -5,6 +5,8 @@ import hello.board.domain.member.MemberRepository;
 import hello.board.domain.post.Post;
 import hello.board.domain.post.PostRepository;
 import hello.board.web.format.HtmlFormatter;
+import hello.board.web.post.form.PostDeleteMemberForm;
+import hello.board.web.post.form.PostEditForm;
 import hello.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -12,9 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/board/post")

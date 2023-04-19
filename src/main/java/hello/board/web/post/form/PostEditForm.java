@@ -1,8 +1,11 @@
-package hello.board.web.post;
+package hello.board.web.post.form;
 
 import lombok.Data;
+
 @Data
-public class HtmlTypePostForm {
+public class PostEditForm {
+
     private String title;
+
     private String content;
 }

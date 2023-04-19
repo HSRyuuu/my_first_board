@@ -2,6 +2,8 @@ package hello.board.web.member;
 
 import hello.board.domain.member.Member;
 import hello.board.domain.member.MemberRepository;
+import hello.board.web.member.form.AddMemberForm;
+import hello.board.web.member.form.EditMemberForm;
 import hello.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +24,7 @@ public class MemberController {
 
     private final MemberRepository memberRepository;
     @GetMapping("/add")
-    public String addMemberForm(@ModelAttribute("form")AddMemberForm form){
+    public String addMemberForm(@ModelAttribute("form") AddMemberForm form){
         return "member/addMemberForm";
     }
     @PostMapping("/add")
@@ -83,8 +85,8 @@ public class MemberController {
     }
     @PostMapping("/info/{loginId}/edit")
     public String editMember(@PathVariable String loginId,
-                           @Validated @ModelAttribute("member")EditMemberForm form, BindingResult bindingResult,
-                           @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+                             @Validated @ModelAttribute("member") EditMemberForm form, BindingResult bindingResult,
+                             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                              RedirectAttributes redirectAttributes, Model model){
         if(bindingResult.hasErrors()){
             return "member/editForm";

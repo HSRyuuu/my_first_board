@@ -1,4 +1,4 @@
-package hello.board.web.board;
+package hello.board.web.board.form;
 
 import lombok.Data;
 
