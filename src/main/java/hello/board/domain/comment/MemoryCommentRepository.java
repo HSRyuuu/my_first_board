@@ -3,6 +3,7 @@ package hello.board.domain.comment;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +15,7 @@ public class MemoryCommentRepository implements CommentRepository {
     private static Long  sequence = 0L;
     @Override
     public Comment save(Comment comment) {
-        comment.setDate(LocalDate.now());
+        comment.setCreate_date(LocalDateTime.now());
         comment.setId(++sequence);
         store.put(comment.getId(), comment);
         return comment;

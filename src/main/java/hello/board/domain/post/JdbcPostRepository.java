@@ -1,13 +1,13 @@
+/*
 package hello.board.domain.post;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.support.JdbcUtils;
-import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 @Slf4j
 //@Repository
@@ -18,10 +18,11 @@ public class JdbcPostRepository implements PostRepository{
 
     @Override
     public Post save(Post post) {
-        post.setDate(LocalDate.now());
+        post.setCreate_date(LocalDateTime.now());
+        post.setModified_date(LocalDateTime.now());
         post.setId(++sequence);
-        java.sql.Date sqlDate = java.sql.Date.valueOf(post.getDate());
-        String sql = "insert into post(writerId, title, content, date, views) values (?, ?, ?, ?, ?)";
+        java.sql.Date sqlDate = java.sql.Date.valueOf(post.getCreate_date());
+        String sql = "insert into post(writerId, title, content, create_date, modified_date, views) values (?, ?, ?, ?, ?, ?)";
 
         Connection con = null; //커넥션
         PreparedStatement pstmt = null; // db에 쿼리를 날리는 도구
@@ -94,10 +95,12 @@ public class JdbcPostRepository implements PostRepository{
 
     }
 
-    /**
+    */
+/**
      * pstmt에서 exception이 발생하면 con.close() 가 호출이 안될수도 있다.
      * 따라서 exception이 발생해도 마저 close 하도록 설정한다.
-     */
+     *//*
+
     private void close(Connection con, Statement stmt, ResultSet rs){
         JdbcUtils.closeResultSet(rs);
         JdbcUtils.closeStatement(stmt);
@@ -113,3 +116,4 @@ public class JdbcPostRepository implements PostRepository{
 
     }
 }
+*/

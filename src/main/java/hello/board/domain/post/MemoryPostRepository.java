@@ -2,7 +2,6 @@ package hello.board.domain.post;
 
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -13,7 +12,8 @@ public class MemoryPostRepository implements PostRepository{
 
     @Override
     public Post save(Post post) {
-        post.setDate(LocalDate.now());
+        post.setCreate_date(LocalDateTime.now());
+        post.setModified_date(LocalDateTime.now());
         post.setId(++sequence);
         store.put(post.getId(),post);
         return post;

@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter@Setter
 public class Comment {
@@ -13,7 +14,9 @@ public class Comment {
     private String writerId;
     private String text;
     private String postId;
-    private LocalDate date;
+    private LocalDateTime create_date;
+    private LocalDateTime modified_date;
+
 
     public Comment(String writerId, String text) {
         this.writerId = writerId;

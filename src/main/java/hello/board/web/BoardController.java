@@ -165,7 +165,6 @@ public class BoardController {
     @ModelAttribute("posts")
     public List<Post> posts(){
         List<Post> list = postRepository.findAll();
-        postManager.sortByLatest(list);
         return postManager.sortByLatest(list);
     }
 

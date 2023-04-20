@@ -73,7 +73,8 @@ public class PostManager {
         form.setId(post.getId());
         form.setWriterId(post.getWriterId());
         form.setTitle(post.getTitle());
-        form.setDate(post.getDate());
+        form.setCreate_date(post.getCreate_date());
+        form.setModified_date(post.getModified_date());
         form.setViews(post.getViews());
 
         String content = post.getContent();

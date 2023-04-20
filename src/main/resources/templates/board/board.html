@@ -119,7 +119,10 @@
                     </a>
                 </td>
                 <td style="width: 150px; text-align: center" th:text="${post.writerId}">hsryuuu</td>
-                <td style="width: 150px; text-align: center" th:text="${post.date}">04-11</td>
+                <td style="width: 150px; text-align: center" th:text="${post.create_date.plusDays(1) &lt; #temporals.createNow() ? #temporals.format(post.create_date, 'yyyy-MM-dd') : #temporals.format(post.create_date, 'HH:mm')}">
+                    <!-- create_date가 현재시간으로부터 하루 이전이면 날짜를, 하루 이내면 시간을 표시 -->
+                </td>
+
                 <td style="width: 100px; text-align: center" th:text="${post.views}">23</td>
             </tr>
             </tbody>
