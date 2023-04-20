@@ -1,7 +1,8 @@
-package hello.board.web.member;
+package hello.board.web;
 
 import hello.board.domain.member.Member;
 import hello.board.domain.member.MemberRepository;
+import hello.board.service.member.MemberManager;
 import hello.board.web.member.form.AddMemberForm;
 import hello.board.web.member.form.EditMemberForm;
 import hello.board.web.session.SessionConst;
@@ -23,6 +24,7 @@ import java.util.Optional;
 public class MemberController {
 
     private final MemberRepository memberRepository;
+    private final MemberManager memberManager;
     @GetMapping("/add")
     public String addMemberForm(@ModelAttribute("form") AddMemberForm form){
         return "member/addMemberForm";
@@ -34,22 +36,16 @@ public class MemberController {
             return "member/addMemberForm";
         }
         //loginId 중복 체크
-        Optional<Member> duplicate = memberRepository.findByLoginId(form.getLoginId());
-        if(duplicate.isPresent()){
-            bindingResult.reject("duplicateLoginId","이미 있는 아이디 입니다.");
-            return "member/addMemberForm";
-        }
+        if(memberManager.isDuplicate(form.getLoginId(),bindingResult)) return "member/addMemberForm";
 
-        Member member = new Member(form.getLoginId(),form.getPassword());
-        member.setName(form.getName());
-        memberRepository.save(member);
+        Member addMember = memberManager.addMember(form);
 
-        redirectAttributes.addAttribute("name",member.getName());
+        redirectAttributes.addAttribute("name",addMember.getName());
         return "redirect:/member/add/welcome";
     }
+
     @GetMapping("/add/welcome")
-    public String addComplete(@RequestParam("name")String name,
-                              Model model){
+    public String addComplete(@RequestParam("name")String name, Model model){
         model.addAttribute("name",name);
         return "member/addWelcome";
     }
@@ -57,26 +53,15 @@ public class MemberController {
     @GetMapping("/info")
     public String memberInfo(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                              Model model){
-
-        if(loginMember == null){
-            model.addAttribute("msg",true);
-            return "login/loginForm";
-        }
-
-        model.addAttribute("member",loginMember);
+        model.addAttribute("member", loginMember);
         return "member/memberPage";
     }
+
     @GetMapping("/info/{loginId}")
     public String memberPersonalInfo(@PathVariable String loginId,
                              @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                              Model model){
-        if(loginMember == null){
-            model.addAttribute("msg",true);
-            return "login/loginForm";
-        }
-
-        model.addAttribute("member",loginMember);
-
+        model.addAttribute("member", loginMember);
         return "member/memberInfo";
     }
 
@@ -84,12 +69,7 @@ public class MemberController {
     public String memberEditForm(@PathVariable String loginId,
                            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                            Model model){
-        if(loginMember == null){
-            model.addAttribute("msg",true);
-            return "login/loginForm";
-        }
-        Optional<Member> member = memberRepository.findByLoginId(loginMember.getLoginId());
-        model.addAttribute("member",member.get());
+        model.addAttribute("member", loginMember);
         return "member/editForm";
     }
     @PostMapping("/info/{loginId}/edit")
@@ -100,13 +80,7 @@ public class MemberController {
         if(bindingResult.hasErrors()){
             return "member/editForm";
         }
-        if(loginMember == null){
-            model.addAttribute("loginMsg",true);
-            return "login/loginForm";
-        }
-        Member member = new Member(form.getLoginId(),form.getPassword());
-        member.setName(form.getName());
-        memberRepository.updateMember(loginMember.getId(),member);
+        memberManager.editMember(loginMember, form);
         redirectAttributes.addAttribute("status",true);
         return "redirect:/member/info/{loginId}";
     }

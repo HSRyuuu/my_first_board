@@ -4,7 +4,12 @@
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
           href="../css/bootstrap.min.css" rel="stylesheet">
-
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid py-4" style="background-color: #ccffcc ">
@@ -33,14 +38,18 @@
     <!-- 글 내용 -->
     <form action="../board/board.html" th:action th:object="${form}" method="post">
         <!-- 제목, 내용 -->
-        <div class="form-group">
+        <div>
             <label for="title" th:text="#{label.board.title}">제목</label>
-            <input type="text" class="form-control" id="title" th:field="*{title}">
+            <div class="field-error" th:errors="*{title}" />
+            <input type="text" class="form-control" id="title"
+                   th:field="*{title}" th:errorclass="field-error" >
         </div>
 
-        <div class="form-group">
+        <div>
             <label for="content" th:text="#{label.board.content}">내용</label>
-            <textarea class="form-control" id="content" rows="10" th:field="*{content}"></textarea>
+            <div class="field-error" th:errors="*{content}"></div>
+            <textarea class="form-control" id="content" rows="10"
+                      th:errorclass="field-error" th:field="*{content}"></textarea>
         </div>
         <!-- /제목, 내용 -->
 

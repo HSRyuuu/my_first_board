@@ -1,4 +1,4 @@
-package hello.board.web.board;
+package hello.board.service.post;
 
 import lombok.Data;
 

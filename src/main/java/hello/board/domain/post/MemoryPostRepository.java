@@ -72,20 +72,21 @@ public class MemoryPostRepository implements PostRepository{
 
     @Override
     public List<Post> findAll() {
-        return sort(new ArrayList<>(store.values()));
+        return new ArrayList<>(store.values());
     }
 
     @Override
-    public void updatePost(Long id, Post updateParam) {
+    public Post updatePost(Long id, Post updateParam) {
         Post post = store.get(id);
         post.setTitle(updateParam.getTitle());
         post.setContent(updateParam.getContent());
+        return post;
     }
 
     @Override
-    public void addView(Post post) {
+    public void addView(Long postId) {
+        Post post = store.get(postId);
         post.setViews(post.getViews()+1);
-
     }
 
     @Override
@@ -93,15 +94,7 @@ public class MemoryPostRepository implements PostRepository{
         store.remove(id);
     }
 
-    static List<Post> sort(List<Post> list){
-        Collections.sort(list, new Comparator<Post>() {
-            @Override
-            public int compare(Post o1, Post o2) {
-                return (int)(o2.getId()-o1.getId());
-            }
-        });
-        return list;
-    }
+
 
     /**
      * 테스트용

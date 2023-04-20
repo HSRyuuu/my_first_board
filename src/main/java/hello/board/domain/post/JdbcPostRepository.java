@@ -80,12 +80,12 @@ public class JdbcPostRepository implements PostRepository{
     }
 
     @Override
-    public void updatePost(Long id, Post updateParam) {
-
+    public Post updatePost(Long id, Post updateParam) {
+        return null;
     }
 
     @Override
-    public void addView(Post post) {
+    public void addView(Long postId) {
 
     }
 

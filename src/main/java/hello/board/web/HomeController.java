@@ -1,4 +1,4 @@
-package hello.board.web.home;
+package hello.board.web;
 
 import hello.board.domain.member.Member;
 import hello.board.web.session.SessionConst;

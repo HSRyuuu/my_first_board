@@ -1,9 +1,10 @@
-package hello.board.web.board;
+package hello.board.web;
 
 import hello.board.domain.member.Member;
-import hello.board.domain.member.MemberRepository;
 import hello.board.domain.post.Post;
 import hello.board.domain.post.PostRepository;
+import hello.board.service.post.PostManager;
+import hello.board.service.post.PostSearchCode;
 import hello.board.web.board.form.SearchForm;
 import hello.board.web.board.form.WritingForm;
 import hello.board.web.session.SessionConst;
@@ -23,75 +24,55 @@ import java.util.*;
 @RequestMapping("/board")
 @RequiredArgsConstructor
 public class BoardController {
-    private final MemberRepository memberRepository;
     private final PostRepository postRepository;
+    private final PostManager postManager;
 
     /**
      * 게시판 메인화면 GET
-     * show = true : 로그인시 - model에  loginMember를 담아서 넘긴다. - 멤버정보 메뉴, 로그아웃버튼 출력
-     * show = false : 로그인 x 시 - 로그인 버튼 출력
+     * show = true : 로그인 o - 멤버정보 메뉴, 로그아웃버튼 출력
+     * show = false : 로그인 x - 로그인, 회원가입 버튼 출력
      */
     @GetMapping
     public String boardHome(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                             Model model){
-
-        boolean show = true;
-        if(loginMember == null){
-            show = false;
-        }else {
-            model.addAttribute("member", loginMember);
-        }
-        model.addAttribute("show",show);
+        model.addAttribute("show",isLoggedin(loginMember, model));
         model.addAttribute("form",new SearchForm());
-
         return "board/board";
     }
+
+    /**
+     * 게시판 메인화면에서 게시글 검색 POST
+     */
     @PostMapping()
-    public String searchResult(@Validated @ModelAttribute("form") SearchForm form, BindingResult bindingResult,
+    public String postSearchResult(@Validated @ModelAttribute("form") SearchForm form, BindingResult bindingResult,
                                @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                                RedirectAttributes redirectAttributes,
                                Model model){
-        log.info("searchCode={}",form.getSearchCode());
+        log.info("PostMapping[searchResult] searchCode={}",form.getSearchCode());
         //빈칸일때는 다시 메인화면으로
         if(bindingResult.hasErrors()){
-            log.info("error={}",bindingResult);
             return "redirect:/board";
         }
-        //검색 로직
-        String searchWord = form.getSearchWord();
-        String searchCode = form.getSearchCode();
-        List<Post> searchList = getSearchList(searchWord, searchCode);
-        log.info("searchListSize={}",searchList.size());
-        if(searchList.size()==0){
-            log.info("{} : 검색결과없음",searchCode);
-            bindingResult.reject("notFoundResult");
-            if(loginMember == null){
-                return "board/board";
-            }else{
-                model.addAttribute("show",true);
-                model.addAttribute("member",loginMember);
-                return "board/board";
-            }
-        }
 
+        List<Post> searchList = postManager.getSearchedList(form.getSearchCode(), form.getSearchWord());
+
+        if(searchList.size()==0){
+            bindingResult.reject("notFoundResult");
+            isLoggedin(loginMember, model);
+            return "board/board";
+        }
         //성공 로직
-        redirectAttributes.addAttribute("searchCode",form.getSearchCode());
-        redirectAttributes.addAttribute("searchWord",form.getSearchWord());
+        redirectAttributes.addAttribute("searchCode", form.getSearchCode());
+        redirectAttributes.addAttribute("searchWord", form.getSearchWord());
         return "redirect:/board/{searchCode}/{searchWord}";
     }
 
     @GetMapping("/{searchCode}/{searchWord}")
     public String searchResult(@PathVariable String searchCode, @PathVariable String searchWord,
                                @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,Model model){
-        List<Post> searchList = getSearchList(searchWord,searchCode);
+        List<Post> searchList = postManager.getSearchedList(searchCode, searchWord);
 
-        boolean show = true;
-        if(loginMember == null){
-            show = false;
-        }else {
-            model.addAttribute("member", loginMember);
-        }
-        model.addAttribute("show",show);
+        isLoggedin(loginMember, model);
         model.addAttribute("form",new SearchForm());
         model.addAttribute("findPosts",searchList);
         return "board/findPosts";
@@ -108,30 +89,19 @@ public class BoardController {
                                            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                                            RedirectAttributes redirectAttributes,
                                            Model model){
-
         //빈칸일때는 다시 메인화면으로
         if(bindingResult.hasErrors()){
-            log.info("error={}",bindingResult);
             return "redirect:/board";
         }
         //검색 값 받아서 해당 값에대한 글 리스트 생성
-        String searchWord = form.getSearchWord();
-        String searchCode = form.getSearchCode();
-        List<Post> searchList = getSearchList(searchWord, searchCode);
+        List<Post> searchList = postManager.getSearchedList(form.getSearchCode(), form.getSearchWord());
 
         //리스트가 비어있을 때
         if(searchList.size()==0){
-            log.info("{} : 검색결과없음",searchCode);
             bindingResult.reject("notFoundResult");
-            if(loginMember == null){
-                model.addAttribute("findPosts",getSearchList(lastSearchWord,lastSearchCode));
-                return "board/findPosts";
-            }else{
-                model.addAttribute("show",true);
-                model.addAttribute("member",loginMember);
-                model.addAttribute("findPosts",getSearchList(lastSearchWord,lastSearchCode));
-                return "board/findPosts";
-            }
+            model.addAttribute("findPosts", postManager.getSearchedList(lastSearchCode, lastSearchWord));
+            isLoggedin(loginMember, model);
+            return "board/findPosts";
         }
 
         //성공 로직
@@ -171,41 +141,33 @@ public class BoardController {
         return "redirect:/board/post/{postId}";
     }
 
-    public List<Post> getSearchList(String searchWord, String searchCode){
-        List<Post> searchList;
-        switch(searchCode){
-            case "find-by-title" : {
-                searchList = postRepository.findByTitle(searchWord);
-            }break;
-            case "find-by-content" :{
-                searchList = postRepository.findByContents(searchWord);
-            }break;
-            case "find-by-writer-id" :{
-                searchList = postRepository.findByWriterId(searchWord);
-            }break;
-            case "find-by" :{
-                searchList = postRepository.findByTitleAndContent(searchWord);
-            }break;
-            default: searchList = new ArrayList<>();
-        }
-        return searchList;
+    /**
+     * 로그인 체크 메소드
+     * loginMember o : model에 loginMember와 show=true를 담음
+     * loginMember x : show=false를 담음
+     * @return Boolean show
+     */
+    private boolean isLoggedin(Member loginMember, Model model) {
+        boolean show = true;
 
+        if(loginMember == null)show = false;
+        else model.addAttribute("member", loginMember);
+
+        model.addAttribute("show",show);
+        return show;
     }
-
 
     @ModelAttribute("searchCodes")
     public List<PostSearchCode> searchCodes(){
-        List<PostSearchCode> searchCodes = new ArrayList<>();
-        searchCodes.add(new PostSearchCode("find-by-title", "제목"));
-        searchCodes.add(new PostSearchCode("find-by-content", "내용"));
-        searchCodes.add(new PostSearchCode("find-by-writer-id", "작성자"));
-        searchCodes.add(new PostSearchCode("find-by","제목+내용"));
-        return searchCodes;
+        return postManager.getSearchCodes();
     }
 
     @ModelAttribute("posts")
     public List<Post> posts(){
         List<Post> list = postRepository.findAll();
-        return list;
+        postManager.sortByLatest(list);
+        return postManager.sortByLatest(list);
     }
+
+
 }

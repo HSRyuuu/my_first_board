@@ -1,12 +1,14 @@
-package hello.board.web.post;
+package hello.board.web;
 
 import hello.board.domain.member.Member;
 import hello.board.domain.member.MemberRepository;
 import hello.board.domain.post.Post;
 import hello.board.domain.post.PostRepository;
+import hello.board.service.post.PostManager;
 import hello.board.web.format.HtmlFormatter;
 import hello.board.web.post.form.PostDeleteMemberForm;
 import hello.board.web.post.form.PostEditForm;
+import hello.board.web.post.form.PostHtmlForm;
 import hello.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,45 +22,43 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class PostController {
     private final PostRepository postRepository;
-    private final MemberRepository memberRepository;
-    static HtmlFormatter htmlFormatter = new HtmlFormatter();
+    private final PostManager postManager;
 
     @GetMapping("/{postId}")
     public String showPost(@PathVariable long postId, Model model,
                            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember){
         Post post = postRepository.findById(postId);
-        if (loginMember != null) {
-            if(post.getWriterId().equals(loginMember.getLoginId())){
-                model.addAttribute("access",true);
-            }
-        }
-        //조회수 로직 ( 본인이 본인글을 볼때는 조회수 증가 x )
-        if(!loginMember.getLoginId().equals(post.getWriterId())){
-            postRepository.addView(post);
+
+        if(postManager.isAccessable(postId, loginMember)){
+            model.addAttribute("access",true);
+        }else{
+            postRepository.addView(postId); // 조회수
         }
 
-        post.setContent(htmlFormatter.getHtmlContent(post.getContent()));
-        model.addAttribute("post", post);
+        //화면에 띄우기 위해 html형식의 content로 변환
+        PostHtmlForm form = postManager.getHtmlPostForm(post);
+        model.addAttribute("post", form);
         return "post/post";
     }
     @GetMapping("/{postId}/edit")
     public String editPostForm(@PathVariable Long postId, Model model){
         Post post = postRepository.findById(postId);
 
-        // view에 넘겨줄 form
-        PostEditForm form = new PostEditForm();
-        form.setTitle(post.getTitle());
-        form.setContent(htmlFormatter.getStringContent(post.getContent()));//글을 html에서 줄바꿈이 적용되도록 변경
         model.addAttribute("post",post);
-        model.addAttribute("form",form);
+        model.addAttribute("form",postManager.getEditForm(post));
         return "post/postEditForm";
     }
 
     @PostMapping("/{postId}/edit")
-    public String editPost(@PathVariable long postId, @ModelAttribute("post")PostEditForm form){
-        Post updatePost = new Post(form.getTitle(),form.getContent());
-        postRepository.updatePost(postId,updatePost);
+    public String editPost(@PathVariable long postId,
+                           @Validated @ModelAttribute("form")PostEditForm form, BindingResult bindingResult, Model model){
+        if(bindingResult.hasErrors()){
+            model.addAttribute("post",postRepository.findById(postId));
+            model.addAttribute("form",form);
+            return "post/postEditForm";
+        }
 
+        postManager.updatePost(postId, form);
         return "redirect:/board/post/{postId}";
 
     }
@@ -67,9 +67,8 @@ public class PostController {
     public String deleteForm(@PathVariable long postId, Model model){
         Post post = postRepository.findById(postId);
 
-        Member member = new Member();
         model.addAttribute("post", post);
-        model.addAttribute("member",member);
+        model.addAttribute("member",new Member());
         return "post/postDeleteForm";
     }
 

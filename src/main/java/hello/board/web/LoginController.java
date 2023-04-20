@@ -1,7 +1,8 @@
-package hello.board.web.login;
+package hello.board.web;
 
-import hello.board.domain.login.LoginService;
+import hello.board.service.login.LoginService;
 import hello.board.domain.member.Member;
+import hello.board.web.login.LoginForm;
 import hello.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,10 +25,12 @@ public class LoginController {
     private final LoginService loginService;
 
     @GetMapping("/login")
-    public String loginForm(@ModelAttribute("loginForm")LoginForm form,
-                            @RequestParam(required = false)boolean msg,
+    public String loginForm(@ModelAttribute("loginForm") LoginForm form,
+                            @RequestParam(required = false)boolean loginMsg,
                             Model model){
-        if(msg){
+
+        //"로그인 시 이용할 수 있는 서비스입니다!" 출력 여부
+        if(loginMsg){
             model.addAttribute("loginMsg",true);
         }
         return "login/loginForm";
@@ -45,15 +48,14 @@ public class LoginController {
         Member loginMember = loginService.login(form.getLoginId(),form.getPassword());
         //null 반환시 없는 id입니다 오류 반환
         if(loginMember == null){
-            log.info("loginMember={}",loginMember);
             bindingResult.reject("loginFail");
             return "login/loginForm";
         }
 
         //로그인 성공 로직
-        //세션이 있으면 있는 세션 반환, 없으면 신규세션 생성
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession();//세션이 있으면 있는 세션 반환, 없으면 신규세션 생성
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+
         //redirectURL에 값이 들어있으면 해당 URL로 redirect 한다.
         if (redirectURL != null) {
             return "redirect:"+redirectURL;
@@ -64,8 +66,8 @@ public class LoginController {
 
     @PostMapping("/logout")
     public String logout(HttpServletRequest request){
-
-        HttpSession session = request.getSession(false);
+        //세션이 있으면 있는 세션 반환, 없으면 신규세션 생성 -> false : 없어도 신규 세션 생성 x , default = true
+        HttpSession session = request.getSession(false);//
         if(session != null){
             session.invalidate();
         }
