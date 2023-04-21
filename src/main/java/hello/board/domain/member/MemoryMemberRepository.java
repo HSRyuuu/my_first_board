@@ -7,7 +7,7 @@ import java.util.*;
 @Repository
 public class MemoryMemberRepository implements MemberRepository{
     private static final Map<Long,Member> store = new HashMap<>();
-    private static Long sequence = 1000L;
+    private static Long sequence = 0L;
 
     @Override
     public Member save(Member member) {
@@ -37,6 +37,8 @@ public class MemoryMemberRepository implements MemberRepository{
         Member member = findByLoginId(updateParam.getLoginId()).get();
         member.setPassword(updateParam.getPassword());
         member.setName(updateParam.getName());
+        member.setNickname(updateParam.getNickname());
+        member.setEmail(updateParam.getEmail());
     }
 
 

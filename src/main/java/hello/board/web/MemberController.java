@@ -32,11 +32,13 @@ public class MemberController {
     @PostMapping("/add")
     public String addMember(@Validated @ModelAttribute("form")AddMemberForm form, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes){
+        //loginId 중복 체크
+        memberManager.isDuplicate(form.getLoginId(),bindingResult);
+        //비밀번호 일치 확인
+        memberManager.isPasswordCorrect(form, bindingResult);
         if(bindingResult.hasErrors()){
             return "member/addMemberForm";
         }
-        //loginId 중복 체크
-        if(memberManager.isDuplicate(form.getLoginId(),bindingResult)) return "member/addMemberForm";
 
         Member addMember = memberManager.addMember(form);
 
@@ -51,14 +53,14 @@ public class MemberController {
     }
 
     @GetMapping("/info")
-    public String memberInfo(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+    public String memberPageForm(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                              Model model){
         model.addAttribute("member", loginMember);
         return "member/memberPage";
     }
 
     @GetMapping("/info/{loginId}")
-    public String memberPersonalInfo(@PathVariable String loginId,
+    public String memberInfoForm(@PathVariable String loginId,
                              @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                              Model model){
         model.addAttribute("member", loginMember);
@@ -69,12 +71,12 @@ public class MemberController {
     public String memberEditForm(@PathVariable String loginId,
                            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                            Model model){
-        model.addAttribute("member", loginMember);
+        model.addAttribute("form", memberManager.getEditMemberForm(loginMember));
         return "member/editForm";
     }
     @PostMapping("/info/{loginId}/edit")
     public String editMember(@PathVariable String loginId,
-                             @Validated @ModelAttribute("member") EditMemberForm form, BindingResult bindingResult,
+                             @Validated @ModelAttribute("form") EditMemberForm form, BindingResult bindingResult,
                              @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                              RedirectAttributes redirectAttributes, Model model){
         if(bindingResult.hasErrors()){
@@ -83,5 +85,13 @@ public class MemberController {
         memberManager.editMember(loginMember, form);
         redirectAttributes.addAttribute("status",true);
         return "redirect:/member/info/{loginId}";
+    }
+    //TODO 현재비밀번호 입력하고, 바꿀비밀번호, 바꿀비밀번호 확인 페이지 만들기
+    @GetMapping("/info/{loginId}/editpassword")
+    public String editPasswordForm(@PathVariable String loginId,
+                                   @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+                                   Model model){
+
+        return "member/editPasswordForm";
     }
 }

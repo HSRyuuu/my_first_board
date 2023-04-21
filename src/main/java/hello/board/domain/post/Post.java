@@ -15,7 +15,6 @@ public class Post {
     private String content; //내용
     private LocalDateTime create_date; //생성 날짜
     private LocalDateTime modified_date; //수정 날짜
-
     private Long views; // 조회수
 
     public Post(String title,String content){

@@ -100,9 +100,10 @@ public class PostManager {
         return stringContent;
     }
 
-    public void updatePost(Long postId, PostEditForm form){
+    public Post updatePost(Long postId, PostEditForm form){
         Post post = new Post(form.getTitle(),form.getContent());
         Post updatedPost = postRepository.updatePost(postId,post);
+        return updatedPost;
     }
 
 }

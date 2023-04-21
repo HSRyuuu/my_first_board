@@ -5,7 +5,6 @@ import hello.board.domain.member.MemberRepository;
 import hello.board.domain.post.Post;
 import hello.board.domain.post.PostRepository;
 import hello.board.service.post.PostManager;
-import hello.board.web.format.HtmlFormatter;
 import hello.board.web.post.form.PostDeleteMemberForm;
 import hello.board.web.post.form.PostEditForm;
 import hello.board.web.post.form.PostHtmlForm;

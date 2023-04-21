@@ -28,7 +28,6 @@ public class LoginController {
     public String loginForm(@ModelAttribute("loginForm") LoginForm form,
                             @RequestParam(required = false)boolean loginMsg,
                             Model model){
-
         //"로그인 시 이용할 수 있는 서비스입니다!" 출력 여부
         if(loginMsg){
             model.addAttribute("loginMsg",true);

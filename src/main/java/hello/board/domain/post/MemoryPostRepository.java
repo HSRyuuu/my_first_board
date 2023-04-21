@@ -80,6 +80,7 @@ public class MemoryPostRepository implements PostRepository{
         Post post = store.get(id);
         post.setTitle(updateParam.getTitle());
         post.setContent(updateParam.getContent());
+        post.setModified_date(LocalDateTime.now());
         return post;
     }
 
