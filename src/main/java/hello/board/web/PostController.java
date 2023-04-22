@@ -1,13 +1,12 @@
 package hello.board.web;
 
 import hello.board.domain.member.Member;
-import hello.board.domain.member.MemberRepository;
 import hello.board.domain.post.Post;
 import hello.board.domain.post.PostRepository;
 import hello.board.service.post.PostManager;
-import hello.board.web.post.form.PostDeleteMemberForm;
-import hello.board.web.post.form.PostEditForm;
-import hello.board.web.post.form.PostHtmlForm;
+import hello.board.web.form.post.PostDeleteMemberForm;
+import hello.board.web.form.post.PostEditForm;
+import hello.board.web.form.post.PostHtmlForm;
 import hello.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

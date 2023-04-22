@@ -2,8 +2,9 @@ package hello.board.service.member;
 
 import hello.board.domain.member.Member;
 import hello.board.domain.member.MemberRepository;
-import hello.board.web.member.form.AddMemberForm;
-import hello.board.web.member.form.EditMemberForm;
+import hello.board.web.form.member.AddMemberForm;
+import hello.board.web.form.member.EditMemberForm;
+import hello.board.web.form.member.PasswordEditForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -23,9 +24,16 @@ public class MemberManager {
         }
         return false;
     }
-    public boolean isPasswordCorrect(AddMemberForm form, BindingResult bindingResult){
+    public boolean isPasswordCheckCoincide(AddMemberForm form, BindingResult bindingResult){
         if (!form.getPassword().equals(form.getPasswordCheck())){
-            bindingResult.rejectValue("passwordCheck","incorrectPassword","두 비밀번호가 일치하지 않습니다.");
+            bindingResult.rejectValue("passwordCheck", "notCoincidePassword","두 비밀번호가 일치하지 않습니다.");
+            return false;
+        }
+        return true;
+    }
+    public boolean isPasswordCheckCoincide(PasswordEditForm form, BindingResult bindingResult){
+        if (!form.getEditPassword().equals(form.getEditPasswordCheck())){
+            bindingResult.reject( "notCoincidePassword","두 비밀번호가 일치하지 않습니다.");
             return false;
         }
         return true;
@@ -51,6 +59,9 @@ public class MemberManager {
         member.setLoginId(form.getLoginId());
         member.setPassword(loginMember.getPassword());
         memberRepository.updateMember(loginMember.getId(),member);
+    }
+    public void editPassword(Member loginMember, PasswordEditForm form){
+        memberRepository.editPassword(loginMember.getId(), form.getEditPassword());
     }
 
     public EditMemberForm getEditMemberForm(Member loginMember){

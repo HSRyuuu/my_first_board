@@ -3,8 +3,8 @@ package hello.board.service.post;
 import hello.board.domain.member.Member;
 import hello.board.domain.post.Post;
 import hello.board.domain.post.PostRepository;
-import hello.board.web.post.form.PostEditForm;
-import hello.board.web.post.form.PostHtmlForm;
+import hello.board.web.form.post.PostEditForm;
+import hello.board.web.form.post.PostHtmlForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

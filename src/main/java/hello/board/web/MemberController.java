@@ -3,8 +3,9 @@ package hello.board.web;
 import hello.board.domain.member.Member;
 import hello.board.domain.member.MemberRepository;
 import hello.board.service.member.MemberManager;
-import hello.board.web.member.form.AddMemberForm;
-import hello.board.web.member.form.EditMemberForm;
+import hello.board.web.form.member.AddMemberForm;
+import hello.board.web.form.member.EditMemberForm;
+import hello.board.web.form.member.PasswordEditForm;
 import hello.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -35,7 +34,8 @@ public class MemberController {
         //loginId 중복 체크
         memberManager.isDuplicate(form.getLoginId(),bindingResult);
         //비밀번호 일치 확인
-        memberManager.isPasswordCorrect(form, bindingResult);
+        memberManager.isPasswordCheckCoincide(form,bindingResult);
+
         if(bindingResult.hasErrors()){
             return "member/addMemberForm";
         }
@@ -86,12 +86,26 @@ public class MemberController {
         redirectAttributes.addAttribute("status",true);
         return "redirect:/member/info/{loginId}";
     }
-    //TODO 현재비밀번호 입력하고, 바꿀비밀번호, 바꿀비밀번호 확인 페이지 만들기
     @GetMapping("/info/{loginId}/editpassword")
-    public String editPasswordForm(@PathVariable String loginId,
-                                   @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
-                                   Model model){
-
+    public String editPasswordForm(@PathVariable String loginId, Model model){
+        model.addAttribute("form", new PasswordEditForm());
         return "member/editPasswordForm";
+    }
+    @PostMapping("/info/{loginId}/editpassword")
+    public String editPassword(@PathVariable String loginId,
+                               @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+                               @Validated @ModelAttribute("form") PasswordEditForm form, BindingResult bindingResult){
+        log.info("currentPW=[{}] | edit : [{}] [{}]", form.getCurrentPassword(),form.getEditPassword(),form.getEditPasswordCheck());
+        if(!loginMember.getPassword().equals(form.getCurrentPassword())){
+            bindingResult.reject("wrongPassword");
+        }
+        memberManager.isPasswordCheckCoincide(form,bindingResult);
+        if(bindingResult.hasErrors()){
+            return "member/editPasswordForm";
+        }
+
+        memberManager.editPassword(loginMember, form);
+
+        return "redirect:/member/info";
     }
 }

@@ -33,6 +33,12 @@ public class MemoryMemberRepository implements MemberRepository{
     }
 
     @Override
+    public void editPassword(Long id, String password) {
+        Member member = findById(id);
+        member.setPassword(password);
+    }
+
+    @Override
     public void updateMember(Long id,Member updateParam) {
         Member member = findByLoginId(updateParam.getLoginId()).get();
         member.setPassword(updateParam.getPassword());
@@ -40,6 +46,7 @@ public class MemoryMemberRepository implements MemberRepository{
         member.setNickname(updateParam.getNickname());
         member.setEmail(updateParam.getEmail());
     }
+
 
 
     @Override

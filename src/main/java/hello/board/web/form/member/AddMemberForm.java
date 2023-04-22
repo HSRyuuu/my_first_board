@@ -1,4 +1,4 @@
-package hello.board.web.member.form;
+package hello.board.web.form.member;
 
 import lombok.Data;
 

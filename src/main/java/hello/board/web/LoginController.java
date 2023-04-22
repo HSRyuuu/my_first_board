@@ -2,7 +2,7 @@ package hello.board.web;
 
 import hello.board.service.login.LoginService;
 import hello.board.domain.member.Member;
-import hello.board.web.login.LoginForm;
+import hello.board.web.form.login.LoginForm;
 import hello.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

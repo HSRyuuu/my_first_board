@@ -5,8 +5,8 @@ import hello.board.domain.post.Post;
 import hello.board.domain.post.PostRepository;
 import hello.board.service.post.PostManager;
 import hello.board.service.post.PostSearchCode;
-import hello.board.web.board.form.SearchForm;
-import hello.board.web.board.form.WritingForm;
+import hello.board.web.form.board.SearchForm;
+import hello.board.web.form.board.WritingForm;
 import hello.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +17,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Slf4j
