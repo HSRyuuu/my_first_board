@@ -1,4 +1,4 @@
-package hello.board.domain.dbconnection;
+package hello.board.dbconnection;
 
 public abstract class ConnectionConst {
     public static final String URL = "jdbc:h2:tcp://localhost/~/test";
