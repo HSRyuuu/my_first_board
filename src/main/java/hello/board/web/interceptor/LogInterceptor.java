@@ -28,7 +28,6 @@ public class LogInterceptor implements HandlerInterceptor {
             HandlerMethod hm = (HandlerMethod) handler;
             //HandlerMethod의 여러가지 메소드를 사용하여 호출할 컨트롤러 메서드의 정보를 얻을 수 있다.
         }
-        log.info("----------new REQUEST------------");
         log.info("REQUEST [{}][{}] | uuid : [{}]", requestURI, handler, uuid);
 
         //true 반환 시 다음 인터셉터 또는 컨트롤러가 호출된다.
@@ -38,15 +37,12 @@ public class LogInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        log.info("postHandler [{}]", modelAndView);
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         String requestURI = request.getRequestURI();
         String uuid = (String) request.getAttribute(LOG_ID); //preHandle에서 생성한 uuid를 가져온다.
-
-        log.info("RESPONSE [{}][{}] | uuid : [{}]", requestURI, handler, uuid);
         //오류발생시 오류 로그도 찍어주자.
         if(ex!=null){
             log.error("afterCompletion error!!", ex);
