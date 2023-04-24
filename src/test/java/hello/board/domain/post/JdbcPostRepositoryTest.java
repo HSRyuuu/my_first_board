@@ -1,10 +1,12 @@
 package hello.board.domain.post;
 
 import com.zaxxer.hikari.HikariDataSource;
+import hello.board.repository.post.JdbcPostRepository;
+import hello.board.repository.post.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static hello.board.dbconnection.ConnectionConst.*;
+import static hello.board.repository.db.ConnectionConst.*;
 
 class JdbcPostRepositoryTest {
 

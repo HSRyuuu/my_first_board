@@ -1,9 +1,9 @@
 package hello.board;
 
 import hello.board.domain.member.Member;
-import hello.board.domain.member.MemberRepository;
+import hello.board.repository.member.MemberRepository;
 import hello.board.domain.post.Post;
-import hello.board.domain.post.PostRepository;
+import hello.board.repository.post.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

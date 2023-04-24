@@ -1,8 +1,7 @@
-package hello.board.service.post;
+package hello.board.domain.post;
 
 import hello.board.domain.member.Member;
-import hello.board.domain.post.Post;
-import hello.board.domain.post.PostRepository;
+import hello.board.repository.post.PostRepository;
 import hello.board.web.form.post.PostEditForm;
 import hello.board.web.form.post.PostHtmlForm;
 import lombok.RequiredArgsConstructor;

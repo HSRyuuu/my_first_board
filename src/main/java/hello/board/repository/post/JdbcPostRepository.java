@@ -1,5 +1,6 @@
-package hello.board.domain.post;
+package hello.board.repository.post;
 
+import hello.board.domain.post.Post;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,6 +1,7 @@
-package hello.board.domain.post;
+package hello.board.repository.post;
 
 import hello.board.domain.member.Member;
+import hello.board.domain.post.Post;
 
 import java.util.List;
 import java.util.Optional;

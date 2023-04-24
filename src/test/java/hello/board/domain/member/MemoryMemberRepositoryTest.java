@@ -1,6 +1,7 @@
 package hello.board.domain.member;
 
-import org.assertj.core.api.Assertions;
+import hello.board.repository.member.MemberRepository;
+import hello.board.repository.member.MemoryMemberRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryMemberRepositoryTest {
 

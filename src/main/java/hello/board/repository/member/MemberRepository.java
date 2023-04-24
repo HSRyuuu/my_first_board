@@ -1,4 +1,6 @@
-package hello.board.domain.member;
+package hello.board.repository.member;
+
+import hello.board.domain.member.Member;
 
 import java.util.HashMap;
 import java.util.List;

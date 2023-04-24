@@ -1,8 +1,8 @@
 package hello.board.web;
 
 import hello.board.domain.member.Member;
-import hello.board.domain.member.MemberRepository;
-import hello.board.service.member.MemberManager;
+import hello.board.repository.member.MemberRepository;
+import hello.board.domain.member.MemberManager;
 import hello.board.web.form.member.AddMemberForm;
 import hello.board.web.form.member.EditMemberForm;
 import hello.board.web.form.member.PasswordEditForm;

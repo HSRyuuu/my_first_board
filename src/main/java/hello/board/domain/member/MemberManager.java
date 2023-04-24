@@ -1,7 +1,7 @@
-package hello.board.service.member;
+package hello.board.domain.member;
 
 import hello.board.domain.member.Member;
-import hello.board.domain.member.MemberRepository;
+import hello.board.repository.member.MemberRepository;
 import hello.board.web.form.member.AddMemberForm;
 import hello.board.web.form.member.EditMemberForm;
 import hello.board.web.form.member.PasswordEditForm;

@@ -1,5 +1,6 @@
-package hello.board.domain.post;
+package hello.board.repository.post;
 
+import hello.board.domain.post.Post;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -7,7 +8,7 @@ import java.util.*;
 
 @Repository
 public class MemoryPostRepository implements PostRepository{
-    private static final Map<Long,Post> store = new HashMap<>();
+    private static final Map<Long, Post> store = new HashMap<>();
     private static long sequence = 0L; //키값을 생성해줌
 
     @Override

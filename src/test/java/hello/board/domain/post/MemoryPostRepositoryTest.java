@@ -1,14 +1,13 @@
 package hello.board.domain.post;
 
-import org.assertj.core.api.Assertions;
+import hello.board.repository.post.MemoryPostRepository;
+import hello.board.repository.post.PostRepository;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryPostRepositoryTest {
     PostRepository postRepository = new MemoryPostRepository();
