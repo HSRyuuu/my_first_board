@@ -1,4 +1,4 @@
-package hello.board.domain.member;
+package hello.board.service.member;
 
 import hello.board.domain.member.Member;
 import hello.board.repository.member.MemberRepository;
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class MemberManager {
+public class MemberService {
     private final MemberRepository memberRepository;
 
     public boolean isDuplicate(String loginId, BindingResult bindingResult){

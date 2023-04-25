@@ -1,6 +1,7 @@
 package hello.board.repository.post;
 
 import hello.board.domain.post.Post;
+import hello.board.web.form.board.Searchform;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;

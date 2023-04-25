@@ -1,6 +1,8 @@
-package hello.board.domain.post;
+package hello.board.service.post;
 
 import hello.board.domain.member.Member;
+import hello.board.domain.post.Post;
+import hello.board.domain.post.PostSearchCode;
 import hello.board.repository.post.PostRepository;
 import hello.board.web.form.post.PostEditForm;
 import hello.board.web.form.post.PostHtmlForm;
@@ -13,8 +15,26 @@ import java.util.Comparator;
 import java.util.List;
 @Service
 @RequiredArgsConstructor
-public class PostManager {
+public class PostService {
     private final PostRepository postRepository;
+
+    public Post save(Post post) {
+        return postRepository.save(post);
+    }
+    public Post findById(Long id) {
+        return postRepository.findById(id);
+    }
+
+    public List<Post> findAll() {
+        return postRepository.findAll();
+    }
+    public void addView(Long postId) {
+        postRepository.addView(postId);
+    }
+    public void deletePost(Long id) {
+        postRepository.deletePost(id);
+    }
+
 
     public List<Post> getSearchedList(String searchCode, String searchWord){
         List<Post> searchList;

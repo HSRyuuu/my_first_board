@@ -1,8 +1,7 @@
 package hello.board.web;
 
 import hello.board.domain.member.Member;
-import hello.board.repository.member.MemberRepository;
-import hello.board.domain.member.MemberManager;
+import hello.board.service.member.MemberService;
 import hello.board.web.form.member.AddMemberForm;
 import hello.board.web.form.member.EditMemberForm;
 import hello.board.web.form.member.PasswordEditForm;
@@ -22,8 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private final MemberRepository memberRepository;
-    private final MemberManager memberManager;
+    private final MemberService memberService;
     @GetMapping("/add")
     public String addMemberForm(@ModelAttribute("form") AddMemberForm form){
         return "member/addMemberForm";
@@ -32,15 +30,15 @@ public class MemberController {
     public String addMember(@Validated @ModelAttribute("form")AddMemberForm form, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes){
         //loginId 중복 체크
-        memberManager.isDuplicate(form.getLoginId(),bindingResult);
+        memberService.isDuplicate(form.getLoginId(),bindingResult);
         //비밀번호 일치 확인
-        memberManager.isPasswordCheckCoincide(form,bindingResult);
+        memberService.isPasswordCheckCoincide(form,bindingResult);
 
         if(bindingResult.hasErrors()){
             return "member/addMemberForm";
         }
 
-        Member addMember = memberManager.addMember(form);
+        Member addMember = memberService.addMember(form);
 
         redirectAttributes.addAttribute("name",addMember.getName());
         return "redirect:/member/add/welcome";
@@ -71,7 +69,7 @@ public class MemberController {
     public String memberEditForm(@PathVariable String loginId,
                            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                            Model model){
-        model.addAttribute("form", memberManager.getEditMemberForm(loginMember));
+        model.addAttribute("form", memberService.getEditMemberForm(loginMember));
         return "member/editForm";
     }
     @PostMapping("/info/{loginId}/edit")
@@ -82,7 +80,7 @@ public class MemberController {
         if(bindingResult.hasErrors()){
             return "member/editForm";
         }
-        memberManager.editMember(loginMember, form);
+        memberService.editMember(loginMember, form);
         redirectAttributes.addAttribute("status",true);
         return "redirect:/member/info/{loginId}";
     }
@@ -99,12 +97,12 @@ public class MemberController {
         if(!loginMember.getPassword().equals(form.getCurrentPassword())){
             bindingResult.reject("wrongPassword");
         }
-        memberManager.isPasswordCheckCoincide(form,bindingResult);
+        memberService.isPasswordCheckCoincide(form,bindingResult);
         if(bindingResult.hasErrors()){
             return "member/editPasswordForm";
         }
 
-        memberManager.editPassword(loginMember, form);
+        memberService.editPassword(loginMember, form);
 
         return "redirect:/member/info";
     }

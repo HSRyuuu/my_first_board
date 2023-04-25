@@ -1,6 +1,6 @@
 package hello.board.web;
 
-import hello.board.domain.login.LoginService;
+import hello.board.service.login.LoginService;
 import hello.board.domain.member.Member;
 import hello.board.web.form.login.LoginForm;
 import hello.board.web.session.SessionConst;
