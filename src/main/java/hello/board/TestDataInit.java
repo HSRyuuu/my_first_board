@@ -5,6 +5,8 @@ import hello.board.repository.member.MemberRepository;
 import hello.board.domain.post.Post;
 import hello.board.repository.post.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -16,8 +18,8 @@ public class TestDataInit {
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
 
-    @PostConstruct
-    public void init(){
+    @EventListener(ApplicationReadyEvent.class)
+    public void initData(){
         String testContent = "<br><br>스프링 프레임워크(영어: Spring Framework)는 " +
                 "자바 플랫폼을 위한 오픈 소스 애플리케이션 프레임워크로서 간단히 스프링(Spring)이라고도 한다. " +
                 "동적인 웹 사이트를 개발하기 위한 여러 가지 서비스를 제공하고 있다. " +
@@ -34,9 +36,9 @@ public class TestDataInit {
         String titlestr = "test-title";
         String contentstr = "content";
         for(int i=0;i<10;i++){
-            String writerId = "writer"+Integer.toString(i);
-            String title = "test-title"+Integer.toString(i);
-            String content = "content"+Integer.toString(i)+testContent;
+            String writerId = writerIdstr+Integer.toString(i);
+            String title = titlestr+Integer.toString(i);
+            String content = contentstr+Integer.toString(i)+testContent;
             Post newPost = new Post(writerId, title, content);
             newPost.setViews((long)(Math.random()*100));
             postRepository.save(newPost);

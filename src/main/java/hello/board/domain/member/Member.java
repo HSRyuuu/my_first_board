@@ -1,6 +1,7 @@
 package hello.board.domain.member;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.context.annotation.Primary;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

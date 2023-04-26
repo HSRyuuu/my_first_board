@@ -5,18 +5,24 @@ import hello.board.repository.member.MemoryMemberRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
+@SpringBootTest
 class MemoryMemberRepositoryTest {
 
-    MemberRepository memberRepository = new MemoryMemberRepository();
+    @Autowired
+    MemberRepository memberRepository;
 
     @AfterEach
     void afterEach(){
-        memberRepository.clearStore();
+        if(memberRepository instanceof MemoryMemberRepository){
+            ((MemoryMemberRepository)memberRepository).clearStore();
+        }
     }
     @Test
     @DisplayName("save(), findById()")

@@ -9,6 +9,5 @@ public interface CommentRepository {
     Comment findById(Long id);
     List<Comment> findByPostId(Long postId);
     List<Comment> findAll();
-    void clear();
 
 }

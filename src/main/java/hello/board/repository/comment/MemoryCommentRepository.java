@@ -42,7 +42,9 @@ public class MemoryCommentRepository implements CommentRepository {
         return new ArrayList<>(store.values());
     }
 
-    @Override
+    /**
+     * test용
+     */
     public void clear() {
         store.clear();
     }
