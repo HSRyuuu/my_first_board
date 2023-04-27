@@ -16,27 +16,18 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public boolean isDuplicate(String loginId, BindingResult bindingResult){
-        Optional<Member> duplicate = memberRepository.findByLoginId(loginId);
-        if(duplicate.isPresent()){
-            bindingResult.rejectValue("loginId","duplicateLoginId","이미 있는 아이디 입니다.");
+    public boolean isDuplicate(String loginId){
+        Optional<Member> findMember = memberRepository.findByLoginId(loginId);
+        if(findMember.isPresent()){
             return true;
         }
         return false;
     }
-    public boolean isPasswordCheckCoincide(AddMemberForm form, BindingResult bindingResult){
-        if (!form.getPassword().equals(form.getPasswordCheck())){
-            bindingResult.rejectValue("passwordCheck", "notCoincidePassword","두 비밀번호가 일치하지 않습니다.");
-            return false;
+    public boolean isPasswordCheckCoincide(String password, String passwordCheck){
+        if (password.equals(passwordCheck)){
+            return true;
         }
-        return true;
-    }
-    public boolean isPasswordCheckCoincide(PasswordEditForm form, BindingResult bindingResult){
-        if (!form.getEditPassword().equals(form.getEditPasswordCheck())){
-            bindingResult.reject( "notCoincidePassword","두 비밀번호가 일치하지 않습니다.");
-            return false;
-        }
-        return true;
+        return false;
     }
 
     public Member addMember(AddMemberForm form){

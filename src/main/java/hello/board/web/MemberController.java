@@ -30,9 +30,16 @@ public class MemberController {
     public String addMember(@Validated @ModelAttribute("form")AddMemberForm form, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes){
         //loginId 중복 체크
-        memberService.isDuplicate(form.getLoginId(),bindingResult);
+        if(memberService.isDuplicate(form.getLoginId())){
+            bindingResult.rejectValue("loginId","duplicateLoginId","이미 있는 아이디 입니다.");
+        }
+
         //비밀번호 일치 확인
-        memberService.isPasswordCheckCoincide(form,bindingResult);
+        if(!memberService.isPasswordCheckCoincide(form.getPassword(), form.getPasswordCheck())){
+            bindingResult.rejectValue("passwordCheck", "notCoincidePassword","두 비밀번호가 일치하지 않습니다.");
+
+        }
+
 
         if(bindingResult.hasErrors()){
             return "member/addMemberForm";
@@ -97,7 +104,11 @@ public class MemberController {
         if(!loginMember.getPassword().equals(form.getCurrentPassword())){
             bindingResult.reject("wrongPassword");
         }
-        memberService.isPasswordCheckCoincide(form,bindingResult);
+
+        if(!memberService.isPasswordCheckCoincide(form.getEditPassword(),form.getEditPasswordCheck())){
+            bindingResult.reject( "notCoincidePassword","두 비밀번호가 일치하지 않습니다.");
+        }
+
         if(bindingResult.hasErrors()){
             return "member/editPasswordForm";
         }
