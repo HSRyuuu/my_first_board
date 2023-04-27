@@ -19,7 +19,22 @@ public class TestDataInit {
     private final PostRepository postRepository;
 
     @EventListener(ApplicationReadyEvent.class)
-    public void initData(){
+    public void memberInitData(){
+
+        Member member = new Member("tester-Kim","imtester","test","test!","tester@test.com");
+        memberRepository.save(member);
+        for(int i=0;i<10;i++){
+            String loginId = "writer"+Integer.toString(i);
+            String password = "writer"+Integer.toString(i)+"!";
+            Member newMember = new Member(loginId,password);
+            newMember.setName("writerName"+Integer.toString(i));
+            newMember.setNickname("nickname"+Integer.toString(i));
+            newMember.setEmail("test"+Integer.toString(i)+"@test.com");
+            memberRepository.save(newMember);
+        }
+    }
+    //@EventListener(ApplicationReadyEvent.class)
+    public void postInitData(){
         String testContent = "<br><br>스프링 프레임워크(영어: Spring Framework)는 " +
                 "자바 플랫폼을 위한 오픈 소스 애플리케이션 프레임워크로서 간단히 스프링(Spring)이라고도 한다. " +
                 "동적인 웹 사이트를 개발하기 위한 여러 가지 서비스를 제공하고 있다. " +
@@ -42,17 +57,6 @@ public class TestDataInit {
             Post newPost = new Post(writerId, title, content);
             newPost.setViews((long)(Math.random()*100));
             postRepository.save(newPost);
-        }
-        Member member = new Member("tester-Kim","imtester","test","test!","tester@test.com");
-        memberRepository.save(member);
-        for(int i=0;i<10;i++){
-            String loginId = "writer"+Integer.toString(i);
-            String password = "writer"+Integer.toString(i)+"!";
-            Member newMember = new Member(loginId,password);
-            newMember.setName("writerName"+Integer.toString(i));
-            newMember.setNickname("nickname"+Integer.toString(i));
-            newMember.setEmail("test"+Integer.toString(i)+"@test.com");
-            memberRepository.save(newMember);
         }
     }
 }

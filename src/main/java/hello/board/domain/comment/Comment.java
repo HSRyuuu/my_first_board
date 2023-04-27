@@ -17,6 +17,8 @@ public class Comment {
     private LocalDateTime create_date;
     private LocalDateTime modified_date;
 
+    public Comment() {
+    }
 
     public Comment(String writerId, String text) {
         this.writerId = writerId;

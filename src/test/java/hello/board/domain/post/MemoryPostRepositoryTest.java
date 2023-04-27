@@ -10,7 +10,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 class MemoryPostRepositoryTest {
-    PostRepository postRepository = new MemoryPostRepository();
+    MemoryPostRepository postRepository = new MemoryPostRepository();
 
     @AfterEach
     void afterEach(){
@@ -23,7 +23,7 @@ class MemoryPostRepositoryTest {
         //when
         Post savedPost = postRepository.save(post);
         //then
-        Post foundPost = postRepository.findById(post.getId());
+        Post foundPost = postRepository.findById(post.getId()).get();
         assertThat(foundPost).isEqualTo(savedPost);
 
     }

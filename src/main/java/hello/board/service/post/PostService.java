@@ -22,7 +22,7 @@ public class PostService {
         return postRepository.save(post);
     }
     public Post findById(Long id) {
-        return postRepository.findById(id);
+        return postRepository.findById(id).get();
     }
 
     public List<Post> findAll() {
@@ -76,7 +76,7 @@ public class PostService {
     }
 
     public boolean isAccessable(Long postId, Member loginMember){
-        Post post = postRepository.findById(postId);
+        Post post = postRepository.findById(postId).get();
         if(post.getWriterId().equals(loginMember.getLoginId())){
             return true;
         }

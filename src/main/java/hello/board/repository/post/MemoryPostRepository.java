@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@Repository
+//@Repository
 public class MemoryPostRepository implements PostRepository{
     private static final Map<Long, Post> store = new HashMap<>();
     private static long sequence = 0L; //키값을 생성해줌
@@ -22,8 +22,8 @@ public class MemoryPostRepository implements PostRepository{
     }
 
     @Override
-    public Post findById(Long id) {
-        return store.get(id);
+    public Optional<Post> findById(Long id) {
+        return Optional.ofNullable(store.get(id));
     }
 
     @Override

@@ -1,4 +1,4 @@
-package hello.board;
+package hello.board.config;
 
 import hello.board.web.interceptor.LogInterceptor;
 import hello.board.web.interceptor.LoginCheckInterceptor;

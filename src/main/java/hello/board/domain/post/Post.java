@@ -17,7 +17,10 @@ public class Post {
     private LocalDateTime modified_date; //수정 날짜
     private Long views; // 조회수
 
-    public Post(String title,String content){
+    public Post() {
+    }
+
+    public Post(String title, String content){
         this.title = title;
         this.content = content;
         this.views = 0L;
