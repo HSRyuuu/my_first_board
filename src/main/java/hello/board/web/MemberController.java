@@ -29,6 +29,7 @@ public class MemberController {
     @PostMapping("/add")
     public String addMember(@Validated @ModelAttribute("form")AddMemberForm form, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes){
+        log.info("AddMember [{}]",form);
         //loginId 중복 체크
         if(memberService.isDuplicate(form.getLoginId())){
             bindingResult.rejectValue("loginId","duplicateLoginId","이미 있는 아이디 입니다.");
@@ -83,6 +84,7 @@ public class MemberController {
                              @Validated @ModelAttribute("form") EditMemberForm form, BindingResult bindingResult,
                              @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                              RedirectAttributes redirectAttributes, Model model){
+        log.info("Edit Member Info : {}", form);
         if(bindingResult.hasErrors()){
             return "member/editForm";
         }
@@ -99,17 +101,21 @@ public class MemberController {
     public String editPassword(@PathVariable String loginId,
                                @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                                @Validated @ModelAttribute("form") PasswordEditForm form, BindingResult bindingResult){
-        log.info("currentPW=[{}] | edit : [{}] [{}]", form.getCurrentPassword(),form.getEditPassword(),form.getEditPasswordCheck());
+        log.info("currentPW=[{}] , edit : [{}]", form.getCurrentPassword(),form);
         loginMember = memberService.findById(loginMember.getId()).get();
         if(!loginMember.getPassword().equals(form.getCurrentPassword())){
+            log.info("현재 비밀번호 오류" );
+
             bindingResult.reject("wrongPassword");
         }
 
         if(!memberService.isPasswordCheckCoincide(form.getEditPassword(),form.getEditPasswordCheck())){
+            log.info("변경 비밀번호 일치 오류");
             bindingResult.reject( "notCoincidePassword","두 비밀번호가 일치하지 않습니다.");
         }
 
         if(bindingResult.hasErrors()){
+            log.info("필드 에러 발생 ");
             return "member/editPasswordForm";
         }
 

@@ -2,12 +2,12 @@ package hello.board.repository.post;
 
 import hello.board.domain.post.Post;
 import hello.board.web.form.board.Searchform;
-import org.springframework.stereotype.Repository;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
-//@Repository
+@Slf4j
 public class MemoryPostRepository implements PostRepository{
     private static final Map<Long, Post> store = new HashMap<>();
     private static long sequence = 0L; //키값을 생성해줌
@@ -36,14 +36,14 @@ public class MemoryPostRepository implements PostRepository{
         }
         List<Post> findList = new ArrayList<>();
         switch(searchCode){
-            case "find-by-title" : {
+            case "title" : {
                 for (Post post : new ArrayList<>(store.values())) {
                     if(post.getTitle().toLowerCase().contains(searchWord.toLowerCase())){
                         findList.add(post);
                     }
                 }
             }break;
-            case "find-by-content" :{
+            case "content" :{
                 for (Post post : new ArrayList<>(store.values())) {
                     if(post.getContent().toLowerCase().contains(searchWord.toLowerCase())){
                         findList.add(post);
@@ -51,14 +51,14 @@ public class MemoryPostRepository implements PostRepository{
                 }
 
             }break;
-            case "find-by-writer-id" :{
+            case "writerId" :{
                 for (Post post : new ArrayList<>(store.values())) {
                     if (post.getWriterId().equals(searchWord)) {
                         findList.add(post);
                     }
                 }
             }break;
-            case "find-by-title-and-content" :{
+            case "titleAndContent" :{
                 for(Post post : new ArrayList<>(store.values())){
                     if(post.getTitle().toLowerCase().contains(searchWord.toLowerCase()) || post.getContent().toLowerCase().contains(searchWord.toLowerCase())){
                         findList.add(post);

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest
 class JdbcPostRepositoryTest {
@@ -66,5 +65,29 @@ class JdbcPostRepositoryTest {
     @Test
     void addView(){
         postRepository.addView(4L);
+    }
+
+    @Test
+    void testSave() {
+    }
+
+    @Test
+    void findById() {
+    }
+
+    @Test
+    void findAll() {
+    }
+
+    @Test
+    void updatePost() {
+    }
+
+    @Test
+    void testAddView() {
+    }
+
+    @Test
+    void deletePost() {
     }
 }

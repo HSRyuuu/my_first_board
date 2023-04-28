@@ -39,7 +39,7 @@ public class LoginController {
     public String login(@Validated @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult,
                         @RequestParam(defaultValue = "/")String redirectURL,
                         HttpServletRequest request){
-
+        log.info("로그인 [{}]",form);
         if(bindingResult.hasErrors()){
             return "login/loginForm";
         }

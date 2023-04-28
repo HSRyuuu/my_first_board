@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
-@Repository
 public class JdbcPostRepository implements PostRepository {
 
     private final NamedParameterJdbcTemplate template;
@@ -63,26 +62,31 @@ public class JdbcPostRepository implements PostRepository {
 
     @Override
     public List<Post> findAll(Searchform form) {
-        String searchCode = form.getSearchCode();
-        String searchWord = form.getSearchWord();
-        SqlParameterSource param = new BeanPropertySqlParameterSource(form);
         String sql = "SELECT id, writerId, title, content, create_date, modified_date, views FROM POST";
 
-        if(!StringUtils.hasText(searchWord)){
+        if(!StringUtils.hasText(form.getSearchWord())){
             return template.query(sql, postRowMapper());
         }
 
+        String searchCode = form.getSearchCode();
+        String searchWord = form.getSearchWord();
+        SqlParameterSource param = new BeanPropertySqlParameterSource(form);
+
+
         switch(searchCode){
-            case "find-by-title" : {
+            case "title" : {
                 sql+= " WHERE LOWER(title) LIKE LOWER(concat('%',:searchWord,'%'))";
             }break;
-            case "find-by-content" :{
+
+            case "content" :{
                 sql+= " WHERE LOWER(content) LIKE LOWER(concat('%',:searchWord,'%'))";
             }break;
-            case "find-by-writer-id" :{
+
+            case "writerId" :{
                 sql+= " WHERE LOWER(writerId)=LOWER(:searchWord)";
             }break;
-            case "find-by-title-and-content" :{
+
+            case "titleAndContent" :{
                 sql+= " WHERE LOWER(title) LIKE LOWER(concat('%',:searchWord,'%')) or LOWER(content) LIKE LOWER(concat('%',:searchWord,'%'))";
             }break;
 

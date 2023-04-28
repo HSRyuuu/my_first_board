@@ -25,7 +25,6 @@ public class PostService {
     public Post findById(Long id) {
         return postRepository.findById(id).get();
     }
-
     public List<Post> findPosts(Searchform form) {
         return sortByLatest(postRepository.findAll(form));
     }
@@ -39,13 +38,16 @@ public class PostService {
 
     public List<PostSearchCode> getSearchCodes(){
         List<PostSearchCode> searchCodes = new ArrayList<>();
-        searchCodes.add(new PostSearchCode("find-by-title", "제목"));
-        searchCodes.add(new PostSearchCode("find-by-content", "내용"));
-        searchCodes.add(new PostSearchCode("find-by-writer-id", "작성자"));
-        searchCodes.add(new PostSearchCode("find-by-title-and-content","제목+내용"));
+        searchCodes.add(new PostSearchCode("title", "제목"));
+        searchCodes.add(new PostSearchCode("content", "내용"));
+        searchCodes.add(new PostSearchCode("writerId", "작성자"));
+        searchCodes.add(new PostSearchCode("titleAndContent","제목+내용"));
         return searchCodes;
     }
 
+    /**
+     * 최신순 정렬
+     */
     public List<Post> sortByLatest(List<Post> list){
         Collections.sort(list, new Comparator<Post>() {
             @Override
@@ -83,12 +85,7 @@ public class PostService {
 
         return form;
     }
-    public PostEditForm getEditForm(Post post){
-        PostEditForm form = new PostEditForm();
-        form.setTitle(post.getTitle());
-        form.setContent(getStringContent(post));
-        return form;
-    }
+
 
     /**
      * Html format을 받아서 String으로 줄바꿈이 적용되도록 바꿔준다.
@@ -100,6 +97,12 @@ public class PostService {
         return stringContent;
     }
 
+    public PostEditForm getEditForm(Post post){
+        PostEditForm form = new PostEditForm();
+        form.setTitle(post.getTitle());
+        form.setContent(getStringContent(post));
+        return form;
+    }
     public Post updatePost(Long postId, PostEditForm form){
         Post post = new Post(form.getTitle(),form.getContent());
         Post updatedPost = postRepository.updatePost(postId,post);

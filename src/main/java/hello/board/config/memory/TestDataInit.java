@@ -1,4 +1,4 @@
-package hello.board;
+package hello.board.config.memory;
 
 import hello.board.domain.member.Member;
 import hello.board.repository.member.MemberRepository;
@@ -7,11 +7,9 @@ import hello.board.repository.post.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
 
 
 
-//@Component
 @RequiredArgsConstructor
 public class TestDataInit {
 
@@ -33,7 +31,7 @@ public class TestDataInit {
             memberRepository.save(newMember);
         }
     }
-    //@EventListener(ApplicationReadyEvent.class)
+    @EventListener(ApplicationReadyEvent.class)
     public void postInitData(){
         String testContent = "<br><br>스프링 프레임워크(영어: Spring Framework)는 " +
                 "자바 플랫폼을 위한 오픈 소스 애플리케이션 프레임워크로서 간단히 스프링(Spring)이라고도 한다. " +

@@ -28,7 +28,8 @@ public class LogInterceptor implements HandlerInterceptor {
             HandlerMethod hm = (HandlerMethod) handler;
             //HandlerMethod의 여러가지 메소드를 사용하여 호출할 컨트롤러 메서드의 정보를 얻을 수 있다.
         }
-        log.info("REQUEST [{}][{}] | uuid : [{}]", requestURI, handler, uuid);
+        //log.info("[ REQUEST URI : {}] | [handler : {}] | [uuid : {}]", requestURI, handler, uuid);
+        log.info("[ REQUEST URI : {} ]  [ handler : {} ]", requestURI, handler);
 
         //true 반환 시 다음 인터셉터 또는 컨트롤러가 호출된다.
         //false 반환 시 다음이 호출되지 않고 종료된다.
