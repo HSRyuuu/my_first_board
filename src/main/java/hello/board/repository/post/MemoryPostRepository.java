@@ -27,54 +27,47 @@ public class MemoryPostRepository implements PostRepository{
     }
 
     @Override
-    public List<Post> findByWriterId(String writerId) {
-        List<Post> findByWriterIdList = new ArrayList<>();
+    public List<Post> findAll(Searchform form) {
+        String searchCode = form.getSearchCode();
+        String searchWord = form.getSearchWord();
 
-        for (Post post : findAll()) {
-            if (post.getWriterId().equals(writerId)) {
-                findByWriterIdList.add(post);
-            }
+        if(searchWord.isEmpty()){
+            return new ArrayList<>(store.values());
         }
-            return findByWriterIdList;
-    }
-
-    @Override
-    public List<Post> findByTitle(String title) {
-            List<Post> findByTitleList = new ArrayList<>();
-            for (Post post : findAll()) {
-                if(post.getTitle().toLowerCase().contains(title.toLowerCase())){
-                    findByTitleList.add(post);
+        List<Post> findList = new ArrayList<>();
+        switch(searchCode){
+            case "find-by-title" : {
+                for (Post post : new ArrayList<>(store.values())) {
+                    if(post.getTitle().toLowerCase().contains(searchWord.toLowerCase())){
+                        findList.add(post);
+                    }
                 }
-            }
-            return findByTitleList;
-        }
+            }break;
+            case "find-by-content" :{
+                for (Post post : new ArrayList<>(store.values())) {
+                    if(post.getContent().toLowerCase().contains(searchWord.toLowerCase())){
+                        findList.add(post);
+                    }
+                }
 
-    @Override
-    public List<Post> findByContents(String content) {
-        List<Post> findByContentsList = new ArrayList<>();
-        for (Post post : findAll()) {
-            if(post.getContent().toLowerCase().contains(content.toLowerCase())){
-                findByContentsList.add(post);
-            }
-        }
-        return findByContentsList;
-    }
+            }break;
+            case "find-by-writer-id" :{
+                for (Post post : new ArrayList<>(store.values())) {
+                    if (post.getWriterId().equals(searchWord)) {
+                        findList.add(post);
+                    }
+                }
+            }break;
+            case "find-by-title-and-content" :{
+                for(Post post : new ArrayList<>(store.values())){
+                    if(post.getTitle().toLowerCase().contains(searchWord.toLowerCase()) || post.getContent().toLowerCase().contains(searchWord.toLowerCase())){
+                        findList.add(post);
+                    }
+                }
+            }break;
 
-    @Override
-    public List<Post> findByTitleAndContent(String word) {
-        List<Post> findByTitleAndContentList = new ArrayList<>();
-        word = word.toLowerCase();
-        for(Post post : findAll()){
-            if(post.getTitle().toLowerCase().contains(word) || post.getContent().toLowerCase().contains(word)){
-                findByTitleAndContentList.add(post);
-            }
         }
-        return findByTitleAndContentList;
-    }
-
-    @Override
-    public List<Post> findAll() {
-        return new ArrayList<>(store.values());
+        return findList;
     }
 
     @Override

@@ -37,7 +37,6 @@ public class MemberController {
         //비밀번호 일치 확인
         if(!memberService.isPasswordCheckCoincide(form.getPassword(), form.getPasswordCheck())){
             bindingResult.rejectValue("passwordCheck", "notCoincidePassword","두 비밀번호가 일치하지 않습니다.");
-
         }
 
 
@@ -60,7 +59,7 @@ public class MemberController {
     @GetMapping("/info")
     public String memberPageForm(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                              Model model){
-        model.addAttribute("member", loginMember);
+        model.addAttribute("member", memberService.findById(loginMember.getId()).get());
         return "member/memberPage";
     }
 
@@ -68,7 +67,7 @@ public class MemberController {
     public String memberInfoForm(@PathVariable String loginId,
                              @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                              Model model){
-        model.addAttribute("member", loginMember);
+        model.addAttribute("member", memberService.findById(loginMember.getId()).get());
         return "member/memberInfo";
     }
 
@@ -101,6 +100,7 @@ public class MemberController {
                                @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                                @Validated @ModelAttribute("form") PasswordEditForm form, BindingResult bindingResult){
         log.info("currentPW=[{}] | edit : [{}] [{}]", form.getCurrentPassword(),form.getEditPassword(),form.getEditPasswordCheck());
+        loginMember = memberService.findById(loginMember.getId()).get();
         if(!loginMember.getPassword().equals(form.getCurrentPassword())){
             bindingResult.reject("wrongPassword");
         }

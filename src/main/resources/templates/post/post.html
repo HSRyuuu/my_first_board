@@ -41,7 +41,7 @@
     <div>
         <span th:text="#{label.board.id}+' : '+${post.id}">번호 : postId</span>&nbsp;
         <span th:text="' | '+#{label.board.writer}+' : '+${post.writerId}"> | 작성자 : writerId</span>&nbsp;
-        <span th:text="' | '+#{label.board.modified}+' : '+${#temporals.format(post.create_date, 'yyyy-MM-dd HH:mm')}"> | 최종 수정일 : 2023-04-11</span>&nbsp;
+        <span th:text="' | '+#{label.board.modified}+' : '+${#temporals.format(post.modified_date, 'yyyy-MM-dd HH:mm')}"> | 최종 수정일 : 2023-04-11</span>&nbsp;
         <span th:text="' | '+#{label.board.views}+' : '+${post.views}"> | 조회수 : 0</span>
     </div>
 

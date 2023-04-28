@@ -12,16 +12,9 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 @RequiredArgsConstructor
 public class HomeController {
 
-    /**
-     * Spring이 제공하는 @SessionAttribute 사용
-     * 이미 생성된 session이 있는지 확인하고, 있으면 loginMember에 담아준다.
-     */
     @GetMapping("/")
-    public String home(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Model model){
-        if(loginMember == null){
-            return "home";
-        }
-        model.addAttribute("member", loginMember);
+    public String home(){
+
         return "redirect:/board";
     }
 }

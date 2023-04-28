@@ -4,6 +4,7 @@ import hello.board.domain.member.Member;
 import hello.board.domain.post.Post;
 import hello.board.domain.post.PostSearchCode;
 import hello.board.repository.post.PostRepository;
+import hello.board.web.form.board.Searchform;
 import hello.board.web.form.post.PostEditForm;
 import hello.board.web.form.post.PostHtmlForm;
 import lombok.RequiredArgsConstructor;
@@ -25,43 +26,23 @@ public class PostService {
         return postRepository.findById(id).get();
     }
 
-    public List<Post> findAll() {
-        return postRepository.findAll();
+    public List<Post> findPosts(Searchform form) {
+        return sortByLatest(postRepository.findAll(form));
     }
     public void addView(Long postId) {
         postRepository.addView(postId);
     }
-    public void deletePost(Long id) {
-        postRepository.deletePost(id);
+    public void deletePost(Long postId) {
+        postRepository.deletePost(postId);
     }
 
-
-    public List<Post> getSearchedList(String searchCode, String searchWord){
-        List<Post> searchList;
-        switch(searchCode){
-            case "find-by-title" : {
-                searchList = postRepository.findByTitle(searchWord);
-            }break;
-            case "find-by-content" :{
-                searchList = postRepository.findByContents(searchWord);
-            }break;
-            case "find-by-writer-id" :{
-                searchList = postRepository.findByWriterId(searchWord);
-            }break;
-            case "find-by" :{
-                searchList = postRepository.findByTitleAndContent(searchWord);
-            }break;
-            default: searchList = new ArrayList<>();
-        }
-        return searchList;
-    }
 
     public List<PostSearchCode> getSearchCodes(){
         List<PostSearchCode> searchCodes = new ArrayList<>();
         searchCodes.add(new PostSearchCode("find-by-title", "제목"));
         searchCodes.add(new PostSearchCode("find-by-content", "내용"));
         searchCodes.add(new PostSearchCode("find-by-writer-id", "작성자"));
-        searchCodes.add(new PostSearchCode("find-by","제목+내용"));
+        searchCodes.add(new PostSearchCode("find-by-title-and-content","제목+내용"));
         return searchCodes;
     }
 

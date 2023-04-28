@@ -32,7 +32,7 @@ class MemoryMemberRepositoryTest {
         //when
         Member savedMember = memberRepository.save(member);
         //then
-        Member findMember = memberRepository.findById(savedMember.getId());
+        Member findMember = memberRepository.findById(savedMember.getId()).get();
         assertThat(savedMember).isEqualTo(findMember);
 
     }

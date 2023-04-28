@@ -16,6 +16,10 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
+    public Optional<Member> findById(Long id){
+        return memberRepository.findById(id);
+    }
+
     public boolean isDuplicate(String loginId){
         Optional<Member> findMember = memberRepository.findByLoginId(loginId);
         if(findMember.isPresent()){
@@ -48,7 +52,6 @@ public class MemberService {
         member.setNickname(form.getNickname());
         member.setEmail(form.getEmail());
         member.setLoginId(form.getLoginId());
-        member.setPassword(loginMember.getPassword());
         memberRepository.updateMember(loginMember.getId(),member);
     }
     public void editPassword(Member loginMember, PasswordEditForm form){
@@ -56,8 +59,10 @@ public class MemberService {
     }
 
     public EditMemberForm getEditMemberForm(Member loginMember){
-        EditMemberForm form = new EditMemberForm(loginMember.getLoginId(), loginMember.getName(), loginMember.getNickname(), loginMember.getEmail());
-        return form;
+        return new EditMemberForm(loginMember.getLoginId(),
+                loginMember.getName(),
+                loginMember.getNickname(),
+                loginMember.getEmail());
     }
 
 }

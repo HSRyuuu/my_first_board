@@ -2,6 +2,7 @@ package hello.board.web;
 
 import hello.board.domain.member.Member;
 import hello.board.domain.post.Post;
+import hello.board.service.member.MemberService;
 import hello.board.service.post.PostService;
 import hello.board.web.form.post.PostDeleteMemberForm;
 import hello.board.web.form.post.PostEditForm;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
+    private final MemberService memberService;
 
     @GetMapping("/{postId}")
     public String showPost(@PathVariable long postId, Model model,
@@ -73,6 +75,7 @@ public class PostController {
                              @Validated @ModelAttribute("member") PostDeleteMemberForm form, BindingResult bindingResult,
                              @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                              Model model){
+        loginMember = memberService.findById(loginMember.getId()).get();
         if(bindingResult.hasErrors()){
             model.addAttribute("post", postService.findById(postId));
             return "post/postDeleteForm";

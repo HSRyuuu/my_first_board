@@ -67,7 +67,7 @@
     <!-- 검색 -->
     <div class="py-1 row">
         <div class="col text-start">
-            <form action="findPosts.html" th:action th:object="${form}" method="post">
+            <form action="findPosts.html" th:action th:object="${form}" method="get">
                 <select  th:field="*{searchCode}">
                     <option th:each="searchCode : ${searchCodes}" th:value="${searchCode.code}"
                             th:text="${searchCode.displayName}">Option</option>
@@ -113,7 +113,7 @@
                 <td style="width: 100px; text-align: center" th:text="${post.id}">1234</td>
                 <td style="width: 500px; text-align: center">
                     <a th:href="@{/board/post/{postId}(postId=${post.id})}">
-                        <th:block th:text="${#strings.length(post.title) &gt; 20 ? #strings.substring(post.title, 0, 20) + '...' : post.title}">
+                        <th:block th:text="${#strings.length(post.title) &gt; 30 ? #strings.substring(post.title, 0, 30) + '...' : post.title}">
                             title-example
                         </th:block>
                     </a>

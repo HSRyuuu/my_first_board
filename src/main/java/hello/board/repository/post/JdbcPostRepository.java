@@ -1,19 +1,23 @@
 package hello.board.repository.post;
 
 import hello.board.domain.post.Post;
+import hello.board.web.form.board.Searchform;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -58,51 +62,60 @@ public class JdbcPostRepository implements PostRepository {
     }
 
     @Override
-    public List<Post> findByWriterId(String writerId) {
-        return null;
-    }
-
-    @Override
-    public List<Post> findByTitle(String title) {
-        return null;
-    }
-
-    @Override
-    public List<Post> findByContents(String content) {
-        return null;
-    }
-
-    @Override
-    public List<Post> findByTitleAndContent(String word) {
-        return null;
-    }
-
-    @Override
-    public List<Post> findAll() {
-        SqlParameterSource param = new BeanPropertySqlParameterSource(Post.class);
+    public List<Post> findAll(Searchform form) {
+        String searchCode = form.getSearchCode();
+        String searchWord = form.getSearchWord();
+        SqlParameterSource param = new BeanPropertySqlParameterSource(form);
         String sql = "SELECT id, writerId, title, content, create_date, modified_date, views FROM POST";
+
+        if(!StringUtils.hasText(searchWord)){
+            return template.query(sql, postRowMapper());
+        }
+
+        switch(searchCode){
+            case "find-by-title" : {
+                sql+= " WHERE LOWER(title) LIKE LOWER(concat('%',:searchWord,'%'))";
+            }break;
+            case "find-by-content" :{
+                sql+= " WHERE LOWER(content) LIKE LOWER(concat('%',:searchWord,'%'))";
+            }break;
+            case "find-by-writer-id" :{
+                sql+= " WHERE LOWER(writerId)=LOWER(:searchWord)";
+            }break;
+            case "find-by-title-and-content" :{
+                sql+= " WHERE LOWER(title) LIKE LOWER(concat('%',:searchWord,'%')) or LOWER(content) LIKE LOWER(concat('%',:searchWord,'%'))";
+            }break;
+
+        }
+
         return template.query(sql, param, postRowMapper());
     }
 
     @Override
     public Post updatePost(Long id, Post updateParam) {
-        return null;
+        String sql = "UPDATE post SET title=:title, content=:content, MODIFIED_DATE=:modified_date" +
+                    " where id=:id";
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("title", updateParam.getTitle())
+                .addValue("content", updateParam.getContent())
+                .addValue("modified_date", LocalDateTime.now())
+                .addValue("id", id);
+        template.update(sql, param);
+        return findById(id).get();
     }
 
     @Override
     public void addView(Long postId) {
-
+        String sql = "UPDATE post SET views=views+1 where id=:id";
+        template.update(sql, Map.of("id",postId));
     }
 
     @Override
-    public void deletePost(Long id) {
-
+    public void deletePost(Long postId) {
+        String sql = "DELETE FROM post WHERE id=:id";
+        template.update(sql, Map.of("id",postId));
     }
 
-
-    public void clearStore() {
-
-    }
 
     private RowMapper<Post> postRowMapper() {
         return BeanPropertyRowMapper.newInstance(Post.class); //camel 변환 지원

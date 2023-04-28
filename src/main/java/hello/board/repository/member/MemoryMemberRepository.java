@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-@Repository
+//@Repository
 public class MemoryMemberRepository implements MemberRepository{
     private static final Map<Long, Member> store = new HashMap<>();
     private static Long sequence = 0L;
@@ -18,8 +18,8 @@ public class MemoryMemberRepository implements MemberRepository{
     }
 
     @Override
-    public Member findById(Long id) {
-        return store.get(id);
+    public Optional<Member> findById(Long id) {
+        return Optional.ofNullable(store.get(id));
     }
 
     @Override
@@ -35,22 +35,19 @@ public class MemoryMemberRepository implements MemberRepository{
 
     @Override
     public void editPassword(Long id, String password) {
-        Member member = findById(id);
+        Member member = findById(id).get();
         member.setPassword(password);
     }
 
     @Override
     public void updateMember(Long id,Member updateParam) {
-        Member member = findByLoginId(updateParam.getLoginId()).get();
-        member.setPassword(updateParam.getPassword());
+        Member member = findById(id).get();
         member.setName(updateParam.getName());
         member.setNickname(updateParam.getNickname());
         member.setEmail(updateParam.getEmail());
     }
 
 
-
-    @Override
     public void clearStore() {
         store.clear();
     }
