@@ -2,10 +2,10 @@
 
 ### 사용 기술
 Java 11, SpringBoot 2.7.10, Thymeleaf
+JdbcTemplate, H2 Database 
 
 
 >#### Todo
->- DB 적용
 >- JPA 적용
 <br>
 
