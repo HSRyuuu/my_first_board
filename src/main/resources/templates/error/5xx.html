@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="css/bootstrap.min.css" rel="stylesheet">
+    <title>404 Error - Page Not Found</title>
+    <style>
+        /* 오류 페이지 스타일링 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 th:text="#{5xxServerError}">5xx Error </h1>
+    <p>Sorry, the server encountered an unexpected error and could not complete your request.</p>
+    <p>Please try again later or contact the website administrator.</p>
+    <a href="board.html"  th:href="@{/board}" th:text="#{gotoBoardMain}" style="text-decoration: underline">
+
+    </a>
+</div>
+</body>
+</html>
