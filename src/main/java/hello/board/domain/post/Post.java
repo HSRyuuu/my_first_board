@@ -1,13 +1,18 @@
 package hello.board.domain.post;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
-@Getter@Setter
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(exclude = {"create_date","modified_date"})
 public class Post {
     private Long id; //시스템 id
     private String writerId; // 작성자 login id
@@ -32,4 +37,5 @@ public class Post {
         this.content = content;
         this.views = 0L;
     }
+
 }

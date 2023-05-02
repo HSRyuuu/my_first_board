@@ -1,6 +1,8 @@
 package hello.board.domain.member;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.context.annotation.Primary;
 
 import javax.validation.constraints.Email;
@@ -10,7 +12,10 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
-@Getter@Setter
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 public class Member {
 
     private Long id;
