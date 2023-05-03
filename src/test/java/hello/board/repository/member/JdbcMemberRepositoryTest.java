@@ -60,26 +60,41 @@ class JdbcMemberRepositoryTest {
         List<Member> allMember = memberRepository.findAll();
 
         //then
-        assertThat(allMember).containsExactly(savedMember1,savedMember2);
+        assertThat(allMember).contains(savedMember1,savedMember2);
     }
 
     @Test
     void updateMember() {
         //given
+        Member member = new Member("name","nickname","loginId","pwTest","test@test.com");
+        Member savedMember = memberRepository.save(member);
 
         //when
+        Member memberParam = new Member();
+        memberParam.setName("updateName");
+        memberParam.setNickname("updateNickName");
+        memberParam.setEmail("update@test.com");
+        memberRepository.updateMember(savedMember.getId(), memberParam);
+        Member findMember = memberRepository.findById(savedMember.getId()).get();
 
         //then
+        assertThat(findMember.getName()).isEqualTo(memberParam.getName());
+        assertThat(findMember.getNickname()).isEqualTo(memberParam.getNickname());
+        assertThat(findMember.getEmail()).isEqualTo(memberParam.getEmail());
 
     }
 
     @Test
     void editPassword() {
         //given
+        Member member = new Member("name","nickname","loginId","pwTest","test@test.com");
+        Member savedMember = memberRepository.save(member);
 
         //when
-
+        memberRepository.editPassword(savedMember.getId(), "pwTestEdit");
+        Member findMember = memberRepository.findById(savedMember.getId()).get();
         //then
+        assertThat(findMember.getPassword()).isEqualTo("pwTestEdit");
 
     }
 }

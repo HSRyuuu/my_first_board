@@ -66,7 +66,7 @@ public class JdbcMemberRepository implements MemberRepository{
     @Override
     public List<Member> findAll() {
         SqlParameterSource param = new BeanPropertySqlParameterSource(Member.class);
-        String sql = "SELECT * FROM POST";
+        String sql = "SELECT * FROM Member";
         return template.query(sql, param, memberRowMapper());
     }
 
