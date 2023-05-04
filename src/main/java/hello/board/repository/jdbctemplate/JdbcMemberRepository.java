@@ -28,7 +28,7 @@ public class JdbcMemberRepository implements MemberRepository {
 
     @Override
     public Member save(Member member) {
-        String sql = "INSERT INTO member(name, nickname, loginId, password, email)" +
+        String sql = "INSERT INTO member(name, nickname, login_id, password, email)" +
                      "values (:name, :nickname, :loginId, :password, :email)";
         SqlParameterSource param = new BeanPropertySqlParameterSource(member);
 
@@ -54,7 +54,7 @@ public class JdbcMemberRepository implements MemberRepository {
 
     @Override
     public Optional<Member> findByLoginId(String loginId) {
-        String sql = "SELECT * FROM member where loginId=:loginId";
+        String sql = "SELECT * FROM member where login_id=:loginId";
         try{
             Map<String, Object> param = Map.of("loginId", loginId);
             Member member = template.queryForObject(sql, param, memberRowMapper());

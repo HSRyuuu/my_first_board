@@ -34,7 +34,7 @@ public class JdbcPostRepository implements PostRepository {
         post.setCreate_date(LocalDateTime.now());
         post.setModified_date(LocalDateTime.now());
 
-        String sql = "INSERT INTO post( writerId, title, content, create_date, modified_date, views)" +
+        String sql = "INSERT INTO post( writer_id, title, content, create_date, modified_date, views)" +
                      "values(:writerId, :title, :content, :create_date, :modified_date, :views) ";
         SqlParameterSource param = new BeanPropertySqlParameterSource(post);
 
@@ -61,7 +61,7 @@ public class JdbcPostRepository implements PostRepository {
 
     @Override
     public List<Post> findAll(Searchform form) {
-        String sql = "SELECT id, writerId, title, content, create_date, modified_date, views FROM POST";
+        String sql = "SELECT id, writer_id, title, content, create_date, modified_date, views FROM POST";
 
         if(!StringUtils.hasText(form.getSearchWord())){
             return template.query(sql, postRowMapper());
@@ -79,7 +79,7 @@ public class JdbcPostRepository implements PostRepository {
             }break;
 
             case "writerId" :{
-                sql+= " WHERE LOWER(writerId)=LOWER(:searchWord)";
+                sql+= " WHERE LOWER(writer_id)=LOWER(:searchWord)";
             }break;
 
             case "titleAndContent" :{
@@ -121,17 +121,4 @@ public class JdbcPostRepository implements PostRepository {
         return BeanPropertyRowMapper.newInstance(Post.class); //camel 변환 지원
     }
 
-    private RowMapper<Post> postRowMapper2(){
-        return ((rs, rowNum) -> {
-            Post post = new Post();
-            post.setId(rs.getLong("id"));
-            post.setWriterId(rs.getString("writerId"));
-            post.setTitle(rs.getString("title"));
-            post.setContent(rs.getString("content"));
-            post.setCreate_date(rs.getTimestamp("create_date").toLocalDateTime());
-            post.setModified_date(rs.getTimestamp("modified_date").toLocalDateTime());
-            post.setViews(rs.getLong("views"));
-            return post;
-        });
-    }
 }
