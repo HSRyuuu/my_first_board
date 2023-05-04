@@ -3,7 +3,7 @@ package hello.board.service.post;
 import hello.board.domain.member.Member;
 import hello.board.domain.post.Post;
 import hello.board.domain.post.PostSearchCode;
-import hello.board.repository.post.PostRepository;
+import hello.board.repository.PostRepository;
 import hello.board.web.form.board.Searchform;
 import hello.board.web.form.post.PostEditForm;
 import hello.board.web.form.post.PostHtmlForm;

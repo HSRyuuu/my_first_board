@@ -1,4 +1,4 @@
-package hello.board.repository.post;
+package hello.board.repository;
 
 import hello.board.domain.member.Member;
 import hello.board.domain.post.Post;

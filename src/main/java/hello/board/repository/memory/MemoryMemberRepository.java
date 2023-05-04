@@ -1,12 +1,12 @@
-package hello.board.repository.member;
+package hello.board.repository.memory;
 
 import hello.board.domain.member.Member;
+import hello.board.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Repository;
 
 import java.util.*;
 @Slf4j
-public class MemoryMemberRepository implements MemberRepository{
+public class MemoryMemberRepository implements MemberRepository {
     private static final Map<Long, Member> store = new HashMap<>();
     private static Long sequence = 0L;
 

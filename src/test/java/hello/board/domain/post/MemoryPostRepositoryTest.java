@@ -1,11 +1,8 @@
 package hello.board.domain.post;
 
-import hello.board.repository.post.MemoryPostRepository;
-import hello.board.repository.post.PostRepository;
+import hello.board.repository.memory.MemoryPostRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 

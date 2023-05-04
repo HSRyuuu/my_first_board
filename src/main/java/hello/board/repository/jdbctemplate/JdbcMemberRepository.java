@@ -1,6 +1,7 @@
-package hello.board.repository.member;
+package hello.board.repository.jdbctemplate;
 
 import hello.board.domain.member.Member;
+import hello.board.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -18,7 +19,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
-public class JdbcMemberRepository implements MemberRepository{
+public class JdbcMemberRepository implements MemberRepository {
 
     private final NamedParameterJdbcTemplate template;
     public JdbcMemberRepository(DataSource dataSource){

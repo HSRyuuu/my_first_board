@@ -1,6 +1,7 @@
-package hello.board.repository.comment;
+package hello.board.repository.memory;
 
 import hello.board.domain.comment.Comment;
+import hello.board.repository.CommentRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;

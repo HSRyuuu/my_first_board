@@ -1,6 +1,7 @@
-package hello.board.repository.post;
+package hello.board.repository.jdbctemplate;
 
 import hello.board.domain.post.Post;
+import hello.board.repository.PostRepository;
 import hello.board.web.form.board.Searchform;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;

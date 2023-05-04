@@ -1,6 +1,7 @@
 package hello.board.repository.post;
 
 import hello.board.domain.post.Post;
+import hello.board.repository.PostRepository;
 import hello.board.web.form.board.Searchform;
 import hello.board.web.form.post.PostEditForm;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 

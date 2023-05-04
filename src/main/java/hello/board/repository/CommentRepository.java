@@ -1,4 +1,4 @@
-package hello.board.repository.comment;
+package hello.board.repository;
 
 import hello.board.domain.comment.Comment;
 

@@ -1,12 +1,11 @@
 package hello.board.config.memory;
 
-import hello.board.repository.member.MemberRepository;
-import hello.board.repository.member.MemoryMemberRepository;
-import hello.board.repository.post.MemoryPostRepository;
-import hello.board.repository.post.PostRepository;
+import hello.board.repository.MemberRepository;
+import hello.board.repository.memory.MemoryMemberRepository;
+import hello.board.repository.memory.MemoryPostRepository;
+import hello.board.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 
 //Configuration

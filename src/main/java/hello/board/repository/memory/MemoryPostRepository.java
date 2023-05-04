@@ -1,6 +1,7 @@
-package hello.board.repository.post;
+package hello.board.repository.memory;
 
 import hello.board.domain.post.Post;
+import hello.board.repository.PostRepository;
 import hello.board.web.form.board.Searchform;
 import lombok.extern.slf4j.Slf4j;
 
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Slf4j
-public class MemoryPostRepository implements PostRepository{
+public class MemoryPostRepository implements PostRepository {
     private static final Map<Long, Post> store = new HashMap<>();
     private static long sequence = 0L; //키값을 생성해줌
 

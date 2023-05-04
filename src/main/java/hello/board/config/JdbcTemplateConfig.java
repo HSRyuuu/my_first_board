@@ -1,9 +1,9 @@
 package hello.board.config;
 
-import hello.board.repository.member.JdbcMemberRepository;
-import hello.board.repository.member.MemberRepository;
-import hello.board.repository.post.JdbcPostRepository;
-import hello.board.repository.post.PostRepository;
+import hello.board.repository.jdbctemplate.JdbcMemberRepository;
+import hello.board.repository.MemberRepository;
+import hello.board.repository.jdbctemplate.JdbcPostRepository;
+import hello.board.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

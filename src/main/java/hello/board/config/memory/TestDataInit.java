@@ -1,9 +1,9 @@
 package hello.board.config.memory;
 
 import hello.board.domain.member.Member;
-import hello.board.repository.member.MemberRepository;
+import hello.board.repository.MemberRepository;
 import hello.board.domain.post.Post;
-import hello.board.repository.post.PostRepository;
+import hello.board.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;

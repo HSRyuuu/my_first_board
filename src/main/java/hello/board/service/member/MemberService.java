@@ -1,13 +1,12 @@
 package hello.board.service.member;
 
 import hello.board.domain.member.Member;
-import hello.board.repository.member.MemberRepository;
+import hello.board.repository.MemberRepository;
 import hello.board.web.form.member.AddMemberForm;
 import hello.board.web.form.member.EditMemberForm;
 import hello.board.web.form.member.PasswordEditForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
 import java.util.Optional;
 

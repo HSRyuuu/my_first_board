@@ -1,7 +1,7 @@
 package hello.board.domain.member;
 
-import hello.board.repository.member.MemberRepository;
-import hello.board.repository.member.MemoryMemberRepository;
+import hello.board.repository.MemberRepository;
+import hello.board.repository.memory.MemoryMemberRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
