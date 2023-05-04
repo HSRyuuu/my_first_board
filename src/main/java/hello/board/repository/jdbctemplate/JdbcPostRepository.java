@@ -67,11 +67,8 @@ public class JdbcPostRepository implements PostRepository {
             return template.query(sql, postRowMapper());
         }
 
-        String searchCode = form.getSearchCode();
-        String searchWord = form.getSearchWord();
         SqlParameterSource param = new BeanPropertySqlParameterSource(form);
-
-
+        String searchCode = form.getSearchCode();
         switch(searchCode){
             case "title" : {
                 sql+= " WHERE LOWER(title) LIKE LOWER(concat('%',:searchWord,'%'))";
