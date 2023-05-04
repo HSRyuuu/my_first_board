@@ -123,4 +123,18 @@ public class JdbcPostRepository implements PostRepository {
     private RowMapper<Post> postRowMapper() {
         return BeanPropertyRowMapper.newInstance(Post.class); //camel 변환 지원
     }
+
+    private RowMapper<Post> postRowMapper2(){
+        return ((rs, rowNum) -> {
+            Post post = new Post();
+            post.setId(rs.getLong("id"));
+            post.setWriterId(rs.getString("writerId"));
+            post.setTitle(rs.getString("title"));
+            post.setContent(rs.getString("content"));
+            post.setCreate_date(rs.getTimestamp("create_date").toLocalDateTime());
+            post.setModified_date(rs.getTimestamp("modified_date").toLocalDateTime());
+            post.setViews(rs.getLong("views"));
+            return post;
+        });
+    }
 }

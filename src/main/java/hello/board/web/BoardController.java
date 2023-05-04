@@ -34,18 +34,22 @@ public class BoardController {
      */
     @GetMapping
     public String boardHomeForm(@ModelAttribute("form") Searchform form, BindingResult bindingResult,
+                                @RequestParam(required = false) String searchCode, @RequestParam(required = false) String searchWord,
                                 @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                             Model model){
-        List<Post> posts = postService.findPosts(form);
+        model.addAttribute("show",isLoggedin(loginMember, model));
+
+        List<Post> posts;
+        if(searchCode!=null && searchWord!=null){
+            posts = postService.findPosts(new Searchform(searchCode,searchWord));
+        }else posts = postService.findPosts(form);
+
         if(posts.size()==0){
             bindingResult.reject("notFoundResult");
-            model.addAttribute("show", isLoggedin(loginMember, model));
             model.addAttribute("posts",postService.findPosts(new Searchform()));
             return "board/board";
         }
         model.addAttribute("posts",posts);
-        model.addAttribute("show",isLoggedin(loginMember, model));
-        model.addAttribute("form",new Searchform());
         return "board/board";
     }
 
@@ -86,11 +90,13 @@ public class BoardController {
      * @return Boolean show
      */
     private boolean isLoggedin(Member loginMember, Model model) {
-        if(loginMember == null)return false;
+        if(loginMember == null){
+            return false;
+        }
         else{
             model.addAttribute("member", memberService.findById(loginMember.getId()).get());
+            return true;
         }
-        return true;
     }
 
     @ModelAttribute("searchCodes")

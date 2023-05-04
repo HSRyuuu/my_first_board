@@ -46,7 +46,7 @@
         <div class="col">
             <button class="w-100 btn btn-primary btn-md "
                     onclick="location.href='findPosts.html'"
-                    th:onclick="|location.href='@{/board?searchCode=find-by-writer-id&searchWord={loginId}(loginId=${member.loginId})}'|"
+                    th:onclick="|location.href='@{/board(searchCode='writerId', searchWord=${member.loginId})}'|"
                     th:text="#{button.member.writing}"
                     type="button">내가 쓴 글</button>
         </div>
