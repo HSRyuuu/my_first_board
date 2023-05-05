@@ -29,7 +29,7 @@ public class JdbcMemberRepository implements MemberRepository {
     @Override
     public Member save(Member member) {
         String sql = "INSERT INTO member(name, nickname, login_id, password, email)" +
-                     "values (:name, :nickname, :loginId, :password, :email)";
+                     " values (:name, :nickname, :loginId, :password, :email)";
         SqlParameterSource param = new BeanPropertySqlParameterSource(member);
 
         KeyHolder keyHolder = new GeneratedKeyHolder();

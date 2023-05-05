@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.*;
 @Slf4j
 @Transactional
 @SpringBootTest
-class JdbcPostRepositoryTest {
+class PostRepositoryTest {
 
     @Autowired
     PostRepository postRepository;
@@ -29,9 +29,12 @@ class JdbcPostRepositoryTest {
         Post post = new Post("testId", "title", "content");
         //when
         Post savedPost = postRepository.save(post);
+        log.info("savedPost={}", savedPost);
 
         //then
         Post findPost = postRepository.findById(savedPost.getId()).get();
+        log.info("findPost={}", findPost);
+
         assertThat(findPost).isEqualTo(savedPost);
     }
 

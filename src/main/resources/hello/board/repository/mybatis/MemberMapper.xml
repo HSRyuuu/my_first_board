@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.board.repository.mybatis.MemberMapper">
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO member(name, nickname, login_id, password, email)
+            values (#{name}, #{nickname}, #{loginId}, #{password}, #{email})
+    </insert>
+
+    <select id="findById" resultType="Member">
+        SELECT id, name, nickname, login_id, password, email
+        FROM member
+        where id = #{id}
+    </select>
+
+    <select id="findByLoginId" resultType="Member">
+        SELECT id, name, nickname, login_id, password, email
+        FROM member
+        where login_id = #{loginId}
+    </select>
+
+    <select id="findAll" resultType="Member">
+        SELECT id, name, nickname, login_id, password, email
+        FROM member
+    </select>
+
+    <update id="updateMember">
+        UPDATE member
+        SET name=#{updateParam.name},
+            nickname=#{updateParam.nickname},
+            email=#{updateParam.email}
+        WHERE id=#{id}
+    </update>
+
+    <update id="editPassword">
+        UPDATE member
+        SET password=#{password}
+        WHERE id=#{id}
+    </update>
+
+</mapper>

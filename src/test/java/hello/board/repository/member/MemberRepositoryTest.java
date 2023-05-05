@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.*;
 @Slf4j
 @Transactional
 @SpringBootTest
-class JdbcMemberRepositoryTest {
+class MemberRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
     @Test
