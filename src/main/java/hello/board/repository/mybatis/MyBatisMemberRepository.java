@@ -9,6 +9,7 @@ import java.util.Optional;
 public class MyBatisMemberRepository implements MemberRepository {
     @Override
     public Member save(Member member) {
+        String sql="";
         return null;
     }
 
