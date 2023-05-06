@@ -6,9 +6,10 @@ import hello.board.repository.memory.MemoryPostRepository;
 import hello.board.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 
-//Configuration
+//@Configuration
 @RequiredArgsConstructor
 public class MemoryConfig {
 
@@ -20,8 +21,5 @@ public class MemoryConfig {
     public PostRepository postRepository(){
         return new MemoryPostRepository();
     }
-    @Bean
-    public TestDataInit testDataInit(){
-        return new TestDataInit(memberRepository(),postRepository());
-    }
+
 }
