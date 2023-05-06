@@ -75,8 +75,8 @@ public class PostService {
         form.setId(post.getId());
         form.setWriterId(post.getWriterId());
         form.setTitle(post.getTitle());
-        form.setCreate_date(post.getCreate_date());
-        form.setModified_date(post.getModified_date());
+        form.setCreateDate(post.getCreateDate());
+        form.setModifiedDate(post.getModifiedDate());
         form.setViews(post.getViews());
 
         String content = post.getContent();

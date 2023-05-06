@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -37,7 +38,16 @@ class PostRepositoryTest {
 
         assertThat(findPost).isEqualTo(savedPost);
     }
+    @Test
+    @Commit
+    void testSave(){
+        Post post = new Post("testId", "title", "content");
+        postRepository.save(post);
 
+        List<Post> all = postRepository.findAll(new Searchform());
+        log.info("all = {} ", all);
+
+    }
 
     @Test
     void findAll() {
@@ -89,6 +99,7 @@ class PostRepositoryTest {
 
         //then
         Post findPost = postRepository.findById(postId).get();
+        log.info("findPost={}", findPost);
         assertThat(findPost.getTitle()).isEqualTo(form.getTitle());
         assertThat(findPost.getContent()).isEqualTo(form.getContent());
     }

@@ -31,8 +31,8 @@ public class JdbcPostRepository implements PostRepository {
 
     @Override
     public Post save(Post post) {
-        post.setCreate_date(LocalDateTime.now());
-        post.setModified_date(LocalDateTime.now());
+        post.setCreateDate(LocalDateTime.now());
+        post.setModifiedDate(LocalDateTime.now());
 
         String sql = "INSERT INTO post( writer_id, title, content, create_date, modified_date, views)" +
                      "values(:writerId, :title, :content, :create_date, :modified_date, :views) ";

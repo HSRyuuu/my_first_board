@@ -5,7 +5,7 @@
 
     <insert id="save" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO post( writer_id, title, content, create_date, modified_date, views)
-        values (#{writerId}, #{title}, #{content}, #{create_date}, #{modified_date}, #{views})
+        values (#{writerId}, #{title}, #{content}, #{createDate}, #{modifiedDate}, #{views})
     </insert>
 
     <select id="findById" resultType="Post">
@@ -18,16 +18,16 @@
         select id, writer_id, title, content, create_date, modified_date, views
         from post
         <where>
-            <if test="searchCode=='title' and searchWord !=''">
+            <if test="searchCode=='title' and searchWord !=null and searchWord !=''">
                 LOWER(title) LIKE LOWER(concat('%',#{searchWord},'%'))
             </if>
-            <if test="searchCode=='content' and searchWord !=''">
+            <if test="searchCode=='content' and searchWord !=null and searchWord !=''">
                 LOWER(content) LIKE LOWER(concat('%',#{searchWord},'%'))
             </if>
-            <if test="searchCode=='writerId' and searchWord !=''">
+            <if test="searchCode=='writerId' and searchWord !=null and searchWord !=''">
                 LOWER(writer_id)=LOWER(#{searchWord})
             </if>
-            <if test="searchCode=='titleAndContent' and searchWord !=''">
+            <if test="searchCode=='titleAndContent' and searchWord !=null and searchWord !=''">
                 LOWER(title) LIKE LOWER(concat('%',#{searchWord},'%')) or LOWER(content) LIKE LOWER(concat('%',#{searchWord},'%'))
             </if>
         </where>
@@ -37,7 +37,7 @@
         UPDATE post
         SET title=#{updateParam.title},
             content=#{updateParam.content},
-            modified_date=#{updateParam.modified_date}
+            modified_date=#{updateParam.modifiedDate}
         WHERE id=#{id}
     </update>
 

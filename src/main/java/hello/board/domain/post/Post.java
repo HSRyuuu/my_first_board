@@ -5,22 +5,22 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(exclude = {"create_date","modified_date"})
+@EqualsAndHashCode(exclude = {"createDate","modifiedDate"})
 public class Post {
     private Long id; //시스템 id
     private String writerId; // 작성자 login id
     private String title; //제목
     private String content; //내용
-    private LocalDateTime create_date; //생성 날짜
-    private LocalDateTime modified_date; //수정 날짜
+    private LocalDateTime createDate; //생성 날짜
+    private LocalDateTime modifiedDate; //수정 날짜
     private Long views; // 조회수
+
 
     public Post() {
     }

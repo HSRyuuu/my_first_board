@@ -16,8 +16,8 @@ public class MyBatisPostRepository implements PostRepository {
 
     @Override
     public Post save(Post post) {
-        post.setCreate_date(LocalDateTime.now());
-        post.setModified_date(LocalDateTime.now());
+        post.setCreateDate(LocalDateTime.now());
+        post.setModifiedDate(LocalDateTime.now());
         postMapper.save(post);
         return post;
     }
@@ -34,7 +34,7 @@ public class MyBatisPostRepository implements PostRepository {
 
     @Override
     public Post updatePost(Long id, Post updateParam) {
-        updateParam.setModified_date(LocalDateTime.now());
+        updateParam.setModifiedDate(LocalDateTime.now());
         postMapper.updatePost(id,updateParam);
         return findById(id).get();
     }

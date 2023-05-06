@@ -27,7 +27,7 @@
     <div class="container-fluid rounded-3 py-2" style="background-color: lightcyan">
         <span th:text="#{label.board.id}+' : '+${post.id}">번호 : postId</span>&nbsp;
         <span th:text="' | '+#{label.board.writer}+' : '+${post.writerId}"> | 작성자 : writerId</span>&nbsp;
-        <span th:text="' | '+#{label.board.date}+' : '+${post.create_date.plusDays(1) &lt; #temporals.createNow() ? #temporals.format(post.create_date, 'yyyy-MM-dd') : #temporals.format(post.create_date, 'HH:mm')}"> | 등록일 : 2023-04-11</span>&nbsp;
+        <span th:text="' | '+#{label.board.date}+' : '+${post.createDate.plusDays(1) &lt; #temporals.createNow() ? #temporals.format(post.createDate, 'yyyy-MM-dd') : #temporals.format(post.createDate, 'HH:mm')}"> | 등록일 : 2023-04-11</span>&nbsp;
         <span th:text="' | '+#{label.board.views}+' : '+${post.views}"> | 조회수 : 0</span>
     </div>
 
