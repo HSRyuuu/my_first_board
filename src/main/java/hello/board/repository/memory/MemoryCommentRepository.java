@@ -5,10 +5,7 @@ import hello.board.repository.CommentRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class MemoryCommentRepository implements CommentRepository {
@@ -16,21 +13,23 @@ public class MemoryCommentRepository implements CommentRepository {
     private static Long  sequence = 0L;
     @Override
     public Comment save(Comment comment) {
-        comment.setCreate_date(LocalDateTime.now());
+        comment.setCreateDate(LocalDateTime.now());
         comment.setId(++sequence);
         store.put(comment.getId(), comment);
         return comment;
     }
 
     @Override
-    public Comment findById(Long id) {
-        return store.get(id);
+    public Optional<Comment> findById(Long id) {
+        return Optional.empty();
     }
 
     @Override
     public List<Comment> findByPostId(Long postId) {
-        List<Comment> list = new ArrayList<>();
-        for (Comment comment : findAll()) {
+        List<Comment> list = new ArrayList<>(store.values());
+        List<Comment> findList = new ArrayList<>();
+
+        for (Comment comment : list) {
             if(comment.getPostId().equals(postId)){
                 list.add(comment);
             }
@@ -39,8 +38,13 @@ public class MemoryCommentRepository implements CommentRepository {
     }
 
     @Override
-    public List<Comment> findAll() {
-        return new ArrayList<>(store.values());
+    public void updateComment(Long commentId, String text) {
+
+    }
+
+    @Override
+    public void deleteComment(Long commentId) {
+
     }
 
     /**

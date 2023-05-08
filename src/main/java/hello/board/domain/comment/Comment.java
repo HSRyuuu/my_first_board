@@ -1,27 +1,35 @@
 package hello.board.domain.comment;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Getter@Setter
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = {"createDate","modifiedDate"})
+@ToString
 public class Comment {
 
     private Long id;
     private String writerId;
+    private Long postId;
     private String text;
-    private String postId;
-    private LocalDateTime create_date;
-    private LocalDateTime modified_date;
+    private LocalDateTime createDate;
+    private LocalDateTime modifiedDate;
 
     public Comment() {
     }
 
-    public Comment(String writerId, String text) {
+    public Comment(Long postId, String writerId, String text) {
+        this.postId = postId;
         this.writerId = writerId;
         this.text = text;
+        this.createDate = LocalDateTime.now();
+        this.modifiedDate = LocalDateTime.now();
     }
 }
