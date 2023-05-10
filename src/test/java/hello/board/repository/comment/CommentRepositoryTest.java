@@ -24,7 +24,7 @@ class CommentRepositoryTest {
     @DisplayName("save and findById")
     void save() {
         //given
-        Comment comment = new Comment(12L,"test", "text comment");
+        Comment comment = new Comment(13L,"test", "text comment");
 
         //when
         Comment savedComment = commentRepository.save(comment);
