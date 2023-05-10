@@ -2,8 +2,8 @@
 
 ### 사용 기술
 Java 11, SpringBoot 2.7.10, Thymeleaf
-JdbcTemplate, H2 Database 
-
+H2 Database 
+ -> JdbcTemplate, MyBatis
 
 >#### Todo
 >- JPA 적용
