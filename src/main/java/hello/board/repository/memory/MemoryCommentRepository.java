@@ -21,7 +21,7 @@ public class MemoryCommentRepository implements CommentRepository {
 
     @Override
     public Optional<Comment> findById(Long id) {
-        return Optional.empty();
+        return Optional.of(store.get(id));
     }
 
     @Override
