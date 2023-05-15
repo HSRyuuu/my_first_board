@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @Mapper
 public interface PostMapper {
-
     void save(Post post);
     Optional<Post> findById(Long id);
     List<Post> findAll(Searchform form);
