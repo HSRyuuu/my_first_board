@@ -66,23 +66,29 @@
 <!-- 댓글 컨테이너 -->
 <div class="container" style="max-width: 800px">
     <!-- 댓글 작성 폼 -->
+    <form th:action th:object="${commentForm}" method="post">
     <div class="mb-3">
-        <label for="inputContent" class="form-label">내용</label>
-        <textarea class="form-control" id="inputContent" th:text="${comment.content}" placeholder="댓글 내용을 입력하세요"></textarea>
+        <label for="text" class="form-label">내용</label>
+        <textarea type="text" class="form-control" id="text" rows="2"
+                  th:field="*{text}"
+                  placeholder="제목을 입력하세요" >
+        </textarea>
     </div>
     <div class="d-flex justify-content-end">
-        <button class="btn btn-primary" onclick="submitComment()">등록</button>
+        <button type="submit" className="btn btn-primary" th:text="#{button.submit}">작성</button>
     </div>
+    </form>
+
+    <hr class="my-2">
+
     <!-- 댓글 리스트 -->
     <div th:each="comment : ${comments}">
         <div class="card my-3">
             <div class="card-body">
-                <p class="card-title" th:text="| &#x1F4DD;  ${comment.writer} ${#temporals.format(comment.modifiedDate, 'yyyy-MM-dd HH:mm')}|">&#x1F4DD; 작성자</p>
-                <p class="card-text" th:text="${comment.content}">댓글 내용이 이곳에 표시됩니다.</p>
+                <p class="card-title" th:text="'&#x1F4DD;'+|${comment.writerId}   (${#temporals.format(comment.modifiedDate, 'yyyy-MM-dd HH:mm')})|">&#x1F4DD; 작성자</p>
+                <p class="card-text" th:text="${comment.text}">댓글 내용이 이곳에 표시됩니다.</p>
             </div>
-<!--
-            <div class="card-footer text-muted" th:text="${#temporals.format(comment.modifiedDate, 'yyyy-MM-dd HH:mm')}">수정일</div>
--->
+
         </div>
     </div>
 </div>

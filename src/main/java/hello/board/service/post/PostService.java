@@ -79,34 +79,31 @@ public class PostService {
         form.setModifiedDate(post.getModifiedDate());
         form.setViews(post.getViews());
 
-        String content = post.getContent();
-        String htmlContent = content.replaceAll("\n", "<br>");
+        String htmlContent = getHtmlContent(post.getContent());
         form.setContent(htmlContent);
 
         return form;
     }
 
-
-    /**
-     * Html format을 받아서 String으로 줄바꿈이 적용되도록 바꿔준다.
-     * Html format에 포함된 "<br>"을 "\n"로 변경한다.
-     */
-    public String getStringContent(Post post) {
-        String content = post.getContent();
-        String stringContent = content.replaceAll("<br>", "\n");
-        return stringContent;
-    }
-
     public PostEditForm getEditForm(Post post){
         PostEditForm form = new PostEditForm();
         form.setTitle(post.getTitle());
-        form.setContent(getStringContent(post));
+        form.setContent(getStringContent(post.getContent()));
         return form;
     }
     public Post updatePost(Long postId, PostEditForm form){
         Post post = new Post(form.getTitle(),form.getContent());
         Post updatedPost = postRepository.updatePost(postId,post);
         return updatedPost;
+    }
+
+    public String getStringContent(String content) {
+        String stringContent = content.replaceAll("<br>", "\n");
+        return stringContent;
+    }
+    public String getHtmlContent(String content) {
+        String htmlContent = content.replaceAll("\n", "<br>");
+        return htmlContent;
     }
 
 }

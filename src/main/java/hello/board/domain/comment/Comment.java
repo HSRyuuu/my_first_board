@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ public class Comment {
     private Long id;
     private String writerId;
     private Long postId;
+    @NotBlank
     private String text;
     private LocalDateTime createDate;
     private LocalDateTime modifiedDate;

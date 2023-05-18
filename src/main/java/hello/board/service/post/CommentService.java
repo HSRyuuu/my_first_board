@@ -5,6 +5,7 @@ import hello.board.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,8 +14,12 @@ import java.util.Optional;
 public class CommentService {
     private final CommentRepository commentRepository;
 
-    public Comment save(Comment comment) {
-       commentRepository.save(comment);
+    public Comment save(Comment comment, String writerId, Long postId) {
+        comment.setWriterId(writerId);
+        comment.setPostId(postId);
+        comment.setCreateDate(LocalDateTime.now());
+        comment.setModifiedDate(LocalDateTime.now());
+        commentRepository.save(comment);
         return comment;
     }
     public Optional<Comment> findById(Long id) {
