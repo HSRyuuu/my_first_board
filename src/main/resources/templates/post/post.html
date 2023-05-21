@@ -5,6 +5,7 @@
     <link th:href="@{/css/bootstrap.min.css}"
           href="../css/bootstrap.min.css" rel="stylesheet">
 
+
 </head>
 <body>
 <div class="container-fluid py-4" style="background-color: #ccffcc ">
@@ -62,35 +63,30 @@
         </div>
     </div>
 </div><!-- /container -->
-
+<br>
 <!-- 댓글 컨테이너 -->
-<div class="container" style="max-width: 800px">
+<div class="container" style="max-width: 750px; background-color: #f5f5f5" >
     <!-- 댓글 작성 폼 -->
     <form th:action th:object="${commentForm}" method="post">
-    <div class="mb-3">
-        <label for="text" class="form-label">내용</label>
-        <textarea type="text" class="form-control" id="text" rows="2"
-                  th:field="*{text}"
-                  placeholder="제목을 입력하세요" >
-        </textarea>
-    </div>
-    <div class="d-flex justify-content-end">
-        <button type="submit" className="btn btn-primary" th:text="#{button.submit}">작성</button>
-    </div>
+        <div class="d-flex">
+            <textarea type="text" class="form-control m-2" id="text" rows="3"
+                      th:field="*{text}"
+                      placeholder="댓글 작성" >
+            </textarea>
+            <button class="btn-outline-secondary btn m-2 text-nowrap" type="submit" th:text="#{button.submit}">작성</button>
+        </div>
     </form>
-
-    <hr class="my-2">
 
     <!-- 댓글 리스트 -->
     <div th:each="comment : ${comments}">
-        <div class="card my-3">
+        <div class="card m-2">
             <div class="card-body">
                 <p class="card-title" th:text="'&#x1F4DD;'+|${comment.writerId}   (${#temporals.format(comment.modifiedDate, 'yyyy-MM-dd HH:mm')})|">&#x1F4DD; 작성자</p>
                 <p class="card-text" th:text="${comment.text}">댓글 내용이 이곳에 표시됩니다.</p>
             </div>
-
         </div>
     </div>
+    <hr>
 </div>
 
 </body>
