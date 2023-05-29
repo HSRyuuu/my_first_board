@@ -32,7 +32,8 @@
     </div>
 
     <br>
-    <form action="board.html" th:action th:object="${member}" method="post">
+    <form action="board.html" th:action th:object="${member}" method="post"
+          onsubmit="return confirm('삭제 하시겠습니까?');">
 
         <label for="password" class="my-2" >
             <b th:text="#{text.post.delete}">글을 삭제하려면 비밀번호를 입력해주세요.</b>
@@ -52,7 +53,6 @@
         <div class="row py-1">
             <div class="col">
                 <button type="submit" class="w-100 btn my-2 btn-outline-danger">삭제</button>
-
             </div>
             <div class="col">
                 <button type="button" class="w-100 btn my-2 btn-secondary"

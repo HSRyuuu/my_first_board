@@ -76,7 +76,8 @@ public class MemberController {
     public String memberEditForm(@PathVariable String loginId,
                            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                            Model model){
-        model.addAttribute("form", memberService.getEditMemberForm(loginMember));
+        Member member = memberService.findById(loginMember.getId()).get();
+        model.addAttribute("form", memberService.getEditMemberForm(member));
         return "member/editForm";
     }
     @PostMapping("/info/{loginId}/edit")
