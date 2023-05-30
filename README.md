@@ -1,4 +1,6 @@
 # 게시판
+### 블로그 정리 글크링크
+https://innovation123.tistory.com/93
 
 ### 사용 기술
 Java 11, SpringBoot 2.7.10, Thymeleaf
