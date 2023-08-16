@@ -7,9 +7,6 @@ Java 11, SpringBoot 2.7.10, Thymeleaf
 H2 Database 
  -> JdbcTemplate, MyBatis
 
->#### Todo
->- JPA 적용
-<br>
 
 # 주요 기능
 
@@ -29,7 +26,6 @@ H2 Database
 - 조회수 기능 ( 본인이 본인 글 열람시 조회수 증가x)
 
 
-
 ### 검증(Validation)
 Spring Bean Validation
 - 모든 사용자 입력 발생 시 Validation 진행 
@@ -46,8 +42,3 @@ Thymeleaf, Html, bootstrap
 JUnit5
 - Member, MemberRepository, Post, PostRepository 동작 테스트  
 
->TODO
->- 댓글, 대댓글
->- 카테고리, 해시태그
->- 조회수정렬, 최신 순 정렬
->- 페이징 
